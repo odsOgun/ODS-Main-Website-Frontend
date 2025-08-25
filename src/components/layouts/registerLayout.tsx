@@ -1,11 +1,13 @@
 import { X } from 'lucide-react';
 import SlideShow from '../register/slideShow';
 import { useNavigate } from 'react-router-dom';
+import { Toaster } from '../ui/sonner';
 
 function RegisterLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   return (
     <div className='w-screen h-screen flex items-start overflow-hidden min-h-dvh'>
+      <Toaster />
       <div className='w-1/4 h-full hidden md:block'>
         <SlideShow />
       </div>

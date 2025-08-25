@@ -2,69 +2,81 @@ import RegisterLayout from '@/components/layouts/registerLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const Sponsors = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
+    organisation: '',
     email: '',
-    organization: '',
-    mobile: '',
+    phoneNumber: '',
     website: '',
-    linkedin: '',
-    twitter: ''
+    linkedinLink: '',
+    twitterLink: ''
   });
 
   const [errors, setErrors] = useState({
-    name: '',
+    fullName: '',
+    organisation: '',
     email: '',
-    organization: '',
-    mobile: '',
+    phoneNumber: '',
     website: '',
-    linkedin: '',
-    twitter: ''
+    linkedinLink: '',
+    twitterLink: ''
   });
 
   const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
 
   const validateForm = () => {
     const newErrors = {
-      name: '',
+      fullName: '',
+      organisation: '',
       email: '',
-      organization: '',
-      mobile: '',
+      phoneNumber: '',
       website: '',
-      linkedin: '',
-      twitter: ''
+      linkedinLink: '',
+      twitterLink: ''
     };
 
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    // Name validation
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
 
+    // Email validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
 
-    if (!formData.organization.trim()) newErrors.organization = 'Organization is required';
-
-    if (!formData.mobile.trim()) {
-      newErrors.mobile = 'Mobile number is required';
-    } else if (!/^\+234\s\d{3}\s\d{4}\s\d{4}$/.test(formData.mobile)) {
-      newErrors.mobile = 'Please enter a valid Nigerian mobile number (+234 XXX XXXX XXXX)';
+    // Organization validation
+    if (!formData.organisation.trim()) {
+      newErrors.organisation = 'Organisation is required';
     }
 
+    // Phone validation
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required';
+    } else if (!/^\d+$/.test(formData.phoneNumber.replace(/\s/g, ''))) {
+      newErrors.phoneNumber = 'Please enter a valid phone number';
+    }
+
+    // Website validation (optional but if provided, should be valid)
     if (formData.website.trim() && !/^https?:\/\/.+/.test(formData.website)) {
       newErrors.website = 'Please enter a valid website URL';
     }
 
-    if (formData.linkedin.trim() && !/^https?:\/\/.+/.test(formData.linkedin)) {
-      newErrors.linkedin = 'Please enter a valid LinkedIn URL';
+    // LinkedIn validation (optional but if provided, should be valid)
+    if (formData.linkedinLink.trim() && !/^https?:\/\/.+/.test(formData.linkedinLink)) {
+      newErrors.linkedinLink = 'Please enter a valid LinkedIn URL';
     }
 
-    if (formData.twitter.trim() && !/^@\w+$/.test(formData.twitter)) {
-      newErrors.twitter = 'Please enter a valid Twitter username (@username)';
+    // Twitter validation (optional but if provided, should be valid)
+    if (formData.twitterLink.trim() && !/^https?:\/\/.+/.test(formData.twitterLink)) {
+      newErrors.twitterLink = 'Please enter a valid Twitter URL';
     }
 
     setErrors(newErrors);
@@ -78,6 +90,7 @@ const Sponsors = () => {
       [name]: value
     }));
 
+    // Clear error when user starts typing
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({
         ...prev,
@@ -92,37 +105,40 @@ const Sponsors = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    setSuccessMsg('');
-    setErrorMsg('');
 
-    try {
-      const res = await fetch('/api/sponsors', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+    const submitPromise = fetch('https://ods2025.onrender.com/api/v1/sponsor/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
 
-      if (res.ok) {
-        setSuccessMsg('Form submitted successfully!');
-        setFormData({
-          name: '',
-          email: '',
-          organization: '',
-          mobile: '',
-          website: '',
-          linkedin: '',
-          twitter: ''
-        });
-      } else {
-        const { error } = await res.json();
-        setErrorMsg(error || 'Something went wrong.');
+    toast.promise(submitPromise, {
+      loading: 'Submitting your sponsorship application...',
+      success: async (response) => {
+        if (response.ok) {
+          setFormData({
+            fullName: '',
+            organisation: '',
+            email: '',
+            phoneNumber: '',
+            website: '',
+            linkedinLink: '',
+            twitterLink: ''
+          });
+          setTimeout(() => navigate('/'), 1500);
+          setLoading(false);
+          return 'Sponsorship application submitted successfully! Redirecting to home...';
+        } else {
+          const errorData = await response.json();
+          setLoading(false);
+          throw new Error(errorData.message || 'Submission failed');
+        }
+      },
+      error: (error) => {
+        setLoading(false);
+        return error.message || 'Failed to submit sponsorship application. Please try again.';
       }
-    } catch (err) {
-      console.error(err);
-      setErrorMsg('Failed to submit form. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   return (
@@ -135,58 +151,132 @@ const Sponsors = () => {
           Fill out the form below and our team will reach out to you in less than 24 hours.
         </p>
 
+        {/* Removed successMsg and errorMsg divs as they are replaced by toast */}
+
         <form className='space-y-10' onSubmit={handleSubmit}>
           <div className='space-y-4'>
-            {['name', 'email', 'organization', 'mobile', 'website', 'linkedin', 'twitter'].map(
-              (field) => (
-                <div key={field}>
-                  <label htmlFor={field} className='block text-sm text-[#67706D] mb-2'>
-                    {field === 'name' && "What's your name"}
-                    {field === 'email' && 'Your email address'}
-                    {field === 'organization' && 'Organization'}
-                    {field === 'mobile' && 'Mobile No'}
-                    {field === 'website' && "Company's website"}
-                    {field === 'linkedin' && "Company's LinkedIn"}
-                    {field === 'twitter' && "Company's X (Twitter)"}
-                  </label>
-                  <Input
-                    id={field}
-                    name={field}
-                    placeholder={
-                      field === 'email'
-                        ? 'email@example.com'
-                        : field === 'mobile'
-                          ? '+234 000 0000 000'
-                          : field === 'website'
-                            ? 'https://company.com'
-                            : field === 'linkedin'
-                              ? 'https://linkedin.com/company'
-                              : field === 'twitter'
-                                ? '@username'
-                                : ''
-                    }
-                    value={formData[field as keyof typeof formData]}
-                    onChange={handleInputChange}
-                    className={errors[field as keyof typeof errors] ? 'border-red-500' : ''}
-                  />
-                  {errors[field as keyof typeof errors] && (
-                    <p className='text-red-500 text-xs mt-1'>
-                      {errors[field as keyof typeof errors]}
-                    </p>
-                  )}
-                </div>
-              )
-            )}
+            <div>
+              <label htmlFor='fullName' className='block text-sm text-[#67706D] mb-2'>
+                Full Name
+              </label>
+              <Input
+                id='fullName'
+                name='fullName'
+                placeholder='Enter full name'
+                value={formData.fullName}
+                onChange={handleInputChange}
+                className={errors.fullName ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.fullName && <p className='text-red-500 text-xs mt-1'>{errors.fullName}</p>}
+            </div>
+
+            <div>
+              <label htmlFor='email' className='block text-sm text-[#67706D] mb-2'>
+                Email Address
+              </label>
+              <Input
+                id='email'
+                name='email'
+                placeholder='email@example.com'
+                value={formData.email}
+                onChange={handleInputChange}
+                className={errors.email ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.email && <p className='text-red-500 text-xs mt-1'>{errors.email}</p>}
+            </div>
+
+            <div>
+              <label htmlFor='organisation' className='block text-sm text-[#67706D] mb-2'>
+                Organisation
+              </label>
+              <Input
+                id='organisation'
+                name='organisation'
+                placeholder="What's your organisation"
+                value={formData.organisation}
+                onChange={handleInputChange}
+                className={errors.organisation ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.organisation && (
+                <p className='text-red-500 text-xs mt-1'>{errors.organisation}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor='phoneNumber' className='block text-sm text-[#67706D] mb-2'>
+                Phone Number
+              </label>
+              <Input
+                id='phoneNumber'
+                name='phoneNumber'
+                placeholder='+234 000 0000 000'
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                className={errors.phoneNumber ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.phoneNumber && (
+                <p className='text-red-500 text-xs mt-1'>{errors.phoneNumber}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor='website' className='block text-sm text-[#67706D] mb-2'>
+                Company's website
+              </label>
+              <Input
+                id='website'
+                name='website'
+                placeholder='https//:'
+                value={formData.website}
+                onChange={handleInputChange}
+                className={errors.website ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.website && <p className='text-red-500 text-xs mt-1'>{errors.website}</p>}
+            </div>
+
+            <div>
+              <label htmlFor='linkedinLink' className='block text-sm text-[#67706D] mb-2'>
+                Company's LinkedIn
+              </label>
+              <Input
+                id='linkedinLink'
+                name='linkedinLink'
+                placeholder='https//:www.linkedin.com'
+                value={formData.linkedinLink}
+                onChange={handleInputChange}
+                className={errors.linkedinLink ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.linkedinLink && (
+                <p className='text-red-500 text-xs mt-1'>{errors.linkedinLink}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor='twitterLink' className='block text-sm text-[#67706D] mb-2'>
+                Company's X (Twitter)
+              </label>
+              <Input
+                id='twitterLink'
+                name='twitterLink'
+                placeholder='https://twitter.com/username'
+                value={formData.twitterLink}
+                onChange={handleInputChange}
+                className={errors.twitterLink ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.twitterLink && (
+                <p className='text-red-500 text-xs mt-1'>{errors.twitterLink}</p>
+              )}
+            </div>
           </div>
 
-          {successMsg && <p className='text-green-600 text-sm'>{successMsg}</p>}
-          {errorMsg && <p className='text-red-600 text-sm'>{errorMsg}</p>}
-
-          <Button
-            type='submit'
-            disabled={loading}
-            className='rounded-full h-11 w-full bg-black text-white'
-          >
+          <Button type='submit' className='rounded-full h-11' disabled={loading}>
             {loading ? 'Submitting...' : 'Register'}
           </Button>
         </form>

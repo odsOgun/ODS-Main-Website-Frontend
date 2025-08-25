@@ -54,7 +54,7 @@ const events = [
       'Demos from Partners'
     ],
     filter: Tabs.Conference
-  },
+  }
   // {
   //   day: 'Friday',
   //   date: '1st November',
@@ -124,7 +124,7 @@ interface SectionTwoProps {
   onOpenExhibitorModal: () => void;
 }
 
-function SectionTwo({ onOpenSponsorModal, onOpenComingModal , onOpenExhibitorModal}: SectionTwoProps ) {
+function SectionTwo({ onOpenComingModal }: SectionTwoProps) {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Conference);
   return (
     <div className='bg-white' id='exhibitors'>
@@ -141,10 +141,13 @@ function SectionTwo({ onOpenSponsorModal, onOpenComingModal , onOpenExhibitorMod
               Increase your start visibility and reach by booking a boot with us today
             </p>
             {/* <a href={Sitelinks.becomeAnExhibitor} target='_blank'> */}
-              <button onClick={onOpenExhibitorModal} className='bg-[#178A2D] font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
-                <span className='text-sm font-semibold'>Become an exhibitor</span>
-                <ArrowRight />
-              </button>
+            <a
+              href='/register/exhibitors'
+              className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+            >
+              <span className='text-sm font-semibold'>Become an exhibitor</span>
+              <ArrowRight />
+            </a>
             {/* </a> */}
           </div>
         </div>
@@ -219,10 +222,13 @@ function SectionTwo({ onOpenSponsorModal, onOpenComingModal , onOpenExhibitorMod
               perfect audience for you.
             </p>
             {/* <a href={Sitelinks.becomeAsponsor} target='_blank'> */}
-              <button onClick={onOpenSponsorModal} className='bg-[#178A2D] font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white mx-auto'>
-                <span className='text-sm font-semibold'>Become a sponsor</span>
-                <ArrowRight />
-              </button>
+            <a
+              href='/register/sponsors'
+              className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white mx-auto'
+            >
+              <span className='text-sm font-semibold'>Become a sponsor</span>
+              <ArrowRight />
+            </a>
             {/* </a> */}
           </div>
 
@@ -252,10 +258,13 @@ function SectionTwo({ onOpenSponsorModal, onOpenComingModal , onOpenExhibitorMod
                 inspiration and connections that you need to thrive.
               </p>
               {/* <a href={Sitelinks.register} target='_blank'> */}
-                <button className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6' onClick ={onOpenComingModal}>
-                  <span className='text-sm font-semibold'>Register</span>
-                  <ArrowRight />
-                </button>
+              <button
+                className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
+                onClick={onOpenComingModal}
+              >
+                <span className='text-sm font-semibold'>Register</span>
+                <ArrowRight />
+              </button>
               {/* </a> */}
             </div>
           </div>
