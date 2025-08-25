@@ -32,7 +32,7 @@ function Home() {
       <div className='container max-md:px-5'>
         <Nav />
       </div>
-      <Hero />
+      <Hero onOpenComingModal={openComingModal} />
       <SectionOne />
       <SectionTwo
         onOpenSponsorModal={openSponsorModal}
