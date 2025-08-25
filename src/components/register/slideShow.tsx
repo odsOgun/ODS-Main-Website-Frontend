@@ -1,16 +1,25 @@
 import { useState, useEffect } from 'react';
+import IMG_0063 from '/src/assets/img/register/IMG_0063.jpg';
+import IMG_0134 from '/src/assets/img/register/IMG_0134.jpg';
+import IMG_0661 from '/src/assets/img/register/IMG_0661.jpg';
+import IMG_0726 from '/src/assets/img/register/IMG_0726.jpg';
+import IMG_0751 from '/src/assets/img/register/IMG_0751.jpg';
+import IMG_2007 from '/src/assets/img/register/IMG_2007.jpg';
+import IMG_9798 from '/src/assets/img/register/IMG_9798.jpg';
+import IMG_9851 from '/src/assets/img/register/IMG_9851.jpg';
+import IMG_9927 from '/src/assets/img/register/IMG_9927.jpg';
 
 const SlideShow = () => {
   const images = [
-    '/src/assets/img/register/IMG_0063.jpg',
-    '/src/assets/img/register/IMG_0134.jpg',
-    '/src/assets/img/register/IMG_0661.jpg',
-    '/src/assets/img/register/IMG_0726.jpg',
-    '/src/assets/img/register/IMG_0751.jpg',
-    '/src/assets/img/register/IMG_2007.jpg',
-    '/src/assets/img/register/IMG_9798.jpg',
-    '/src/assets/img/register/IMG_9851.jpg',
-    '/src/assets/img/register/IMG_9927.jpg'
+    IMG_0063,
+    IMG_0134,
+    IMG_0661,
+    IMG_0726,
+    IMG_0751,
+    IMG_2007,
+    IMG_9798,
+    IMG_9851,
+    IMG_9927
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
