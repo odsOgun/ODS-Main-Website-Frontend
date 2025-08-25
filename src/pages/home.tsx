@@ -16,7 +16,7 @@ function Home() {
   const [showSponsorModal, setShowSponsorModal] = useState(false);
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
-  const [showComingModal, setShowComingModal] = useState(false)
+  const [showComingModal, setShowComingModal] = useState(false);
 
   const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
@@ -32,9 +32,13 @@ function Home() {
       <div className='container max-md:px-5'>
         <Nav />
       </div>
-      <Hero onOpenSponsorModal={openSponsorModal}  onOpenComingModal={openComingModal}  />
-      <SectionOne onOpenSponsorModal={openSponsorModal} />
-      <SectionTwo onOpenSponsorModal={openSponsorModal}   onOpenExhibitorModal={openExhibitorModal} onOpenComingModal={openComingModal} />
+      <Hero />
+      <SectionOne />
+      <SectionTwo
+        onOpenSponsorModal={openSponsorModal}
+        onOpenExhibitorModal={openExhibitorModal}
+        onOpenComingModal={openComingModal}
+      />
       <div>
         <Merch />
       </div>
