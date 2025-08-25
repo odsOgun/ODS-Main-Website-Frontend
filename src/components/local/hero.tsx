@@ -33,7 +33,12 @@ function SponsorLogos() {
     </div>
   );
 }
-function Hero() {
+interface SectionOneProps {
+  // onOpenSponsorModal: () => void;
+  onOpenComingModal: () => void;
+}
+
+function Hero({ onOpenComingModal }: SectionOneProps) {
   return (
     <div className='relative'>
       <div className='hero-bg px-5 pt-10 pb-[120px] md:pt-[100px] md:pb-[76px]'>
@@ -57,12 +62,15 @@ function Hero() {
             </p>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
-              <a href='/register/exhibitors'>
-                <button className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
-                  <span className='text-sm font-semibold'>Register</span>
-                  <ArrowRight />
-                </button>
-              </a>
+              {/* <a href={Sitelinks.register} target='_blank'> */}
+              <button
+                className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+                onClick={onOpenComingModal}
+              >
+                <span className='text-sm font-semibold'>Register</span>
+                <ArrowRight />
+              </button>
+              {/* </a> */}
               <a href='/register/sponsors'>
                 <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
                   <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>

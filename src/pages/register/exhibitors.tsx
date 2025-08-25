@@ -4,27 +4,60 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { apiService, AxiosError } from '@/api/apiService';
 
-const Exhibitors = () => {
+interface FormData {
+  fullName: string;
+  organisation: string;
+  email: string;
+  phoneNumber: string;
+}
+
+interface FormErrors {
+  fullName: string;
+  organisation: string;
+  email: string;
+  phoneNumber: string;
+}
+
+const Exhibitors: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     organisation: '',
     email: '',
     phoneNumber: ''
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<FormErrors>({
     fullName: '',
     organisation: '',
     email: '',
     phoneNumber: ''
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const validateForm = () => {
-    const newErrors = {
+  const validateNigerianPhoneNumber = (phone: string): boolean => {
+    // Remove all spaces and special characters except +
+    const cleanPhone = phone.replace(/[\s\-()]/g, '');
+
+    // Nigerian phone number patterns:
+    // +234XXXXXXXXXX (13 digits total)
+    // 234XXXXXXXXXX (12 digits total)
+    // 0XXXXXXXXXX (11 digits total)
+
+    const patterns = [
+      /^\+234[789][01]\d{8}$/, // +234 followed by 7,8,9 then 0,1 then 8 digits
+      /^234[789][01]\d{8}$/, // 234 followed by 7,8,9 then 0,1 then 8 digits
+      /^0[789][01]\d{8}$/ // 0 followed by 7,8,9 then 0,1 then 8 digits
+    ];
+
+    return patterns.some((pattern) => pattern.test(cleanPhone));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {
       fullName: '',
       organisation: '',
       email: '',
@@ -48,18 +81,19 @@ const Exhibitors = () => {
       newErrors.organisation = 'Organisation is required';
     }
 
-    // Phone validation
+    // Phone validation with Nigerian format
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone number is required';
-    } else if (!/^\d+$/.test(formData.phoneNumber.replace(/\s/g, ''))) {
-      newErrors.phoneNumber = 'Please enter a valid phone number';
+    } else if (!validateNigerianPhoneNumber(formData.phoneNumber)) {
+      newErrors.phoneNumber =
+        'Please enter a valid Nigerian phone number (e.g., +234 803 123 4567 or 0803 123 4567)';
     }
 
     setErrors(newErrors);
     return !Object.values(newErrors).some((error) => error !== '');
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -67,7 +101,7 @@ const Exhibitors = () => {
     }));
 
     // Clear error when user starts typing
-    if (errors[name as keyof typeof errors]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
         [name]: ''
@@ -75,38 +109,38 @@ const Exhibitors = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     setLoading(true);
 
-    const submitPromise = fetch('https://ods2025.onrender.com/api/v1/exhibitor/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
+    try {
+      await apiService.exhibitors.create(formData);
 
-    toast.promise(submitPromise, {
-      loading: 'Submitting your application...',
-      success: async (response) => {
-        if (response.ok) {
-          setFormData({ fullName: '', organisation: '', email: '', phoneNumber: '' });
-          setTimeout(() => navigate('/'), 1500);
-          setLoading(false);
-          return 'Application submitted successfully! Redirecting to home...';
-        } else {
-          const errorData = await response.json();
-          setLoading(false);
-          throw new Error(errorData.message || 'Submission failed');
-        }
-      },
-      error: (error) => {
-        setLoading(false);
-        return error.message || 'Failed to submit application. Please try again.';
+      // Success
+      setFormData({ fullName: '', organisation: '', email: '', phoneNumber: '' });
+      toast.success('Application submitted successfully! Redirecting to home...');
+      setTimeout(() => navigate('/'), 1500);
+    } catch (error: unknown) {
+      // Error handling with full access to request data
+      if (error && typeof error === 'object' && 'response' in error) {
+        // Server responded with error status (AxiosError)
+        const axiosError = error as AxiosError;
+
+        const errorMessage =
+          (axiosError.response?.data as { message?: string })?.message ||
+          `Submission failed (${axiosError.response?.status})`;
+        toast.error(errorMessage);
+      } else if (error && typeof error === 'object' && 'request' in error) {
+        toast.error('No response from server. Please check your connection.');
+      } else {
+        toast.error('Failed to submit application. Please try again.');
       }
-    });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -122,12 +156,12 @@ const Exhibitors = () => {
         <form className='space-y-10' onSubmit={handleSubmit}>
           <div className='space-y-4'>
             <div>
-              <label htmlFor='name' className='block text-sm text-[#67706D] mb-2'>
+              <label htmlFor='fullName' className='block text-sm text-[#67706D] mb-2'>
                 What's your name
               </label>
               <Input
-                id='name'
-                name='name'
+                id='fullName'
+                name='fullName'
                 placeholder='Enter full name'
                 value={formData.fullName}
                 onChange={handleInputChange}
@@ -144,6 +178,7 @@ const Exhibitors = () => {
               <Input
                 id='email'
                 name='email'
+                type='email'
                 placeholder='email@example.com'
                 value={formData.email}
                 onChange={handleInputChange}
@@ -154,11 +189,11 @@ const Exhibitors = () => {
             </div>
 
             <div>
-              <label htmlFor='organization' className='block text-sm text-[#67706D] mb-2'>
+              <label htmlFor='organisation' className='block text-sm text-[#67706D] mb-2'>
                 Organization
               </label>
               <Input
-                id='organization'
+                id='organisation'
                 name='organisation'
                 placeholder="What's your organisation"
                 value={formData.organisation}
@@ -172,13 +207,14 @@ const Exhibitors = () => {
             </div>
 
             <div>
-              <label htmlFor='mobile' className='block text-sm text-[#67706D] mb-2'>
+              <label htmlFor='phoneNumber' className='block text-sm text-[#67706D] mb-2'>
                 Mobile No
               </label>
               <Input
-                id='mobile'
+                id='phoneNumber'
                 name='phoneNumber'
-                placeholder='+234 000 0000 000'
+                type='tel'
+                placeholder='+234 803 123 4567'
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className={errors.phoneNumber ? 'border-red-500' : ''}
