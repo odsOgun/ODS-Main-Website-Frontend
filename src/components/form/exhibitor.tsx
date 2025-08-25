@@ -87,7 +87,6 @@ function ExhibitorsForm({ onClose, openModal }: ModalProps) {
     e.preventDefault();
     if (validate()) {
       setIsLoading(true);
-      console.log(formData);
       try {
         const response = await fetch('https://ods2025.onrender.com/api/v1/exhibitor/create', {
           method: 'POST',

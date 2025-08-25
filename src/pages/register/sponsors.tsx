@@ -4,10 +4,31 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { apiService, AxiosError } from '@/api/apiService';
 
-const Sponsors = () => {
+interface FormData {
+  fullName: string;
+  organisation: string;
+  email: string;
+  phoneNumber: string;
+  website: string;
+  linkedinLink: string;
+  twitterLink: string;
+}
+
+interface FormErrors {
+  fullName: string;
+  organisation: string;
+  email: string;
+  phoneNumber: string;
+  website: string;
+  linkedinLink: string;
+  twitterLink: string;
+}
+
+const Sponsors: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     organisation: '',
     email: '',
@@ -17,7 +38,7 @@ const Sponsors = () => {
     twitterLink: ''
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<FormErrors>({
     fullName: '',
     organisation: '',
     email: '',
@@ -27,10 +48,37 @@ const Sponsors = () => {
     twitterLink: ''
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const validateForm = () => {
-    const newErrors = {
+  const validateNigerianPhoneNumber = (phone: string): boolean => {
+    // Remove all spaces and special characters except +
+    const cleanPhone = phone.replace(/[\s\-()]/g, '');
+
+    // Nigerian phone number patterns:
+    // +234XXXXXXXXXX (13 digits total)
+    // 234XXXXXXXXXX (12 digits total)
+    // 0XXXXXXXXXX (11 digits total)
+
+    const patterns = [
+      /^\+234[789][01]\d{8}$/, // +234 followed by 7,8,9 then 0,1 then 8 digits
+      /^234[789][01]\d{8}$/, // 234 followed by 7,8,9 then 0,1 then 8 digits
+      /^0[789][01]\d{8}$/ // 0 followed by 7,8,9 then 0,1 then 8 digits
+    ];
+
+    return patterns.some((pattern) => pattern.test(cleanPhone));
+  };
+
+  const validateUrl = (url: string): boolean => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {
       fullName: '',
       organisation: '',
       email: '',
@@ -57,33 +105,36 @@ const Sponsors = () => {
       newErrors.organisation = 'Organisation is required';
     }
 
-    // Phone validation
+    // Phone validation with Nigerian format
     if (!formData.phoneNumber.trim()) {
       newErrors.phoneNumber = 'Phone number is required';
-    } else if (!/^\d+$/.test(formData.phoneNumber.replace(/\s/g, ''))) {
-      newErrors.phoneNumber = 'Please enter a valid phone number';
+    } else if (!validateNigerianPhoneNumber(formData.phoneNumber)) {
+      newErrors.phoneNumber =
+        'Please enter a valid Nigerian phone number (e.g., +234 803 123 4567 or 0803 123 4567)';
     }
 
     // Website validation (optional but if provided, should be valid)
-    if (formData.website.trim() && !/^https?:\/\/.+/.test(formData.website)) {
-      newErrors.website = 'Please enter a valid website URL';
+    if (formData.website.trim() && !validateUrl(formData.website)) {
+      newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
     }
 
     // LinkedIn validation (optional but if provided, should be valid)
-    if (formData.linkedinLink.trim() && !/^https?:\/\/.+/.test(formData.linkedinLink)) {
-      newErrors.linkedinLink = 'Please enter a valid LinkedIn URL';
+    if (formData.linkedinLink.trim() && !validateUrl(formData.linkedinLink)) {
+      newErrors.linkedinLink =
+        'Please enter a valid LinkedIn URL (e.g., https://linkedin.com/company/example)';
     }
 
     // Twitter validation (optional but if provided, should be valid)
-    if (formData.twitterLink.trim() && !/^https?:\/\/.+/.test(formData.twitterLink)) {
-      newErrors.twitterLink = 'Please enter a valid Twitter URL';
+    if (formData.twitterLink.trim() && !validateUrl(formData.twitterLink)) {
+      newErrors.twitterLink =
+        'Please enter a valid Twitter/X URL (e.g., https://twitter.com/username)';
     }
 
     setErrors(newErrors);
     return !Object.values(newErrors).some((error) => error !== '');
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -91,7 +142,7 @@ const Sponsors = () => {
     }));
 
     // Clear error when user starts typing
-    if (errors[name as keyof typeof errors]) {
+    if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({
         ...prev,
         [name]: ''
@@ -99,46 +150,44 @@ const Sponsors = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     setLoading(true);
 
-    const submitPromise = fetch('https://ods2025.onrender.com/api/v1/sponsor/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
+    try {
+      await apiService.sponsors.create(formData);
 
-    toast.promise(submitPromise, {
-      loading: 'Submitting your sponsorship application...',
-      success: async (response) => {
-        if (response.ok) {
-          setFormData({
-            fullName: '',
-            organisation: '',
-            email: '',
-            phoneNumber: '',
-            website: '',
-            linkedinLink: '',
-            twitterLink: ''
-          });
-          setTimeout(() => navigate('/'), 1500);
-          setLoading(false);
-          return 'Sponsorship application submitted successfully! Redirecting to home...';
-        } else {
-          const errorData = await response.json();
-          setLoading(false);
-          throw new Error(errorData.message || 'Submission failed');
-        }
-      },
-      error: (error) => {
-        setLoading(false);
-        return error.message || 'Failed to submit sponsorship application. Please try again.';
+      // Success
+      setFormData({
+        fullName: '',
+        organisation: '',
+        email: '',
+        phoneNumber: '',
+        website: '',
+        linkedinLink: '',
+        twitterLink: ''
+      });
+      toast.success('Sponsorship application submitted successfully! Redirecting to home...');
+      setTimeout(() => navigate('/'), 1500);
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as AxiosError;
+
+        const errorMessage =
+          (axiosError.response?.data as { message?: string })?.message ||
+          `Submission failed (${axiosError.response?.status})`;
+        toast.error(errorMessage);
+      } else if (error && typeof error === 'object' && 'request' in error) {
+        toast.error('No response from server. Please check your connection.');
+      } else {
+        toast.error('Failed to submit sponsorship application. Please try again.');
       }
-    });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -150,8 +199,6 @@ const Sponsors = () => {
         <p className='text-sm text-gray-500 mb-10'>
           Fill out the form below and our team will reach out to you in less than 24 hours.
         </p>
-
-        {/* Removed successMsg and errorMsg divs as they are replaced by toast */}
 
         <form className='space-y-10' onSubmit={handleSubmit}>
           <div className='space-y-4'>
@@ -178,6 +225,7 @@ const Sponsors = () => {
               <Input
                 id='email'
                 name='email'
+                type='email'
                 placeholder='email@example.com'
                 value={formData.email}
                 onChange={handleInputChange}
@@ -212,7 +260,8 @@ const Sponsors = () => {
               <Input
                 id='phoneNumber'
                 name='phoneNumber'
-                placeholder='+234 000 0000 000'
+                type='tel'
+                placeholder='+234 803 123 4567'
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className={errors.phoneNumber ? 'border-red-500' : ''}
@@ -230,7 +279,8 @@ const Sponsors = () => {
               <Input
                 id='website'
                 name='website'
-                placeholder='https//:'
+                type='url'
+                placeholder='https://example.com'
                 value={formData.website}
                 onChange={handleInputChange}
                 className={errors.website ? 'border-red-500' : ''}
@@ -246,7 +296,8 @@ const Sponsors = () => {
               <Input
                 id='linkedinLink'
                 name='linkedinLink'
-                placeholder='https//:www.linkedin.com'
+                type='url'
+                placeholder='https://linkedin.com/company/example'
                 value={formData.linkedinLink}
                 onChange={handleInputChange}
                 className={errors.linkedinLink ? 'border-red-500' : ''}
@@ -264,6 +315,7 @@ const Sponsors = () => {
               <Input
                 id='twitterLink'
                 name='twitterLink'
+                type='url'
                 placeholder='https://twitter.com/username'
                 value={formData.twitterLink}
                 onChange={handleInputChange}

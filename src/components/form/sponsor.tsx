@@ -104,7 +104,6 @@ function SponsorForm({ onClose, openModal }: ModalProps) {
     e.preventDefault();
     if (validate()) {
       setIsLoading(true);
-      console.log(formData);
       try {
         const response = await fetch('https://ods2025.onrender.com/api/v1/sponsor/create', {
           method: 'POST',

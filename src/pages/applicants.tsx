@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import CustomTabBar from '../components/ui/customTabbar';
 import { Input } from '../components/ui/input';
 import { Search, Users, Building2 } from 'lucide-react';
+import { apiService } from '@/api/apiService';
 
 interface Exhibitor {
   _id: string;
@@ -42,8 +43,6 @@ function Applicants() {
   const sponsorsFetched = useRef(false);
 
   const tabs = ['Exhibitors', 'Sponsors'];
-
-  const BASE_URL = 'https://ods2025.onrender.com/api/v1';
 
   useEffect(() => {
     // Only fetch if not already fetched
@@ -95,11 +94,8 @@ function Applicants() {
 
     setExhibitorsLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/exhibitor/all`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
+      const response = await apiService.exhibitors.getAll();
+      const data = response.data;
       if (data.status === 'success' && data.exhibitors) {
         setExhibitors(data.exhibitors);
         setFilteredExhibitors(data.exhibitors);
@@ -120,11 +116,8 @@ function Applicants() {
 
     setSponsorsLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/sponsor/all`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
+      const response = await apiService.sponsors.getAll();
+      const data = response.data;
       if (data.status === 'success' && data.sponsors) {
         setSponsors(data.sponsors);
         setFilteredSponsors(data.sponsors);
