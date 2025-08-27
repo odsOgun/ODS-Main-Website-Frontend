@@ -69,6 +69,8 @@ import Statistics from './pages/statistics.tsx';
 import Exhibitors from './pages/register/exhibitors.tsx';
 import Sponsors from './pages/register/sponsors.tsx';
 import Applicants from './pages/applicants.tsx';
+import { NuqsAdapter } from 'nuqs/adapters/react';
+import Register from './pages/register/index.tsx';
 
 const router = createBrowserRouter([
   {
@@ -113,6 +115,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
+    path: '/register/',
+    element: <Register />,
+    errorElement: <ErrorPage />
+  },
+  {
     path: '/register/sponsors',
     element: <Sponsors />,
     errorElement: <ErrorPage />
@@ -121,6 +128,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <NuqsAdapter>
+      <RouterProvider router={router} />
+    </NuqsAdapter>
   </StrictMode>
 );
