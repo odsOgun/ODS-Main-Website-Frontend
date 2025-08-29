@@ -5,7 +5,6 @@ import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
 import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
 import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
 import CountDown from './countdown';
-import Sitelinks from '@/mock/sitelinks.json';
 import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
 // mobile
 import GrazacLogoMobile from '/img/mobile/grazac.svg';
@@ -34,10 +33,13 @@ function SponsorLogos() {
     </div>
   );
 }
-interface SectionOneProps {
-  onOpenSponsorModal: () => void;
-}
-function Hero({ onOpenSponsorModal }: SectionOneProps) {
+// interface SectionOneProps {
+//   // onOpenSponsorModal: () => void;
+//   onOpenComingModal: () => void;
+// }
+
+// function Hero({ onOpenComingModal }: SectionOneProps) {
+function Hero() {
   return (
     <div className='relative'>
       <div className='hero-bg px-5 pt-10 pb-[120px] md:pt-[100px] md:pb-[76px]'>
@@ -46,7 +48,6 @@ function Hero({ onOpenSponsorModal }: SectionOneProps) {
             <div className='text-[34px] md:text-6xl leading-[40px] md:leading-[64px] text-left md:text-center tracking-[0.5px] md:tracking-[-1px] text-[#23323F] max-md:max-w-[332px]'>
               <h2 className='italic font-normal platypi-gf'>
                 Be a part of Ogun Digital summit 2025
-                
               </h2>
               {/* <h2 className='italic font-normal platypi-gf'>
                 Innovation:{' '}
@@ -62,18 +63,21 @@ function Hero({ onOpenSponsorModal }: SectionOneProps) {
             </p>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
-              <a href={Sitelinks.register} target='_blank'>
-                <button className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
+              <a href={'/register'}>
+                <button
+                  className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+                  // onClick={onOpenComingModal}
+                >
                   <span className='text-sm font-semibold'>Register</span>
                   <ArrowRight />
                 </button>
               </a>
-              {/* <a href={Sitelinks.becomeAsponsor} target='_blank'> */}
-                <button onClick={onOpenSponsorModal} className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
+              <a href='/register/sponsors'>
+                <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
                   <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>
                   <ArrowRightGreen />
                 </button>
-              {/* </a> */}
+              </a>
             </div>
           </div>
         </div>

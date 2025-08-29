@@ -9,6 +9,7 @@ import Modal from '../modal';
 import SponsorForm from '../form/sponsor';
 import ExhibitorsForm from '../form/exhibitor';
 import SucessModal from '../form/sucessModal';
+import ComingSoon from '../comingModal';
 
 function Nav() {
   // Define types for navigation items
@@ -21,11 +22,13 @@ function Nav() {
   const [showSponsorModal, setShowSponsorModal] = useState(false);
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
+  const [showComingModal, setShowComingModal] = useState(false);
 
-  const openSponsorModal = () => setShowSponsorModal(true);
+  // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
-
-  const openExhibitorModal = () => setShowExhibitorModal(true);
+  // const openComingModal = () => setShowComingModal(true);
+  const closeComingModal = () => setShowComingModal(false);
+  // const openExhibitorModal = () => setShowExhibitorModal(true);
   const closeExhibitorModal = () => setShowExhibitorModal(false);
   const openSucessModal = () => setShowSucessModal(true);
   const closeSucessModal = () => setShowSucessModal(false);
@@ -33,9 +36,11 @@ function Nav() {
   const navItems: NavItemProps[] = [
     { label: 'Home', link: '/' },
     { label: 'About', link: '/about' },
-    { label: 'Sponsor', link: openSponsorModal },
+    { label: 'Sponsor', link: '/register/sponsors' },
+    // { label: 'Sponsor', link: openSponsorModal },
     { label: 'Store', link: 'https://selar.co/m/ods2024' },
-    { label: 'Exhibitors', link: openExhibitorModal },
+    { label: 'Exhibitors', link: '/register/exhibitors' },
+    // { label: 'Exhibitors', link: openExhibitorModal },
     { label: 'Speakers', link: '/speaker' }
   ];
 
@@ -83,8 +88,11 @@ function Nav() {
           })}
         </div>
 
-        <a href={Sitelinks.register} target='_blank'>
-          <button className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] px-3 max-md:hidden'>
+        <a href={Sitelinks.register}>
+          <button
+            className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] px-3 max-md:hidden'
+            // onClick={openComingModal}
+          >
             <span className='text-sm font-semibold'>Register</span>
             <ArrowRight />
           </button>
@@ -146,8 +154,11 @@ function Nav() {
             })}
           </div>
           <div className='flex flex-col items-center gap-6 mt-6'>
-            <a href={Sitelinks.register} target='_blank' className='w-full'>
-              <button className='bg-[#178A2D] font-semibold h-10 w-full rounded flex justify-center items-center tracking-[0.2px] text-white'>
+            <a href={Sitelinks.register} className='w-full'>
+              <button
+                className='bg-[#178A2D] font-semibold h-10 w-full rounded flex justify-center items-center tracking-[0.2px] text-white'
+                // onClick={openComingModal}
+              >
                 <span className='text-sm font-semibold'>Register</span>
                 <ArrowRight />
               </button>
@@ -176,6 +187,9 @@ function Nav() {
 
         <Modal show={showSucessModal} onClose={closeSucessModal}>
           <SucessModal />
+        </Modal>
+        <Modal show={showComingModal} onClose={closeComingModal}>
+          <ComingSoon onClose={closeComingModal} />
         </Modal>
       </div>
     );

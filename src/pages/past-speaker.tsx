@@ -5,7 +5,9 @@ import harrison from '@/assets/img//past-speaker/harrison.png';
 import ibikun from '@/assets/img/past-speaker/ibikun.png';
 import Joshua from '@/assets/img//past-speaker/joshua.png';
 import odunayo from '@/assets/img/past-speaker/odunayo.png';
-import bayo from '@/assets/img/past-speaker/bayo.png';
+// import bayo from '@/assets/img/past-speaker/bayo.png';
+import fayemi from '@/assets/img/daniel-fayemi.jpg';
+
 import tolulope from '@/assets/img/past-speaker/Tolulope.png';
 import rahaman from '@/assets/img/past-speaker/rahaman.png';
 import joel from '@/assets/img/past-speaker/joel.png';
@@ -28,6 +30,8 @@ import oluwatobi from '@/assets/img/past-speaker/oluwatobi.png';
 import oyeniyi from '@/assets/img/past-speaker/oyeniyi.png';
 import falola from '@/assets/img/past-speaker/falola.png';
 import justice from '@/assets/img/past-speaker/justice.jpeg';
+import yosola from '@/assets/img/past-speaker/yosolaade.jpg';
+
 // import speaker1 from '@/assets/img/Speaker1.png';
 import speaker2 from '@/assets/img/speaker2.png';
 // import speaker3 from '@/assets/img/speaker3.png';
@@ -168,6 +172,13 @@ const PastSpeakers = () => {
       image: ibikun
     },
     {
+      title: 'Yosola Adekanmbi',
+      position: 'Flutter Mobile Developer, Beebz Inc ',
+      description:
+        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
+      image: yosola
+    },
+    {
       title: 'Joshua Chibueze',
       position: 'Co-founder, piggyvest',
       description:
@@ -198,12 +209,20 @@ const PastSpeakers = () => {
         'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
       image: odunayo
     },
+    // {
+    //   title: 'Bayo Omoboriowo',
+    //   position: 'Photographer to the former president.',
+    //   description:
+    //     'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
+    //   image: bayo
+    // },
+
     {
-      title: 'Bayo Omoboriowo',
-      position: 'Photographer to the former president.',
+      title: 'Daniel Fayemi',
+      position: 'Ex- Engineering Lead, Binance',
       description:
         'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: bayo
+      image: fayemi
     }
   ];
 
@@ -456,7 +475,7 @@ const PastSpeakers = () => {
           className={` ${showNav ? 'scale-90' : 'scale-100'} transition-all duration-200 ease-linear`}
         >
           <div
-            className='w-full h-screen bg-red-50'
+            className='w-full h-screen bg-red-50 '
             style={{
               backgroundImage: `url(${HeroImg})`,
               backgroundPosition: 'center',
@@ -642,7 +661,7 @@ const PastSpeakers = () => {
               {Ods23.map((item, index) => (
                 <div
                   key={index}
-                  className={`relative rounded-2xl h-[360px] lg:max-w-[300px] w-auto overflow-hidden sm:mb-0 mb-[16px] cursor-pointer transition-transform transform ${showModal === index ? 'w-[475px] h-[456px] absolute z-30 bg-white pt-[56px] ' : 'h-[360px] w-[300px]'}`}
+                  className={`relative rounded-2xl h-[360px] lg:max-w-[300px] w-auto overflow-hidden grayscale sm:mb-0 mb-[16px] cursor-pointer transition-transform transform ${showModal === index ? 'w-[475px] h-[456px] absolute z-30 bg-white pt-[56px] ' : 'h-[360px] w-[300px]'}`}
                   style={{
                     backgroundImage: showModal === index ? 'none' : `url(${item.image})`,
                     backgroundSize: 'cover',

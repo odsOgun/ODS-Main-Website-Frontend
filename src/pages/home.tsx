@@ -10,16 +10,19 @@ import SponsorForm from '@/components/form/sponsor';
 import ExhibitorsForm from '@/components/form/exhibitor';
 import Modal from '@/components/modal';
 import SucessModal from '@/components/form/sucessModal';
+import ComingSoon from '@/components/comingModal';
 
 function Home() {
   const [showSponsorModal, setShowSponsorModal] = useState(false);
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
+  const [showComingModal, setShowComingModal] = useState(false);
 
-  const openSponsorModal = () => setShowSponsorModal(true);
+  // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
-
-  const openExhibitorModal = () => setShowExhibitorModal(true);
+  // const openComingModal = () => setShowComingModal(true);
+  const closeComingModal = () => setShowComingModal(false);
+  // const openExhibitorModal = () => setShowExhibitorModal(true);
   const closeExhibitorModal = () => setShowExhibitorModal(false);
   const openSucessModal = () => setShowSucessModal(true);
   const closeSucessModal = () => setShowSucessModal(false);
@@ -29,9 +32,15 @@ function Home() {
       <div className='container max-md:px-5'>
         <Nav />
       </div>
-      <Hero onOpenSponsorModal={openSponsorModal} />
-      <SectionOne onOpenSponsorModal={openSponsorModal} />
-      <SectionTwo onOpenSponsorModal={openSponsorModal} onOpenExhibitorModal={openExhibitorModal} />
+      <Hero
+      // onOpenComingModal={openComingModal}
+      />
+      <SectionOne />
+      <SectionTwo
+      // onOpenSponsorModal={openSponsorModal}
+      // onOpenExhibitorModal={openExhibitorModal}
+      // onOpenComingModal={openComingModal}
+      />
       <div>
         <Merch />
       </div>
@@ -52,6 +61,9 @@ function Home() {
 
       <Modal show={showSucessModal} onClose={closeSucessModal}>
         <SucessModal />
+      </Modal>
+      <Modal show={showComingModal} onClose={closeComingModal}>
+        <ComingSoon onClose={closeComingModal} />
       </Modal>
     </div>
   );

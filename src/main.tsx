@@ -66,6 +66,11 @@ import Sponsor from './pages/sponsor.tsx';
 import Speakers from './pages/speakers.tsx';
 import PastSpeakers from './pages/past-speaker.tsx';
 import Statistics from './pages/statistics.tsx';
+import Exhibitors from './pages/register/exhibitors.tsx';
+import Sponsors from './pages/register/sponsors.tsx';
+import Applicants from './pages/applicants.tsx';
+import { NuqsAdapter } from 'nuqs/adapters/react';
+import Register from './pages/register/index.tsx';
 
 const router = createBrowserRouter([
   {
@@ -93,16 +98,38 @@ const router = createBrowserRouter([
     element: <PastSpeakers />,
     errorElement: <ErrorPage />
   },
- 
+
   {
     path: '/statistics',
     element: <Statistics />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/PAN4BiB92wD5tRezRzr9UlpCknElsOpSf3Zf5CtPnpE/applicants',
+    element: <Applicants />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/exhibitors',
+    element: <Exhibitors />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/',
+    element: <Register />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/sponsors',
+    element: <Sponsors />,
     errorElement: <ErrorPage />
   }
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <NuqsAdapter>
+      <RouterProvider router={router} />
+    </NuqsAdapter>
   </StrictMode>
 );

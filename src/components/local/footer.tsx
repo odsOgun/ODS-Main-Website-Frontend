@@ -14,10 +14,10 @@ const Footer = () => {
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
 
-  const openSponsorModal = () => setShowSponsorModal(true);
+  // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
 
-  const openExhibitorModal = () => setShowExhibitorModal(true);
+  // const openExhibitorModal = () => setShowExhibitorModal(true);
   const closeExhibitorModal = () => setShowExhibitorModal(false);
   const openSucessModal = () => setShowSucessModal(true);
   const closeSucessModal = () => setShowSucessModal(false);
@@ -37,16 +37,18 @@ const Footer = () => {
               About
             </a>
           </li>
-          <li onClick={openSponsorModal} className='cursor-pointer'>
-            Sponsors
+          {/* <li onClick={openSponsorModal} className='cursor-pointer'> */}
+          <li className='cursor-pointer'>
+            <a href='/register/sponsors'>Sponsors</a>
           </li>
           <li>
             <a href='https://selar.co/m/ods2024' target='_blank' rel='noopener noreferrer'>
               Store
             </a>
           </li>
-          <li onClick={openExhibitorModal} className='cursor-pointer'>
-            Exhibitors
+          {/* <li onClick={openExhibitorModal} className='cursor-pointer'> */}
+          <li className='cursor-pointer'>
+            <a href='/register/exhibitors'>Exhibitors</a>
           </li>
         </div>
 

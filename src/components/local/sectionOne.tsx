@@ -6,6 +6,7 @@ import RocketIcon from '@/assets/svgs/rocket.svg';
 import One from '@/assets/img/one.png';
 import Two from '@/assets/img/two.png';
 import Three from '@/assets/img/three.png';
+import ContectTrack from './contectTrack';
 
 const cardItems = [
   {
@@ -34,11 +35,7 @@ const cardItems = [
   }
 ];
 
-interface SectionOneProps {
-  onOpenSponsorModal: () => void;
-}
-
-function SectionOne({ onOpenSponsorModal }: SectionOneProps) {
+function SectionOne() {
   return (
     <div className='bg-foreground'>
       <div className='max-w-[1120px] w-full px-8 mx-auto py-20 xl:box-content'>
@@ -52,14 +49,14 @@ function SectionOne({ onOpenSponsorModal }: SectionOneProps) {
             entrepreneurship and social innovation.
           </p>
           <div className='flex gap-[10px]'>
-            <button
-              onClick={onOpenSponsorModal}
+            <a
+              href='/register/sponsors'
               className='bg-[#ACFAAC] font-semibold h-10 min-w-[171px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#23323F]'
             >
               <span className='text-sm font-semibold'>Become a Sponsor</span>
               <ArrowRight fill='#23323F' />
-            </button>
-            <a href="/statistics" >
+            </a>
+            <a href='/statistics'>
               <button className='bg-inherit font-semibold h-10 min-w-[171px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#ACFAAC]'>
                 <span className='text-sm font-semibold'>View Our Statistics</span>
                 <ArrowRight fill='#ACFAAC' />
@@ -91,7 +88,9 @@ function SectionOne({ onOpenSponsorModal }: SectionOneProps) {
             30+<span className='text-sm tracking-[3px]'>SESSIONS</span>
           </h2>
         </div>
-
+      </div>
+      <ContectTrack />
+      <div className='max-w-[1120px] w-full px-8 mx-auto py-20 xl:box-content'>
         <div className='py-20'>
           <div className='md:w-1/2 md:mx-auto'>
             <h2 className='text-2xl font-semibold text-center text-white md:text-4xl platypi-gf'>
