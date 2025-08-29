@@ -7,7 +7,7 @@ const API_BASE_URL = 'https://ods2025.onrender.com/api/v1';
 // Create axios instance with default config
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  // timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -37,6 +37,13 @@ apiClient.interceptors.response.use(
 
 // API service functions
 export const apiService = {
+  // Attendee endpoints
+  attendees: {
+    register: async (data: any): Promise<AxiosResponse> => {
+      return apiClient.post('/attendee/register', data);
+    }
+  },
+
   // Exhibitor endpoints
   exhibitors: {
     create: async (data: any): Promise<AxiosResponse> => {

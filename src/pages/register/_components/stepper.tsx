@@ -32,7 +32,7 @@ function Stepper({ steps }: StepperProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.19 }}
-      className='space-y-1'
+      className='space-y-1 flex lg:flex-col items-center lg:items-start flex-row flex-wrap lg:flex-nowrap'
     >
       {steps.map((step, index) => {
         const isCurrentStep = step.id === currentStep;
@@ -46,7 +46,7 @@ function Stepper({ steps }: StepperProps) {
           <motion.div
             key={step.id}
             className={cn(
-              'flex items-center gap-2 p-1.5 px-2.5',
+              'flex items-center gap-2 p-1.5 md:px-2.5',
               isClickable && 'cursor-pointer hover:bg-gray-50 rounded-lg transition-colors'
             )}
             initial={{ opacity: 0, y: 5 }}
@@ -66,7 +66,7 @@ function Stepper({ steps }: StepperProps) {
             <p
               className={cn(
                 isChecked ? 'text-black' : 'text-[#595959]',
-                'text-base',
+                'text-xs md:text-sm lg:text-base whitespace-nowrap',
                 isClickable && ''
               )}
             >

@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button2';
 import { Input } from '@/components/ui/input2';
 import { STARTUP_BUSINESS_OPTIONS, REFERRAL_SOURCE_OPTIONS } from '@/lib/constants';
+import { apiService } from '@/api/apiService';
+import { toast } from 'sonner';
 import {
   Select,
   SelectContent,
@@ -15,28 +17,42 @@ import {
 } from '@/components/ui/select';
 
 interface StartupBusinessData {
-  ownsBusinessStartup: string;
+  ownStartup: boolean;
   businessName?: string;
-  referralSource: string;
+  hearAboutUs: string;
 }
 
 interface StartupBusinessProps {
   onContinue: (data: StartupBusinessData) => void;
   initialData?: StartupBusinessData;
+  selectedTicketTier?: string;
+  completeRegistrationData?: {
+    fullName: string;
+    email: string;
+    phoneNumber: string;
+    aboutYou: string[];
+    interestLevel: string;
+    intrestAreas: string[];
+  };
 }
 
 interface FormErrors {
-  ownsBusinessStartup?: string;
+  ownStartup?: string;
   businessName?: string;
-  referralSource?: string;
+  hearAboutUs?: string;
 }
 
-function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
+function StartupBusiness({
+  onContinue,
+  initialData,
+  selectedTicketTier,
+  completeRegistrationData
+}: StartupBusinessProps) {
   const [selectedOption, setSelectedOption] = useState<string>(
-    initialData?.ownsBusinessStartup || ''
+    initialData?.ownStartup ? 'yes' : 'no'
   );
   const [selectedReferralSource, setSelectedReferralSource] = useState<string>(
-    initialData?.referralSource || ''
+    initialData?.hearAboutUs || ''
   );
   const [businessName, setBusinessName] = useState<string>(initialData?.businessName || '');
   const [errors, setErrors] = useState<FormErrors>({});
@@ -46,8 +62,8 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
     setSelectedOption(option);
 
     // Clear business ownership error when user makes selection
-    if (errors.ownsBusinessStartup) {
-      setErrors((prev) => ({ ...prev, ownsBusinessStartup: undefined }));
+    if (errors.ownStartup) {
+      setErrors((prev) => ({ ...prev, ownStartup: undefined }));
     }
 
     // Reset business name if switching to "no"
@@ -62,8 +78,8 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
     setSelectedReferralSource(value);
 
     // Clear referral source error when user makes selection
-    if (errors.referralSource) {
-      setErrors((prev) => ({ ...prev, referralSource: undefined }));
+    if (errors.hearAboutUs) {
+      setErrors((prev) => ({ ...prev, hearAboutUs: undefined }));
     }
   };
 
@@ -85,7 +101,7 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
 
     // Validate business ownership selection
     if (!selectedOption) {
-      newErrors.ownsBusinessStartup = 'Please select whether you own a business/startup';
+      newErrors.ownStartup = 'Please select whether you own a business/startup';
     }
 
     // Validate business name if required
@@ -97,7 +113,7 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
 
     // Validate referral source
     if (!selectedReferralSource) {
-      newErrors.referralSource = 'Please select how you heard about us';
+      newErrors.hearAboutUs = 'Please select how you heard about us';
     }
 
     setErrors(newErrors);
@@ -114,21 +130,51 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call delay (remove in real implementation)
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      const startupBusinessData: StartupBusinessData = {
-        ownsBusinessStartup: selectedOption,
-        referralSource: selectedReferralSource,
-        ...(shouldShowBusinessName && { businessName: businessName.trim() })
+      // Prepare the data in the format expected by the API
+      const registrationData = {
+        fullName: completeRegistrationData?.fullName || '',
+        email: completeRegistrationData?.email || '',
+        phoneNumber: completeRegistrationData?.phoneNumber || '',
+        aboutYou: completeRegistrationData?.aboutYou || [],
+        interestLevel: completeRegistrationData?.interestLevel || '',
+        intrestAreas: completeRegistrationData?.intrestAreas || [],
+        ownStartup: selectedOption === 'yes',
+        startupName: selectedOption === 'yes' ? businessName : '',
+        hearAboutUs: selectedReferralSource
       };
 
-      onContinue(startupBusinessData);
-    } catch (error) {
-      console.error('Error submitting startup business form:', error);
-      // Handle submission error here
+      // Call the API service
+      const response = await apiService.attendees.register(registrationData);
+
+      if (response.status === 200 || response.status === 201) {
+        toast.success('Registration successful!');
+        // Call the onContinue callback to proceed to the next step
+        onContinue({
+          ownStartup: selectedOption === 'yes',
+          businessName: selectedOption === 'yes' ? businessName : '',
+          hearAboutUs: selectedReferralSource
+        });
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
+    } catch (error: unknown) {
+      console.error('Registration error:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Registration failed. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Determine button text based on ticket tier
+  const getButtonText = () => {
+    if (isSubmitting) return 'Processing...';
+
+    if (selectedTicketTier === 'basic') {
+      return 'Register';
+    } else {
+      return 'Make Payment';
     }
   };
 
@@ -151,7 +197,7 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
                   className={cn(
                     'cursor-pointer !border h-[35px] transition-all py-2 pl-2 pr-3 duration-200 rounded-full text-sm font-normal text-gray-0 items-center gap-2',
                     selectedOption === option.value ? '!border-gray-0' : 'border-gray-2',
-                    errors.ownsBusinessStartup && 'border-red-500'
+                    errors.ownStartup && 'border-red-500'
                   )}
                 >
                   <div className='flex items-center justify-center gap-2 size-4 rounded-full border border-gray-1'>
@@ -162,9 +208,7 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
               </button>
             ))}
           </div>
-          {errors.ownsBusinessStartup && (
-            <p className='text-red-500 text-xs mt-1'>{errors.ownsBusinessStartup}</p>
-          )}
+          {errors.ownStartup && <p className='text-red-500 text-xs mt-1'>{errors.ownStartup}</p>}
         </div>
 
         {/* Conditional Business Name field */}
@@ -192,7 +236,7 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
             How did you hear about us?
           </label>
           <Select value={selectedReferralSource} onValueChange={handleReferralSourceChange}>
-            <SelectTrigger className={cn('w-full', errors.referralSource && 'border-red-500')}>
+            <SelectTrigger className={cn('w-full', errors.hearAboutUs && 'border-red-500')}>
               <SelectValue placeholder='Select how you heard about us' />
             </SelectTrigger>
             <SelectContent>
@@ -205,14 +249,12 @@ function StartupBusiness({ onContinue, initialData }: StartupBusinessProps) {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors.referralSource && (
-            <p className='text-red-500 text-xs mt-1'>{errors.referralSource}</p>
-          )}
+          {errors.hearAboutUs && <p className='text-red-500 text-xs mt-1'>{errors.hearAboutUs}</p>}
         </div>
 
-        <div className='flex justify-end mt-10'>
-          <Button type='submit' className='ml-auto w-fit' disabled={isSubmitting}>
-            {isSubmitting ? 'Processing...' : 'Get Ticket'}
+        <div className='flex justify-between mt-10'>
+          <Button type='submit' className='w-fit' disabled={isSubmitting}>
+            {getButtonText()}
           </Button>
         </div>
       </form>

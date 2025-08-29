@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 
 interface TechInterestData {
   interestLevel: string;
-  techAreas?: string[];
+  intrestAreas?: string[];
 }
 
 interface TechInterestProps {
@@ -25,14 +25,14 @@ interface TechInterestProps {
 
 interface FormErrors {
   interestLevel?: string;
-  techAreas?: string;
+  intrestAreas?: string;
 }
 
 export default function TechInterest({ onContinue, initialData }: TechInterestProps) {
   const [selectedInterest, setSelectedInterest] = useState<string>(
     initialData?.interestLevel || ''
   );
-  const [selectedAreas, setSelectedAreas] = useState<string[]>(initialData?.techAreas || []);
+  const [selectedAreas, setSelectedAreas] = useState<string[]>(initialData?.intrestAreas || []);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,8 +41,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
       const newAreas = prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area];
 
       // Clear tech areas error when user selects at least one
-      if (newAreas.length > 0 && errors.techAreas) {
-        setErrors((prev) => ({ ...prev, techAreas: undefined }));
+      if (newAreas.length > 0 && errors.intrestAreas) {
+        setErrors((prev) => ({ ...prev, intrestAreas: undefined }));
       }
 
       return newAreas;
@@ -58,17 +58,17 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
     }
 
     // Reset selected areas if switching away from beginner/interested-in-learning
-    const shouldShowTechAreas = value === 'beginner' || value === 'interested-in-learning';
+    const shouldShowTechAreas = value === 'Beginner' || value === 'Intermediate';
     if (!shouldShowTechAreas) {
       setSelectedAreas([]);
       // Clear tech areas error since it's no longer applicable
-      setErrors((prev) => ({ ...prev, techAreas: undefined }));
+      setErrors((prev) => ({ ...prev, intrestAreas: undefined }));
     }
   };
 
   // Check if tech areas should be shown
   const shouldShowTechAreas =
-    selectedInterest === 'beginner' || selectedInterest === 'interested-in-learning';
+    selectedInterest === 'Beginner' || selectedInterest === 'Intermediate';
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -80,7 +80,7 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
 
     // Validate tech areas if they should be shown
     if (shouldShowTechAreas && selectedAreas.length === 0) {
-      newErrors.techAreas = 'Please select at least one area that excites you';
+      newErrors.intrestAreas = 'Please select at least one area that excites you';
     }
 
     setErrors(newErrors);
@@ -98,11 +98,11 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
 
     try {
       // Simulate API call delay (remove in real implementation)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
 
       const techInterestData: TechInterestData = {
         interestLevel: selectedInterest,
-        ...(shouldShowTechAreas && { techAreas: selectedAreas })
+        ...(shouldShowTechAreas && { intrestAreas: selectedAreas })
       };
 
       onContinue(techInterestData);
@@ -128,7 +128,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
             <SelectContent>
               <SelectGroup>
                 {TECH_INTEREST_OPTIONS.map((option) => (
-                  <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
+                  // <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
+                  <SelectItem key={option} value={option}>
                     {option}
                   </SelectItem>
                 ))}
@@ -173,12 +174,14 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
                 );
               })}
             </div>
-            {errors.techAreas && <p className='text-red-500 text-xs mt-1'>{errors.techAreas}</p>}
+            {errors.intrestAreas && (
+              <p className='text-red-500 text-xs mt-1'>{errors.intrestAreas}</p>
+            )}
           </div>
         )}
 
-        <div className='flex justify-end mt-10'>
-          <Button type='submit' className='ml-auto w-fit' disabled={isSubmitting}>
+        <div className='flex justify-between mt-10'>
+          <Button type='submit' className='w-fit' disabled={isSubmitting}>
             {isSubmitting ? 'Processing...' : 'Continue'}
           </Button>
         </div>

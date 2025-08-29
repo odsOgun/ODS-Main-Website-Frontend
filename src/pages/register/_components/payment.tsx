@@ -1,61 +1,112 @@
-import React from 'react';
-import { Button } from '@/components/ui/button2';
-import { TICKET_TIERS } from '@/lib/constants';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight, Lock, X } from 'lucide-react';
+import { TICKET_TIERS, TicketTier } from '@/lib/constants';
 
-export default function Payment() {
+interface PaymentProps {
+  onContinue: () => void;
+  onTicketSelection: (tierId: string) => void;
+}
+
+export default function Payment({ onContinue, onTicketSelection }: PaymentProps) {
+  const handleTierClick = (tier: TicketTier): void => {
+    // Call onTicketSelection to track the selected tier
+    onTicketSelection(tier.id);
+
+    if (tier.id === 'basic') {
+      // For free tier, continue with registration flow
+      onContinue();
+      return;
+    }
+
+    // For paid tiers, show coming soon or redirect to payment
+    if (tier.id === 'gold') {
+      // Premium tier - coming soon
+      onContinue();
+      return;
+    }
+
+    // For VIP tier, redirect to payment (in real app, this would redirect to payment gateway)
+    console.log('Redirecting to payment for:', tier.name);
+  };
+
   return (
-    <div className='w-full'>
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-6xl mx-auto'>
-        {/* Left Column - Basic and Gold */}
-        <div className='space-y-10 pr-10 border-r border-gray-2'>
-          {TICKET_TIERS.slice(0, 2).map((tier, index) => (
-            <React.Fragment key={tier.id}>
-              <div className='bg-white'>
-                <h3 className='text-xl font-semibold text-gray-900 mb-2'>{tier.name}</h3>
-                <div className='text-3xl font-bold text-gray-900'>
-                  {tier.currency}
-                  {tier.price}
-                </div>
-                <ul className='space-y-4 my-6'>
-                  {tier.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className='flex items-center gap-2 text-gray-1'>
-                      <Check className='size-4 text-gray-900' />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Button variant='link' className='text-[#00A651] p-0 text-lg h-auto font-medium'>
-                  {tier.cta}
-                  <ArrowRight className='size-4 ml-1' />
-                </Button>
-              </div>
-              {index < 1 && <div className='h-[1px] bg-gray-2' />}
-            </React.Fragment>
-          ))}
+    <div
+      className='min-h-screen w-full'
+      style={{
+        background: 'linear-gradient(180deg, #0B130F 0%, #00A651 100%)'
+      }}
+    >
+      <div className='w-fit mx-auto px-6 py-20'>
+        <div className='text-left mb-10 max-w-[592px]'>
+          <h1 className='text-4xl lg:text-5xl font-bold text-white mb-4'>
+            Get your ticket, enjoy what comes next.
+          </h1>
         </div>
 
-        {/* Right Column - Premium */}
-        <div className='space-y-6'>
-          <div className='rounded-lg pl-10 bg-white'>
-            <h3 className='text-xl font-semibold text-gray-900 mb-2'>{TICKET_TIERS[2].name}</h3>
-            <div className='text-3xl font-bold text-gray-900'>
-              {TICKET_TIERS[2].currency}
-              {TICKET_TIERS[2].price}
+        <div className='grid lg:grid-cols-3 gap-8 max-w-fit mx-auto'>
+          {TICKET_TIERS.map((tier) => (
+            <div
+              key={tier.id}
+              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/5 transition-all duration-300 hover:scale-105 cursor-pointer ${
+                tier.popular ? 'ring-2 ring-yellow-400 shadow-2xl' : ''
+              }`}
+              onClick={() => handleTierClick(tier)}
+            >
+              {tier.popular && (
+                <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
+                  <span className='bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-semibold'>
+                    Most Popular
+                  </span>
+                </div>
+              )}
+
+              <div className=''>
+                <h3 className='text-xl font-semibold text-[#BCC1C1] mb-1'>{tier.name}</h3>
+
+                <div className='mb-6'>
+                  <span className='text-2xl font-bold text-white'>
+                    {tier.currency}
+                    {tier.price}
+                  </span>
+                  {tier.originalPrice && (
+                    <div className='text-white/60 line-through text-lg mt-1'>
+                      {tier.originalPrice}
+                    </div>
+                  )}
+                </div>
+
+                <button className='py-2 px-4 bg-white/90 rounded-full'>
+                  <div className='flex items-center justify-center gap-2'>
+                    {tier.id === 'gold' && <Lock className='w-5 h-5' />}
+                    {tier.id === 'gold' ? 'Coming soon' : tier.cta}
+                    {tier.id !== 'gold' && <ArrowRight className='w-4 h-4' />}
+                  </div>
+                </button>
+              </div>
+
+              <div className='mt-8 space-y-4'>
+                {tier.features.map((feature, index) => (
+                  <div key={index} className='flex items-start gap-3'>
+                    <div className='w-5 h-5'>
+                      {index < (tier.id === 'basic' ? 1 : tier.id === 'gold' ? 2 : 5) ? (
+                        <Check className='w-5 h-5 text-white' />
+                      ) : (
+                        <X className='w-5 h-5 text-white' />
+                      )}
+                    </div>
+                    <span
+                      className={`text-base ${
+                        index < (tier.id === 'basic' ? 1 : tier.id === 'gold' ? 2 : 5)
+                          ? 'text-white'
+                          : 'text-white/60'
+                      }`}
+                    >
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <ul className='space-y-4 my-6'>
-              {TICKET_TIERS[2].features.map((feature, index) => (
-                <li key={index} className='flex items-center gap-2 text-gray-1'>
-                  <Check className='size-4 text-gray-900' />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <Button variant='link' className='text-[#00A651] p-0 text-lg h-auto font-medium'>
-              {TICKET_TIERS[2].cta}
-              <ArrowRight className='size-4 ml-1' />
-            </Button>
-          </div>
+          ))}
         </div>
       </div>
     </div>

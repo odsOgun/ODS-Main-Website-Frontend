@@ -15,6 +15,12 @@ export type Description = (typeof DESCRIPTIONS)[number];
 
 export const STEPS = [
   {
+    id: 'payment',
+    label: 'Choose Ticket',
+    title: 'Get your ticket, enjoy what comes next.',
+    hide: true
+  },
+  {
     id: 'personal-details',
     label: 'Personal details',
     title: 'We want to know you better.',
@@ -35,7 +41,7 @@ export const STEPS = [
   {
     id: 'complete',
     label: 'Complete',
-    title: 'Get your ticket, Enjoy what comes next.',
+    title: 'Registration Complete!',
     hide: true
   }
 ] as const;
@@ -44,8 +50,8 @@ export type Step = (typeof STEPS)[number];
 
 export const TECH_INTEREST_OPTIONS = [
   'Beginner',
+  'Intermediate',
   'Expert',
-  'Interested in learning',
   'Not interested'
 ] as const;
 
@@ -90,40 +96,66 @@ export const REFERRAL_SOURCE_OPTIONS = [
 
 export type ReferralSourceOption = (typeof REFERRAL_SOURCE_OPTIONS)[number];
 
-export const TICKET_TIERS = [
+export interface TicketTier {
+  id: string;
+  name: string;
+  price: string;
+  currency: string;
+  originalPrice?: string;
+  cta: string;
+  popular: boolean;
+  features: string[];
+}
+
+export const TICKET_TIERS: TicketTier[] = [
   {
     id: 'basic',
-    name: 'Basic ticket',
+    name: 'Standard Pass',
     price: 'FREE',
     currency: '',
-    features: ['Free access to the main event only'],
     cta: 'Get ticket for free',
-    popular: false
-  },
-  {
-    id: 'gold',
-    name: 'Gold',
-    price: '10,000.00',
-    currency: '₦',
-    features: ['Free access to the main event only', 'Get access to master class of your choice'],
-    cta: 'Buy this ticket',
-    popular: false
-  },
-  {
-    id: 'premium',
-    name: 'Premium',
-    price: '55,000.00',
-    currency: '₦',
+    popular: false,
     features: [
       'Free access to the main event only',
       'Get access to master class of your choice',
       'Get ODS merchandise items',
       'Get a VIP seat, network with speakers and invited guests',
+      'Get a VIP seat, network with speakers and invited guests',
       'Get an invite to ODS Banquet and Hangout the next day'
-    ],
-    cta: 'Buy this ticket',
-    popular: true
+    ]
+  },
+  {
+    id: 'gold',
+    name: 'Premium Pass',
+    price: '10,000.00',
+    currency: '₦',
+    originalPrice: '₦20,000.00',
+    cta: 'Coming soon',
+    popular: true,
+    features: [
+      'Free access to the main event only',
+      'Get access to master class of your choice',
+      'Get ODS merchandise items',
+      'Get a VIP seat, network with speakers and invited guests',
+      'Get a VIP seat, network with speakers and invited guests',
+      'Get an invite to ODS Banquet and Hangout the next day'
+    ]
+  },
+  {
+    id: 'vip',
+    name: 'VIP Pass',
+    price: '55,000.00',
+    currency: '₦',
+    originalPrice: '₦70,000.00',
+    cta: 'Buy ticket',
+    popular: false,
+    features: [
+      'Free access to the main event only',
+      'Get access to master class of your choice',
+      'Get ODS merchandise items',
+      'Get a VIP seat, network with speakers and invited guests',
+      'Get a VIP seat, network with speakers and invited guests',
+      'Get an invite to ODS Banquet and Hangout the next day'
+    ]
   }
-] as const;
-
-export type TicketTier = (typeof TICKET_TIERS)[number];
+];

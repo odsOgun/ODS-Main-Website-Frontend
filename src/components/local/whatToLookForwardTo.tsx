@@ -1,4 +1,4 @@
-import Sitelinks from '@/mock/sitelinks.json';
+// import Sitelinks from '@/mock/sitelinks.json';
 import { ArrowRight } from '@/assets/icons';
 
 const whatToLookForwardItems = [
@@ -41,7 +41,7 @@ function WhatToLookForwardTo() {
             starts here, wherever you sit in the ecosystem, you'll find the insights, inspiration
             and connections that you need to thrive.
           </p>
-          <a href={Sitelinks.register} target='_blank'>
+          <a href={'/register'}>
             <button className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'>
               <span className='text-sm font-semibold'>Register</span>
               <ArrowRight />

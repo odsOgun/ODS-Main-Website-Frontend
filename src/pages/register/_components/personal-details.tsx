@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button2';
 interface PersonalDetailsData {
   fullName: string;
   email: string;
-  descriptions: string[];
+  phoneNumber: string;
+  aboutYou: string[];
   schoolCompany?: string;
 }
 
@@ -20,7 +21,8 @@ interface PersonalDetailsProps {
 interface FormErrors {
   fullName?: string;
   email?: string;
-  descriptions?: string;
+  phoneNumber?: string;
+  aboutYou?: string;
   schoolCompany?: string;
 }
 
@@ -29,6 +31,7 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    phoneNumber: '',
     schoolCompany: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -41,8 +44,8 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
         : [...prev, description];
 
       // Clear descriptions error when user selects at least one
-      if (newDescriptions.length > 0 && errors.descriptions) {
-        setErrors((prev) => ({ ...prev, descriptions: undefined }));
+      if (newDescriptions.length > 0 && errors.aboutYou) {
+        setErrors((prev) => ({ ...prev, aboutYou: undefined }));
       }
 
       return newDescriptions;
@@ -86,9 +89,16 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
       newErrors.email = 'Please enter a valid email address';
     }
 
+    // Validate phone number
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required';
+    } else if (formData.phoneNumber.trim().length < 10) {
+      newErrors.phoneNumber = 'Phone number must be at least 10 characters';
+    }
+
     // Validate descriptions
     if (selectedDescriptions.length === 0) {
-      newErrors.descriptions = 'Please select at least one description';
+      newErrors.aboutYou = 'Please select at least one description';
     }
 
     // Validate school/company if shown
@@ -111,12 +121,13 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
 
     try {
       // Simulate API call delay (remove in real implementation)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
 
       const personalDetailsData: PersonalDetailsData = {
         fullName: formData.fullName.trim(),
         email: formData.email.trim().toLowerCase(),
-        descriptions: selectedDescriptions,
+        phoneNumber: formData.phoneNumber.trim(),
+        aboutYou: selectedDescriptions,
         ...(shouldShowSchoolCompany && { schoolCompany: formData.schoolCompany.trim() })
       };
 
@@ -164,6 +175,22 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
         </div>
 
         <div>
+          <label htmlFor='phoneNumber' className='text-sm mb-2 text-gray-1 block'>
+            Your phone number
+          </label>
+          <Input
+            id='phoneNumber'
+            name='phoneNumber'
+            type='tel'
+            placeholder='+2349160025821'
+            value={formData.phoneNumber}
+            onChange={handleInputChange}
+            className={cn(errors.phoneNumber && 'border-red-500')}
+          />
+          {errors.phoneNumber && <p className='text-red-500 text-xs mt-1'>{errors.phoneNumber}</p>}
+        </div>
+
+        <div>
           <label className='text-sm mb-2 text-gray-1 block'>What best describes you</label>
           <div className='flex flex-wrap gap-2 mt-3'>
             {DESCRIPTIONS.map((description) => {
@@ -194,9 +221,7 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
               );
             })}
           </div>
-          {errors.descriptions && (
-            <p className='text-red-500 text-xs mt-1'>{errors.descriptions}</p>
-          )}
+          {errors.aboutYou && <p className='text-red-500 text-xs mt-1'>{errors.aboutYou}</p>}
         </div>
 
         {/* Conditional School/Company field */}
@@ -219,8 +244,8 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
           </div>
         )}
 
-        <div className='flex justify-end mt-9'>
-          <Button type='submit' className='ml-auto w-fit' disabled={isSubmitting}>
+        <div className='flex justify-between mt-9'>
+          <Button type='submit' className='w-fit' disabled={isSubmitting}>
             {isSubmitting ? 'Processing...' : 'Continue'}
           </Button>
         </div>
