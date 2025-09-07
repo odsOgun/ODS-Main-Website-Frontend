@@ -83,16 +83,7 @@ export const STARTUP_BUSINESS_OPTIONS = [
 
 export type StartupBusinessOption = (typeof STARTUP_BUSINESS_OPTIONS)[number];
 
-export const REFERRAL_SOURCE_OPTIONS = [
-  'Instagram',
-  'X (Twitter)',
-  'TikTok',
-  'LinkedIn',
-  'Through a friend',
-  'Website',
-  "I've been to the previous edition of ODS",
-  'Others'
-] as const;
+export const REFERRAL_SOURCE_OPTIONS = ['Social Media', 'Friend', 'Event', 'Other'] as const;
 
 export type ReferralSourceOption = (typeof REFERRAL_SOURCE_OPTIONS)[number];
 
@@ -102,6 +93,7 @@ export interface TicketTier {
   price: string;
   currency: string;
   originalPrice?: string;
+  open: boolean;
   cta: string;
   popular: boolean;
   features: string[];
@@ -110,52 +102,52 @@ export interface TicketTier {
 export const TICKET_TIERS: TicketTier[] = [
   {
     id: 'basic',
-    name: 'Standard Pass',
+    name: 'General Attendee',
     price: 'FREE',
     currency: '',
+    open: true,
     cta: 'Get ticket for free',
     popular: false,
     features: [
-      'Free access to the main event only',
-      'Get access to master class of your choice',
-      'Get ODS merchandise items',
-      'Get a VIP seat, network with speakers and invited guests',
-      'Get a VIP seat, network with speakers and invited guests',
-      'Get an invite to ODS Banquet and Hangout the next day'
+      'Access to main conference',
+      'Free Access to Keynote sessions',
+      'Access to  Panel sessions and Fireside Conversations',
+      'Access to Exhibition Booth'
     ]
   },
   {
     id: 'gold',
-    name: 'Premium Pass',
+    name: 'Masterclass',
     price: '10,000.00',
     currency: '₦',
     originalPrice: '₦20,000.00',
+    open: false,
     cta: 'Coming soon',
     popular: true,
     features: [
-      'Free access to the main event only',
-      'Get access to master class of your choice',
-      'Get ODS merchandise items',
-      'Get a VIP seat, network with speakers and invited guests',
-      'Get a VIP seat, network with speakers and invited guests',
-      'Get an invite to ODS Banquet and Hangout the next day'
+      'Access to main conference',
+      'Free Access to Keynote sessions',
+      'Access to  Panel sessions and Fireside Conversations',
+      'Access to Exhibition Booth',
+      'Access to the masterclass session'
     ]
   },
   {
     id: 'vip',
-    name: 'VIP Pass',
+    name: 'Prime Ticket',
     price: '55,000.00',
     currency: '₦',
     originalPrice: '₦70,000.00',
-    cta: 'Buy ticket',
+    open: false,
+    cta: 'Coming soon',
     popular: false,
     features: [
-      'Free access to the main event only',
-      'Get access to master class of your choice',
-      'Get ODS merchandise items',
-      'Get a VIP seat, network with speakers and invited guests',
-      'Get a VIP seat, network with speakers and invited guests',
-      'Get an invite to ODS Banquet and Hangout the next day'
+      'For talents, founders, entrepreneurs',
+      'Access to all sessions',
+      'VIP Reserved seats',
+      'ODS Merch, Lunch Pack',
+      'Access to Masterclass session',
+      'Access to The Builders Banquet and Hangout at Olumo Rock (Day 2)'
     ]
   }
 ];
