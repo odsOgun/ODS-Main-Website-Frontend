@@ -1,4 +1,4 @@
-import { Check, ArrowRight, Lock, X } from 'lucide-react';
+import { Check, ArrowRight, Lock } from 'lucide-react';
 import { TICKET_TIERS, TicketTier } from '@/lib/constants';
 
 interface PaymentProps {
@@ -8,6 +8,9 @@ interface PaymentProps {
 
 export default function Payment({ onContinue, onTicketSelection }: PaymentProps) {
   const handleTierClick = (tier: TicketTier): void => {
+    if (!tier.open) {
+      return;
+    }
     // Call onTicketSelection to track the selected tier
     onTicketSelection(tier.id);
 
@@ -17,16 +20,11 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
       return;
     }
 
-    // For paid tiers, show coming soon or redirect to payment
-    if (tier.id === 'gold') {
-      // Premium tier - coming soon
-      onContinue();
-      return;
-    }
-
-    // For VIP tier, redirect to payment (in real app, this would redirect to payment gateway)
+    // For VIP or other paid tiers, redirect to payment (placeholder)
     console.log('Redirecting to payment for:', tier.name);
   };
+
+  const condition = false;
 
   return (
     <div
@@ -46,12 +44,12 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
           {TICKET_TIERS.map((tier) => (
             <div
               key={tier.id}
-              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/5 transition-all duration-300 hover:scale-105 cursor-pointer ${
-                tier.popular ? 'ring-2 ring-yellow-400 shadow-2xl' : ''
+              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/5 transition-all duration-300 h-fit hover:scale-105 cursor-pointer ${
+                condition ? 'ring-2 ring-yellow-400 shadow-2xl' : ''
               }`}
               onClick={() => handleTierClick(tier)}
             >
-              {tier.popular && (
+              {condition && (
                 <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
                   <span className='bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-semibold'>
                     Most Popular
@@ -74,11 +72,16 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
                   )}
                 </div>
 
-                <button className='py-2 px-4 bg-white/90 rounded-full'>
+                <button
+                  className={`py-2 px-4 rounded-full ${
+                    tier.open ? 'bg-white/90' : 'bg-white/70 opacity-60 cursor-not-allowed'
+                  }`}
+                  disabled={!tier.open}
+                >
                   <div className='flex items-center justify-center gap-2'>
-                    {tier.id === 'gold' && <Lock className='w-5 h-5' />}
-                    {tier.id === 'gold' ? 'Coming soon' : tier.cta}
-                    {tier.id !== 'gold' && <ArrowRight className='w-4 h-4' />}
+                    {!tier.open && <Lock className='w-5 h-5' />}
+                    {tier.cta}
+                    {tier.open && <ArrowRight className='w-4 h-4' />}
                   </div>
                 </button>
               </div>
@@ -87,17 +90,13 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
                 {tier.features.map((feature, index) => (
                   <div key={index} className='flex items-start gap-3'>
                     <div className='w-5 h-5'>
-                      {index < (tier.id === 'basic' ? 1 : tier.id === 'gold' ? 2 : 5) ? (
-                        <Check className='w-5 h-5 text-white' />
-                      ) : (
-                        <X className='w-5 h-5 text-white' />
-                      )}
+                      <Check className='w-5 h-5 text-white' />
                     </div>
                     <span
                       className={`text-base ${
-                        index < (tier.id === 'basic' ? 1 : tier.id === 'gold' ? 2 : 5)
+                        index < (tier.id === 'basic' ? 4 : tier.id === 'gold' ? 5 : 6)
                           ? 'text-white'
-                          : 'text-white/60'
+                          : 'text-white/60 hidden'
                       }`}
                     >
                       {feature}
