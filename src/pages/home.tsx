@@ -18,11 +18,11 @@ function Home() {
   const [showSucessModal, setShowSucessModal] = useState(false);
   const [showComingModal, setShowComingModal] = useState(false);
 
-  const openSponsorModal = () => setShowSponsorModal(true);
+  // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
-  const openComingModal = () => setShowComingModal(true);
+  // const openComingModal = () => setShowComingModal(true);
   const closeComingModal = () => setShowComingModal(false);
-  const openExhibitorModal = () => setShowExhibitorModal(true);
+  // const openExhibitorModal = () => setShowExhibitorModal(true);
   const closeExhibitorModal = () => setShowExhibitorModal(false);
   const openSucessModal = () => setShowSucessModal(true);
   const closeSucessModal = () => setShowSucessModal(false);
@@ -32,12 +32,12 @@ function Home() {
       <div className='container max-md:px-5'>
         <Nav />
       </div>
-      <Hero onOpenComingModal={openComingModal} />
+      <Hero />
       <SectionOne />
       <SectionTwo
-        onOpenSponsorModal={openSponsorModal}
-        onOpenExhibitorModal={openExhibitorModal}
-        onOpenComingModal={openComingModal}
+      // onOpenSponsorModal={openSponsorModal}
+      // onOpenExhibitorModal={openExhibitorModal}
+      // onOpenComingModal={openComingModal}
       />
       <div>
         <Merch />
