@@ -53,7 +53,6 @@ function Nav() {
       console.error('Checkout button not found. Did you add it in index.html?');
     }
   };
-
   return (
     <nav className={` flex items-center justify-center w-full`}>
       <div
@@ -118,6 +117,14 @@ function Nav() {
   );
 
   function MobileNav() {
+    const handleRegisterClick = () => {
+      const checkoutBtn = document.getElementById('mainstack_checkout_btn');
+      if (checkoutBtn) {
+        checkoutBtn.click(); // fires Mainstack popup
+      } else {
+        console.error('Checkout button not found. Did you add it in index.html?');
+      }
+    };
     return (
       <div className=''>
         <div
