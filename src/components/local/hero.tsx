@@ -33,12 +33,20 @@ function SponsorLogos() {
     </div>
   );
 }
-interface SectionOneProps {
-  // onOpenSponsorModal: () => void;
-  onOpenComingModal: () => void;
-}
+// interface SectionOneProps {
+//   // onOpenSponsorModal: () => void;
+//   onOpenComingModal: () => void;
+// }
 
-function Hero({ onOpenComingModal }: SectionOneProps) {
+function Hero() {
+  const handleRegisterClick = () => {
+    const checkoutBtn = document.getElementById('mainstack_checkout_btn');
+    if (checkoutBtn) {
+      checkoutBtn.click(); // fires Mainstack popup
+    } else {
+      console.error('Checkout button not found. Did you add it in index.html?');
+    }
+  };
   return (
     <div className='relative'>
       <div className='hero-bg px-5 pt-10 pb-[120px] md:pt-[100px] md:pb-[76px]'>
@@ -65,7 +73,7 @@ function Hero({ onOpenComingModal }: SectionOneProps) {
               {/* <a href={Sitelinks.register} target='_blank'> */}
               <button
                 className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'
-                onClick={onOpenComingModal}
+                onClick={handleRegisterClick}
               >
                 <span className='text-sm font-semibold'>Register</span>
                 <ArrowRight />
