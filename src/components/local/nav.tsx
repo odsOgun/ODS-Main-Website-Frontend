@@ -26,7 +26,7 @@ function Nav() {
 
   // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
-  const openComingModal = () => setShowComingModal(true);
+  // const openComingModal = () => setShowComingModal(true);
   const closeComingModal = () => setShowComingModal(false);
   // const openExhibitorModal = () => setShowExhibitorModal(true);
   const closeExhibitorModal = () => setShowExhibitorModal(false);
@@ -45,7 +45,14 @@ function Nav() {
   ];
 
   const [navState, setNavState] = useState<boolean>(false);
-
+  const handleRegisterClick = () => {
+    const checkoutBtn = document.getElementById('mainstack_checkout_btn');
+    if (checkoutBtn) {
+      checkoutBtn.click(); // fires Mainstack popup
+    } else {
+      console.error('Checkout button not found. Did you add it in index.html?');
+    }
+  };
   return (
     <nav className={` flex items-center justify-center w-full`}>
       <div
@@ -91,7 +98,7 @@ function Nav() {
         {/* <a href={Sitelinks.register} target='_blank'> */}
         <button
           className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] px-3 max-md:hidden'
-          onClick={openComingModal}
+          onClick={handleRegisterClick}
         >
           <span className='text-sm font-semibold'>Register</span>
           <ArrowRight />
@@ -110,6 +117,14 @@ function Nav() {
   );
 
   function MobileNav() {
+    const handleRegisterClick = () => {
+      const checkoutBtn = document.getElementById('mainstack_checkout_btn');
+      if (checkoutBtn) {
+        checkoutBtn.click(); // fires Mainstack popup
+      } else {
+        console.error('Checkout button not found. Did you add it in index.html?');
+      }
+    };
     return (
       <div className=''>
         <div
@@ -157,7 +172,7 @@ function Nav() {
             {/* <a href={Sitelinks.register} target='_blank' className='w-full'> */}
             <button
               className='bg-[#178A2D] font-semibold h-10 w-full rounded flex justify-center items-center tracking-[0.2px] text-white'
-              onClick={openComingModal}
+              onClick={handleRegisterClick}
             >
               <span className='text-sm font-semibold'>Register</span>
               <ArrowRight />
