@@ -69,6 +69,7 @@ import Statistics from './pages/statistics.tsx';
 import Exhibitors from './pages/register/exhibitors.tsx';
 import Sponsors from './pages/register/sponsors.tsx';
 import Applicants from './pages/applicants.tsx';
+// import HomePage from './pages/HomePage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,11 @@ const router = createBrowserRouter([
     element: <Home />,
     errorElement: <ErrorPage />
   },
+  // {
+  //   path: '/home',
+  //   element: <HomePage />,
+  //   errorElement: <ErrorPage />
+  // },
   {
     path: '/about',
     element: <About />,

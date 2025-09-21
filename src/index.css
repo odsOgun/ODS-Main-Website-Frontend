@@ -68,3 +68,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+.animate-scroll {
+  animation: scroll 20s steps(1) infinite;
+  transition: scroll 2s ease-in-out;
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

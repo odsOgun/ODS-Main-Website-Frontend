@@ -15,7 +15,7 @@ const whatToLookForwardItems = [
     image: '/img/fresh-insight.png'
   },
   {
-    title: 'Free Masterclass Sessions',
+    title: 'Masterclass Sessions',
     description:
       'Gain full knowledge on growing your career globally, getting remote international gigs and also learn how to increase sales if you run a startup/business for free.',
     image: '/img/free-masterclass.png'
