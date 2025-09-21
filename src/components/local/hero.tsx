@@ -37,7 +37,6 @@ function SponsorLogos() {
 //   // onOpenSponsorModal: () => void;
 //   onOpenComingModal: () => void;
 // }
-
 function Hero() {
   const handleRegisterClick = () => {
     const checkoutBtn = document.getElementById('mainstack_checkout_btn');
@@ -79,6 +78,7 @@ function Hero() {
                 <ArrowRight />
               </button>
               {/* </a> */}
+
               <a href='/register/sponsors'>
                 <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
                   <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>
