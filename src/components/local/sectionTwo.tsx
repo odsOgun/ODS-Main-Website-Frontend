@@ -134,6 +134,7 @@ function SectionTwo() {
       console.error('Checkout button not found. Did you add it in index.html?');
     }
   };
+
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Conference);
   return (
     <div className='bg-white' id='exhibitors'>
