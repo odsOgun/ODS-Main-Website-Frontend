@@ -17,7 +17,7 @@ const events = [
   {
     day: 'Friday',
     date: '21st November',
-    title: 'The Builders Banque and Hangout',
+    title: 'The Builders Banquet and Hangout',
     items: [
       'Explore Olumo rock with other innovators',
       'What’s next for the ecosystem ?',
@@ -194,7 +194,7 @@ function SectionTwo() {
           </div>
           <div className='flex flex-col items-center justify-center my-10'>
             <CustomTabBar
-              tabs={['Conference days', 'Off conference', 'All']}
+              tabs={['Conference days', 'Off Conference', 'All']}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
