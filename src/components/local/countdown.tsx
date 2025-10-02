@@ -34,7 +34,7 @@ const CountDown: React.FC = () => {
   return (
     <div className='md:h-[72px] w-[88vw] max-md:max-w-[335px] md:w-[719px] rounded-2xl bg-[#0E140F] absolute position-center max-md:px-2'>
       <div className='flex items-center justify-between w-full max-md:flex-col'>
-        <Countdown date={new Date(2025, 11, 20)} renderer={renderer} />
+        <Countdown date={new Date(2025, 10, 20)} renderer={renderer} />
 
         <div className='max-md:mt-1 max-md:mb-1 md:py-[13px] md:pr-4'>
           <div className='flex flex-col gap-1 max-md:text-center'>
