@@ -4,55 +4,59 @@ import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
 import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
 import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
 import CountDown from './countdown';
-import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
+// import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
 import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
-import AfexMobile from '/img/mobile/afex.svg';
-import AlxMobile from '/img/mobile/alx2.svg';
-import BushaMobile from '/img/mobile/Busha.svg';
-import CondiaMobile from '/img/mobile/Condia.svg';
-import OGTVMobile from '/img/mobile/OGTV.svg';
-import TechCabalMobile from '/img/mobile/TechCabal.svg';
-import TechPointMobile from '/img/mobile/TechPoint Africa.svg';
+// import AfexMobile from '/img/mobile/afex.svg';
+// import AlxMobile from '/img/mobile/alx2.svg';
+// import BushaMobile from '/img/mobile/Busha.svg';
+// import CondiaMobile from '/img/mobile/Condia.svg';
+// import OGTVMobile from '/img/mobile/OGTV.svg';
+// import TechCabalMobile from '/img/mobile/TechCabal.svg';
+// import TechPointMobile from '/img/mobile/TechPoint Africa.svg';
 import Alx from '@/assets/svgs/sponsors/alx2.png';
-import Busha from '@/assets/svgs/sponsors/Busha.png';
+import Busha from '@/assets/svgs/sponsors/busha2.svg';
 import Condia from '@/assets/svgs/sponsors/Condia.png';
 import OGTV from '@/assets/svgs/sponsors/OGTV.jpeg';
 import TechCabal from '@/assets/svgs/sponsors/TechCabal.png';
 import TechPoint from '@/assets/svgs/sponsors/TechPoint Africa.png';
+import Bunker from '@/assets/svgs/sponsors/theBUNKer Logo.png';
+import SouthKitchen from '@/assets/svgs/sponsors/south kitchen.png';
+import TheSouth from '@/assets/svgs/sponsors/TheSouth_Logo.png';
 
 import { motion } from 'framer-motion';
 
+const sponsors = [
+  { label: 'Grazac', icon: GrazacLogo },
+  { label: 'Afex', icon: AfexLogo },
+  { label: 'OgunDailyMobile', icon: OgunDailyMobile },
+  { label: 'Ogun Gov', icon: OgunGov },
+  { label: 'Tech Economy', icon: TechEconomy },
+  { label: 'Alx', icon: Alx },
+  { label: 'Busha', icon: Busha },
+  { label: 'Condia', icon: Condia },
+  { label: 'OGTV', icon: OGTV },
+  { label: 'TechCabal', icon: TechCabal },
+  { label: 'TechPoint', icon: TechPoint },
+  { label: 'Bunker', icon: Bunker },
+  { label: 'SouthKitchen', icon: SouthKitchen },
+  { label: 'TheSouth', icon: TheSouth }
+];
 function SponsorLogos() {
-  const isBelow = useIsScreenWidthBelow(768);
-
-  const sponsors = [
-    { label: 'Grazac', icon: isBelow ? OgunDailyMobile : GrazacLogo },
-    { label: 'Afex', icon: isBelow ? AfexMobile : AfexLogo },
-    { label: 'Ogun Gov', icon: isBelow ? OgunDailyMobile : OgunGov },
-    { label: 'Tech Economy', icon: isBelow ? OgunDailyMobile : TechEconomy },
-    { label: 'Alx', icon: isBelow ? AlxMobile : Alx },
-    { label: 'Busha', icon: isBelow ? BushaMobile : Busha },
-    { label: 'Condia', icon: isBelow ? CondiaMobile : Condia },
-    { label: 'OGTV', icon: isBelow ? OGTVMobile : OGTV },
-    { label: 'TechCabal', icon: isBelow ? TechCabalMobile : TechCabal },
-    { label: 'TechPoint', icon: isBelow ? TechPointMobile : TechPoint }
-  ];
-
   return (
-    <div className='overflow-hidden w-full mt-6'>
+    <div className='relative w-full overflow-hidden bg-white py-6'>
       <motion.div
-        className='flex items-center gap-10'
+        className='flex w-max gap-12'
         animate={{ x: ['0%', '-100%'] }}
         transition={{
-          duration: 20, // speed of scroll
-          ease: 'linear',
-          repeat: Infinity
+          repeat: Infinity,
+          duration: 80,
+          ease: 'linear'
         }}
       >
-        {/* Duplicate list for seamless loop */}
-        {[...sponsors, ...sponsors].map(({ label, icon }, idx) => (
-          <div key={label + idx} className='flex-shrink-0'>
-            <img src={icon} alt={label} className='h-12 md:h-16 object-contain' />
+        {[...sponsors, ...sponsors].map((s, i) => (
+          <div key={i} className='flex items-center shrink-0'>
+            <img src={s.icon} alt={s.label} className='h-12 md:h-16 w-auto object-contain' />
+            {/* <span className="text-sm font-medium">{s.label}</span> */}
           </div>
         ))}
       </motion.div>
