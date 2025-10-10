@@ -126,15 +126,6 @@ const whatToLookForwardItems = [
 // }
 
 function SectionTwo() {
-  const handleRegisterClick = () => {
-    const checkoutBtn = document.getElementById('mainstack_checkout_btn');
-    if (checkoutBtn) {
-      checkoutBtn.click(); // fires Mainstack popup
-    } else {
-      console.error('Checkout button not found. Did you add it in index.html?');
-    }
-  };
-
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Conference);
   return (
     <div className='bg-white' id='exhibitors'>
@@ -266,15 +257,12 @@ function SectionTwo() {
                 starts here, wherever you sit in the ecosystem, you'll find the insights,
                 inspiration and connections that you need to thrive.
               </p>
-              {/* <a href={Sitelinks.register} target='_blank'> */}
-              <button
-                className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
-                onClick={handleRegisterClick}
-              >
-                <span className='text-sm font-semibold'>Register</span>
-                <ArrowRight />
-              </button>
-              {/* </a> */}
+              <a href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO' target='_blank'>
+                <button className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'>
+                  <span className='text-sm font-semibold'>Register</span>
+                  <ArrowRight />
+                </button>
+              </a>
             </div>
           </div>
 

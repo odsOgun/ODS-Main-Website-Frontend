@@ -68,15 +68,6 @@ function SponsorLogos() {
 //   onOpenComingModal: () => void;
 // }
 function Hero() {
-  const handleRegisterClick = () => {
-    const checkoutBtn = document.getElementById('mainstack_checkout_btn');
-    if (checkoutBtn) {
-      checkoutBtn.click(); // fires Mainstack popup
-    } else {
-      console.error('Checkout button not found. Did you add it in index.html?');
-    }
-  };
-
   return (
     <div className='relative'>
       <div className='hero-bg px-5 pt-10 pb-[120px] md:pt-[100px] md:pb-[76px]'>
@@ -95,14 +86,14 @@ function Hero() {
             </p>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
-              <button
+              <a
+                href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO'
+                target='_blank'
                 className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'
-                onClick={handleRegisterClick}
               >
                 <span className='text-sm font-semibold'>Register</span>
                 <ArrowRight />
-              </button>
-              {/* </a> */}
+              </a>
 
               <a href='/register/sponsors'>
                 <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>

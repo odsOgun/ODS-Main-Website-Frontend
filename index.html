@@ -32,26 +32,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <button id="mainstack_checkout_btn" style="display: none; height: 40px">
-      Proceed to checkout
-    </button>
-
-    <iframe
-      id="mainstack_checkout_iframe"
-      src="https://checkout.mainstack.me/?productId=AelYp9iEF5RO&type=popup&width=600px"
-      style="
-        border: 0;
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 100000;
-        width: 100vw;
-        height: 100vh;
-      "
-      allow="payment"
-    ></iframe>
     <script type="module" src="/src/main.tsx"></script>
-    <script src="https://mainstack.me/mainstack-cdn/popup_checkout.min.js"></script>
   </body>
 </html>

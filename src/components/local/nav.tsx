@@ -45,14 +45,6 @@ function Nav() {
   ];
 
   const [navState, setNavState] = useState<boolean>(false);
-  const handleRegisterClick = () => {
-    const checkoutBtn = document.getElementById('mainstack_checkout_btn');
-    if (checkoutBtn) {
-      checkoutBtn.click(); // fires Mainstack popup
-    } else {
-      console.error('Checkout button not found. Did you add it in index.html?');
-    }
-  };
   return (
     <nav className={` flex items-center justify-center w-full`}>
       <div
@@ -94,15 +86,14 @@ function Nav() {
             return null;
           })}
         </div>
-        {/* <a href={Sitelinks.register} target='_blank'> */}
-        <button
+        <a
+          href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO'
+          target='_blank'
           className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] px-3 max-md:hidden'
-          onClick={handleRegisterClick}
         >
           <span className='text-sm font-semibold'>Register</span>
           <ArrowRight />
-        </button>
-        {/* </a> */}
+        </a>
         {/* mobile */}
         <div onClick={() => setNavState(!navState)}>
           <img src={MenuSvg} className='cursor-pointer md:hidden' alt='Hamburger' />
@@ -115,14 +106,6 @@ function Nav() {
   );
 
   function MobileNav() {
-    const handleRegisterClick = () => {
-      const checkoutBtn = document.getElementById('mainstack_checkout_btn');
-      if (checkoutBtn) {
-        checkoutBtn.click(); // fires Mainstack popup
-      } else {
-        console.error('Checkout button not found. Did you add it in index.html?');
-      }
-    };
     return (
       <div className=''>
         <div
@@ -167,16 +150,14 @@ function Nav() {
             })}
           </div>
           <div className='flex flex-col items-center gap-6 mt-6'>
-
-            {/* <a href={Sitelinks.register} target='_blank' className='w-full'> */}
-            <button
+            <a
+              href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO'
+              target='_blank'
               className='bg-[#178A2D] font-semibold h-10 w-full rounded flex justify-center items-center tracking-[0.2px] text-white'
-              onClick={handleRegisterClick}
             >
               <span className='text-sm font-semibold'>Register</span>
               <ArrowRight />
-            </button>
-            {/* </a> */}
+            </a>
             <a href={Sitelinks.becomeAsponsor} target='_blank' className='w-full'>
               <button className='w-full rounded-[2px] h-6 bg-white flex justify-center items-center gap-2'>
                 <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>
