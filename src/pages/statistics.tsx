@@ -11,14 +11,7 @@ const Statistics = () => {
     { id: 1, attendees: 3671, title: 'Total Registered', bg: '#E6F1FD' },
     { id: 1, attendees: 36, title: 'Total Speakers', bg: '#E2EFE4' }
   ];
-  const handleRegisterClick = () => {
-    const checkoutBtn = document.getElementById('mainstack_checkout_btn');
-    if (checkoutBtn) {
-      checkoutBtn.click(); // fires Mainstack popup
-    } else {
-      console.error('Checkout button not found. Did you add it in index.html?');
-    }
-  };
+
   return (
     <div>
       <div className='container max-md:px-5'>
@@ -32,11 +25,8 @@ const Statistics = () => {
           From our start to now, the Ogun Digital Summit has grown into a key player in driving
           digital change, connecting visionaries, and empowering communities across Ogun State.
         </p>
-        <a target='_blank'>
-          <button
-            onClick={handleRegisterClick}
-            className='bg-[#178A2D] font-semibold h-10 min-w-[110px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'
-          >
+        <a href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO' target='_blank'>
+          <button className='bg-[#178A2D] font-semibold h-10 min-w-[110px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'>
             <span className='text-[14px] leading-[20px] tracking-[0.2px] font-semibold'>
               Register
             </span>
