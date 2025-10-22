@@ -255,6 +255,7 @@ function About() {
             </div>
           ))}
         </div>
+        <div></div>
       </div>
 
       <div className='w-full mb-20'>
