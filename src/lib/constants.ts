@@ -48,12 +48,7 @@ export const STEPS = [
 
 export type Step = (typeof STEPS)[number];
 
-export const TECH_INTEREST_OPTIONS = [
-  'Beginner',
-  'Intermediate',
-  'Expert',
-  'Not interested'
-] as const;
+export const TECH_INTEREST_OPTIONS = ['Beginner', 'Intermediate', 'Advanced'] as const;
 
 export type TechInterestOption = (typeof TECH_INTEREST_OPTIONS)[number];
 
@@ -83,16 +78,25 @@ export const STARTUP_BUSINESS_OPTIONS = [
 
 export type StartupBusinessOption = (typeof STARTUP_BUSINESS_OPTIONS)[number];
 
-export const REFERRAL_SOURCE_OPTIONS = ['Social Media', 'Friend', 'Event', 'Other'] as const;
+export const REFERRAL_SOURCE_OPTIONS = [
+  'Instagram',
+  'X',
+  'Tiktok',
+  'Grazac',
+  'Billboard',
+  'Radio station',
+  'Friends',
+  'Other'
+] as const;
 
 export type ReferralSourceOption = (typeof REFERRAL_SOURCE_OPTIONS)[number];
 
 export interface TicketTier {
   id: string;
   name: string;
-  price: string;
+  price: number | string;
   currency: string;
-  originalPrice?: string;
+  originalPrice?: number | string;
   open: boolean;
   cta: string;
   popular: boolean;
@@ -103,51 +107,49 @@ export const TICKET_TIERS: TicketTier[] = [
   {
     id: 'basic',
     name: 'General Attendee',
-    price: 'FREE',
-    currency: '',
+    price: 0,
+    currency: '₦',
     open: true,
     cta: 'Get ticket for free',
     popular: false,
-    features: [
-      'Access to main conference',
-      'Free Access to Keynote sessions',
-      'Access to  Panel sessions and Fireside Conversations',
-      'Access to Exhibition Booth'
-    ]
+    features: ['Access to main conference', 'Access to Exhibition Booth']
   },
   {
     id: 'gold',
     name: 'Masterclass',
-    price: '10,000.00',
+    price: 10000,
     currency: '₦',
-    originalPrice: '₦20,000.00',
-    open: false,
-    cta: 'Coming soon',
+    originalPrice: 20000,
+    open: true,
+    cta: 'Get ticket',
     popular: true,
     features: [
       'Access to main conference',
-      'Free Access to Keynote sessions',
-      'Access to  Panel sessions and Fireside Conversations',
-      'Access to Exhibition Booth',
-      'Access to the masterclass session'
+      'Reserved front row seat',
+      'Access to private masterclass sessions',
+      'Access to Keynote & Panel sessions',
+      'Access to Exhibition Area',
+      'Refreshment',
+      'Access to Fireside Convo'
     ]
   },
   {
     id: 'vip',
     name: 'Prime Ticket',
-    price: '55,000.00',
+    price: 55000,
     currency: '₦',
-    originalPrice: '₦70,000.00',
-    open: false,
-    cta: 'Coming soon',
+    originalPrice: 70000,
+    open: true,
+    cta: 'Get ticket',
     popular: false,
     features: [
-      'For talents, founders, entrepreneurs',
-      'Access to all sessions',
+      'Access to main conference',
       'VIP Reserved seats',
       'ODS Merch, Lunch Pack',
       'Access to Masterclass session',
-      'Access to The Builders Banquet and Hangout at Olumo Rock (Day 2)'
+      'Access to The Builders Banquet',
+      'Access to Hangout at Olumo Rock',
+      'Access to exhibition Area'
     ]
   }
 ];

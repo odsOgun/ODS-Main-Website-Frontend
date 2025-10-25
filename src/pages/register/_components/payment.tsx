@@ -1,5 +1,5 @@
 import { Check, ArrowRight, Lock } from 'lucide-react';
-import { TICKET_TIERS, TicketTier } from '@/lib/constants';
+import { TICKET_TIERS, type TicketTier } from '@/lib/constants';
 
 interface PaymentProps {
   onContinue: () => void;
@@ -14,14 +14,9 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
     // Call onTicketSelection to track the selected tier
     onTicketSelection(tier.id);
 
-    if (tier.id === 'basic') {
-      // For free tier, continue with registration flow
-      onContinue();
-      return;
-    }
-
-    // For VIP or other paid tiers, redirect to payment (placeholder)
-    console.log('Redirecting to payment for:', tier.name);
+    // For all tiers, continue with registration flow
+    // In a real app, you might redirect to payment for paid tiers
+    onContinue();
   };
 
   const condition = false;
@@ -42,12 +37,14 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
 
         <div className='grid lg:grid-cols-3 gap-8 max-w-fit mx-auto'>
           {TICKET_TIERS.map((tier) => (
-            <div
+            <button
               key={tier.id}
-              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/5 transition-all duration-300 h-fit hover:scale-105 cursor-pointer ${
+              type='button'
+              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/5 transition-all duration-300 h-fit hover:scale-105 cursor-pointer text-left w-full ${
                 condition ? 'ring-2 ring-yellow-400 shadow-2xl' : ''
               }`}
               onClick={() => handleTierClick(tier)}
+              disabled={!tier.open}
             >
               {condition && (
                 <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
@@ -63,16 +60,12 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
                 <div className='mb-6'>
                   <span className='text-2xl font-bold text-white'>
                     {tier.currency}
-                    {tier.price}
+                    {typeof tier.price === 'number' ? tier.price.toLocaleString() : tier.price}
                   </span>
-                  {tier.originalPrice && (
-                    <div className='text-white/60 line-through text-lg mt-1'>
-                      {tier.originalPrice}
-                    </div>
-                  )}
                 </div>
 
                 <button
+                  type='button'
                   className={`py-2 px-4 rounded-full ${
                     tier.open ? 'bg-white/90' : 'bg-white/70 opacity-60 cursor-not-allowed'
                   }`}
@@ -87,24 +80,16 @@ export default function Payment({ onContinue, onTicketSelection }: PaymentProps)
               </div>
 
               <div className='mt-8 space-y-4'>
-                {tier.features.map((feature, index) => (
-                  <div key={index} className='flex items-start gap-3'>
+                {tier.features.map((feature) => (
+                  <div key={feature} className='flex items-start gap-3'>
                     <div className='w-5 h-5'>
                       <Check className='w-5 h-5 text-white' />
                     </div>
-                    <span
-                      className={`text-base ${
-                        index < (tier.id === 'basic' ? 4 : tier.id === 'gold' ? 5 : 6)
-                          ? 'text-white'
-                          : 'text-white/60 hidden'
-                      }`}
-                    >
-                      {feature}
-                    </span>
+                    <span className='text-base text-white'>{feature}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
