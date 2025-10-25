@@ -67,7 +67,7 @@ function StartupBusiness({
 
   // Flutterwave configuration - created at component level
   const flutterwaveConfig = {
-    public_key: 'FLWPUBK-006bdc82ad878f1518af32f44af6478f-X',
+    public_key: import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY,
     tx_ref: `ODS-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     amount: ticketPrice,
     currency: 'NGN',
