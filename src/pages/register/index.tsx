@@ -42,7 +42,7 @@ interface RegistrationData {
 export default function Register() {
   const [step, setStep] = useState<number>(1);
   const [registrationData, setRegistrationData] = useState<RegistrationData>({});
-  const [showTicket, setShowTicket] = useState<boolean>(false);
+  const [showTicket, setShowTicket] = useState<boolean>(true);
   // Find the selected ticket tier
   const selectedTier =
     TICKET_TIERS.find((tier) => tier.id === registrationData.selectedTicketTier) || TICKET_TIERS[0];
