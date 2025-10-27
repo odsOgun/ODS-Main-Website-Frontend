@@ -18,7 +18,7 @@ function Stepper({ steps, currentStep = 0 }: StepperProps) {
     // Only allow navigation to previous steps or current step
     if (stepIndex <= currentStepIndex) {
       // You can add navigation logic here if needed
-      console.log('Navigate to step:', stepId);
+      // console.log('Navigate to step:', stepId);
     }
   };
 

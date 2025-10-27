@@ -84,8 +84,6 @@ function Register() {
 
   // Handle data from PersonalDetails component
   const handlePersonalDetailsData = (data: PersonalDetailsData) => {
-    console.log('Personal Details Data:', data);
-
     setRegistrationData((prev) => ({
       ...prev,
       personalDetails: data
@@ -97,8 +95,6 @@ function Register() {
 
   // Handle data from TechInterest component
   const handleTechInterestData = (data: TechInterestData) => {
-    console.log('Tech Interest Data:', data);
-
     setRegistrationData((prev) => ({
       ...prev,
       techInterest: data
@@ -110,8 +106,6 @@ function Register() {
 
   // Handle data from StartupBusiness component
   const handleStartupBusinessData = (data: StartupBusinessData) => {
-    console.log('Startup Business Data:', data);
-
     setRegistrationData((prev) => {
       const updatedData = {
         ...prev,
@@ -119,20 +113,20 @@ function Register() {
       };
 
       // Format and log complete registration data in the required format
-      const finalFormattedData = {
-        fullName: updatedData.personalDetails?.fullName || '',
-        email: updatedData.personalDetails?.email || '',
-        phoneNumber: updatedData.personalDetails?.phoneNumber || '',
-        aboutYou: updatedData.personalDetails?.aboutYou || [],
-        interestLevel: updatedData.techInterest?.interestLevel || '',
-        intrestAreas: updatedData.techInterest?.intrestAreas || [],
-        ownStartup: updatedData.startupBusiness?.ownStartup || false,
-        startupName: updatedData.startupBusiness?.startupName || '',
-        hearAboutUs: updatedData.startupBusiness?.hearAboutUs || '',
-        ticketTier: updatedData.selectedTicketTier || 'basic'
-      };
+      // const finalFormattedData = {
+      //   fullName: updatedData.personalDetails?.fullName || '',
+      //   email: updatedData.personalDetails?.email || '',
+      //   phoneNumber: updatedData.personalDetails?.phoneNumber || '',
+      //   aboutYou: updatedData.personalDetails?.aboutYou || [],
+      //   interestLevel: updatedData.techInterest?.interestLevel || '',
+      //   intrestAreas: updatedData.techInterest?.intrestAreas || [],
+      //   ownStartup: updatedData.startupBusiness?.ownStartup || false,
+      //   startupName: updatedData.startupBusiness?.startupName || '',
+      //   hearAboutUs: updatedData.startupBusiness?.hearAboutUs || '',
+      //   ticketTier: updatedData.selectedTicketTier || 'basic'
+      // };
 
-      console.log('Complete Registration Data:', JSON.stringify(finalFormattedData, null, 2));
+      // console.log('Complete Registration Data:', JSON.stringify(finalFormattedData, null, 2));
 
       // Here you can submit the complete data to your API
       // submitRegistrationData(finalFormattedData);

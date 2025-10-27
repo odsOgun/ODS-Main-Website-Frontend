@@ -58,7 +58,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
     }
 
     // Reset selected areas if switching away from beginner/interested-in-learning
-    const shouldShowTechAreas = value === 'Beginner' || value === 'Intermediate';
+    const shouldShowTechAreas =
+      value === 'Beginner' || value === 'Intermediate' || value === 'Advanced';
     if (!shouldShowTechAreas) {
       setSelectedAreas([]);
       // Clear tech areas error since it's no longer applicable
@@ -68,7 +69,9 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
 
   // Check if tech areas should be shown
   const shouldShowTechAreas =
-    selectedInterest === 'Beginner' || selectedInterest === 'Intermediate';
+    selectedInterest === 'Beginner' ||
+    selectedInterest === 'Intermediate' ||
+    selectedInterest === 'Advanced';
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};

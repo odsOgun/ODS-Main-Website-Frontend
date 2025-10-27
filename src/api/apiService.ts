@@ -1,39 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosResponse, AxiosError } from 'axios';
+/** biome-ignore-all lint/suspicious/noExplicitAny: <any> */
+import axios, { type AxiosError, type AxiosResponse } from 'axios';
 
-// Base configuration
 const API_BASE_URL = 'https://ods2025.onrender.com/api/v1';
 
-// Create axios instance with default config
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  // timeout: 10000,
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: false
 });
 
-// Request interceptor for logging
+// -------------------- REQUEST INTERCEPTOR --------------------
 apiClient.interceptors.request.use(
-  (config) => {
-    return config;
-  },
+  (config) => config,
   (error) => {
-    console.error('Request Error:', error);
-    return Promise.reject(error);
+    throw error;
   }
 );
 
-// Response interceptor for logging and error handling
+// -------------------- RESPONSE INTERCEPTOR --------------------
 apiClient.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
+  (response: AxiosResponse) => response, // success → pass through
   (error: AxiosError) => {
-    console.error('API Error Response:', error);
-    return Promise.reject(error);
+    // If request never reached server → CORS / Network error
+    if (!error.response) {
+      throw {
+        status: null,
+        message: 'Network error. Check internet or CORS configuration.',
+        data: null
+      };
+    }
+
+    // Normalize backend error shape
+    throw {
+      status: error.response.status,
+      message: (error.response.data as any)?.message ?? 'Request failed. Please try again.',
+      data: error.response.data
+    };
   }
 );
+
+// -------------------- API SERVICE --------------------
 
 // API service functions
 export const apiService = {

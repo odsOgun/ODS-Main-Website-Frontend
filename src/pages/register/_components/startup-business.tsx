@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge } from '@/components/ui/badge';
 import Check from '@/components/ui/check';
 import { cn } from '@/lib/utils';
@@ -86,8 +87,23 @@ function StartupBusiness({
 
   const handleFlutterPayment = useFlutterwave(flutterwaveConfig);
 
+  // Function to map frontend ticket tier IDs to backend expected values
+  const mapTicketTierForApi = (tier: string | undefined): string => {
+    if (!tier) return 'regular';
+
+    const tierMap: Record<string, string> = {
+      basic: 'regular',
+      gold: 'silver',
+      vip: 'prime'
+    };
+
+    return tierMap[tier] || 'regular';
+  };
+
   // Function to handle API registration
-  const handleApiRegistration = async () => {
+  const handleApiRegistration = (transactionId?: string | number) => {
+    const apiTicketTier = mapTicketTierForApi(selectedTicketTier);
+
     const registrationData = {
       fullName: completeRegistrationData?.fullName || '',
       email: completeRegistrationData?.email || '',
@@ -97,36 +113,32 @@ function StartupBusiness({
       intrestAreas: completeRegistrationData?.intrestAreas || [],
       ownStartup: selectedOption === 'yes',
       startupName: selectedOption === 'yes' ? businessName : '',
-      hearAboutUs: selectedReferralSource
+      hearAboutUs: selectedReferralSource,
+      ticketTier: apiTicketTier,
+      paymentStatus: selectedTicketTier === 'basic' ? 'free' : 'success',
+      paymentType: selectedTicketTier === 'basic' ? 'free' : 'paid',
+      paymentTransactionId: transactionId ? String(transactionId) : ''
     };
 
-    const response = await apiService.attendees.register(registrationData);
-    return response;
+    return apiService.attendees.register(registrationData);
   };
 
   // Function to handle payment success
-  const handlePaymentSuccess = async () => {
+  const handlePaymentSuccess = async (transactionId?: string | number) => {
     try {
       setIsSubmitting(true);
 
-      // Call API registration after successful payment
-      const response = await handleApiRegistration();
+      // Call API registration after successful payment with payment transaction_id
+      await handleApiRegistration(transactionId);
 
-      if (response.status === 200 || response.status === 201) {
-        toast.success('Registration and payment successful!');
-        onContinue({
-          ownStartup: selectedOption === 'yes',
-          businessName: selectedOption === 'yes' ? businessName : '',
-          hearAboutUs: selectedReferralSource
-        });
-      } else {
-        toast.error('Registration failed. Please contact support.');
-      }
+      toast.success('Registration and payment successful!');
+      onContinue({
+        ownStartup: selectedOption === 'yes',
+        businessName: selectedOption === 'yes' ? businessName : '',
+        hearAboutUs: selectedReferralSource
+      });
     } catch (error: unknown) {
-      console.error('Registration error after payment:', error);
-      const errorMessage =
-        error instanceof Error ? error.message : 'Registration failed. Please contact support.';
-      toast.error(errorMessage);
+      console.log('Registration error after payment:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -206,20 +218,16 @@ function StartupBusiness({
       setIsSubmitting(true);
 
       try {
-        const response = await handleApiRegistration();
+        await handleApiRegistration();
 
-        if (response.status === 200 || response.status === 201) {
-          toast.success('Registration successful!');
-          onContinue({
-            ownStartup: selectedOption === 'yes',
-            businessName: selectedOption === 'yes' ? businessName : '',
-            hearAboutUs: selectedReferralSource
-          });
-        } else {
-          toast.error('Registration failed. Please try again.');
-        }
-      } catch (error: unknown) {
-        console.error('Registration error:', error);
+        toast.success('Registration successful!');
+        onContinue({
+          ownStartup: selectedOption === 'yes',
+          businessName: selectedOption === 'yes' ? businessName : '',
+          hearAboutUs: selectedReferralSource
+        });
+      } catch (error) {
+        console.log('Registration error:', error);
         const errorMessage =
           error instanceof Error ? error.message : 'Registration failed. Please try again.';
         toast.error(errorMessage);
@@ -230,9 +238,9 @@ function StartupBusiness({
       // For paid tickets, initiate Flutterwave payment
       handleFlutterPayment({
         callback: (response) => {
-          console.log('Payment response:', response);
-          if (response.status === 'successful') {
-            handlePaymentSuccess();
+          // console.log('Payment response:', response);
+          if (response.status === 'completed') {
+            handlePaymentSuccess(response.transaction_id);
           } else {
             toast.error('Payment was not successful. Please try again.');
           }

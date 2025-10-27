@@ -11,6 +11,7 @@ import ODSLogoMobile from '@/assets/svgs/nav/ODSLogo2.svg';
 import ArtBg from '@/assets/img/readme/artBg.png';
 import { Button } from '@/components/ui/button2';
 import { BadgeCheck, Undo2, UnfoldVertical } from 'lucide-react';
+import { Toaster } from 'sonner';
 
 // Define the types for form data
 interface PersonalDetailsData {
@@ -82,20 +83,19 @@ export default function Register() {
       };
 
       // Format and log complete registration data
-      const finalFormattedData = {
-        fullName: updatedData.personalDetails?.fullName || '',
-        email: updatedData.personalDetails?.email || '',
-        phoneNumber: updatedData.personalDetails?.phoneNumber || '',
-        aboutYou: updatedData.personalDetails?.aboutYou || [],
-        interestLevel: updatedData.techInterest?.interestLevel || '',
-        intrestAreas: updatedData.techInterest?.intrestAreas || [],
-        ownStartup: updatedData.startupBusiness?.ownStartup || false,
-        startupName: updatedData.startupBusiness?.startupName || '',
-        hearAboutUs: updatedData.startupBusiness?.hearAboutUs || '',
-        ticketTier: updatedData.selectedTicketTier || 'basic'
-      };
+      // const finalFormattedData = {
+      //   fullName: updatedData.personalDetails?.fullName || '',
+      //   email: updatedData.personalDetails?.email || '',
+      //   phoneNumber: updatedData.personalDetails?.phoneNumber || '',
+      //   aboutYou: updatedData.personalDetails?.aboutYou || [],
+      //   interestLevel: updatedData.techInterest?.interestLevel || '',
+      //   intrestAreas: updatedData.techInterest?.intrestAreas || [],
+      //   ownStartup: updatedData.startupBusiness?.ownStartup || false,
+      //   startupName: updatedData.startupBusiness?.startupName || '',
+      //   hearAboutUs: updatedData.startupBusiness?.hearAboutUs || '',
+      //   ticketTier: updatedData.selectedTicketTier || 'basic'
+      // };
 
-      console.log('Complete Registration Data:', JSON.stringify(finalFormattedData, null, 2));
       return updatedData;
     });
     setStep(5);
@@ -161,93 +161,98 @@ export default function Register() {
   };
 
   return (
-    <div className='bg-white'>
-      {step === 1 ? (
-        renderStepContent()
-      ) : (
-        <div className='h-dvh flex flex-col lg:flex-row gap-14 p-4'>
-          <div className='relative flex flex-col justify-between bg-gray-100 w-full lg:w-1/3 lg:max-w-[450px] rounded-t-[26px] lg:rounded-t-2xl rounded-2xl border border-gray-50 p-2'>
-            <Button
-              variant={'outline'}
-              size={'icon'}
-              className='absolute top-2 right-2 size-10'
-              onClick={() => setShowTicket(!showTicket)}
-            >
-              <UnfoldVertical />
-            </Button>
-            <div className='p-1 lg:p-[5%]'>
-              <Stepper steps={STEPS} currentStep={step - 1} />
-            </div>
-
-            {/* subscription details */}
-            {showTicket && (
-              <div className='justify-center bg-white border-gray-200 rounded-[8px] rounded-t-[32px] overflow-hidden mt-4'>
-                <div className='h-fit flex flex-col p-4 space-y-4'>
-                  <div className='flex justify-between items-center mb-4'>
-                    <p className='text-lg font-medium text-gray-700'>{selectedTier.name}</p>
-                    <Button
-                      variant='outline'
-                      size='sm'
-                      className='w-fit'
-                      onClick={() => setStep(1)}
-                    >
-                      <Undo2 />
-                      Change
-                    </Button>
-                  </div>
-                  <div className='flex w-full flex-row items-center justify-between gap-2'>
-                    <img src={ODSLogoMobile} alt='' />
-                    <p className='text-sm font-semibold text-gray-500'>Ogun Digital Summit 2025</p>
-                  </div>
-                  <div className='flex justify-between'>
-                    <p className='text-sm text-gray-500'>{selectedTier.name}</p>
-                    <div className='text-sm font-medium text-gray-500'>
-                      {selectedTier.price === 0
-                        ? 'NGN 0'
-                        : `${selectedTier.currency}${selectedTier.price.toLocaleString()}`}
-                    </div>
-                  </div>
-                  <div className='h-px w-full bg-gray-200' />
-                  <div className='flex justify-between'>
-                    <p className='text-sm text-gray-500'>Subtotal</p>
-                    <div className='text-sm font-medium text-gray-500'>
-                      {selectedTier.price === 0
-                        ? 'NGN 0'
-                        : `${selectedTier.currency}${selectedTier.price.toLocaleString()}`}
-                    </div>
-                  </div>
-                  <div className='flex justify-between'>
-                    <p className='font-medium text-gray-500'>Total due</p>
-                    <div className='font-medium text-gray-500'>
-                      {selectedTier.price === 0
-                        ? 'NGN 0'
-                        : `${selectedTier.currency}${selectedTier.price.toLocaleString()}`}
-                    </div>
-                  </div>
-                  <div className='flex justify-between flex-col gap-3 p-2 bg-gray-50 rounded-lg mt-4'>
-                    {selectedTier.features.map((feature) => (
-                      <div key={feature} className='flex items-center gap-2'>
-                        <BadgeCheck className='size-4 text-green-500' />
-                        <p className='text-sm text-gray-500'>{feature}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div
-                  className='min-h-20 bg-cover bg-center bg-no-repeat'
-                  style={{ backgroundImage: `url(${ArtBg})` }}
-                ></div>
+    <>
+      <Toaster />
+      <div className='bg-white'>
+        {step === 1 ? (
+          renderStepContent()
+        ) : (
+          <div className='h-dvh flex flex-col lg:flex-row gap-14 p-4'>
+            <div className='relative flex flex-col justify-between bg-gray-100 w-full lg:w-1/3 lg:max-w-[450px] rounded-t-[26px] lg:rounded-t-2xl rounded-2xl border border-gray-50 p-2'>
+              <Button
+                variant={'outline'}
+                size={'icon'}
+                className='absolute top-2 right-2 size-10'
+                onClick={() => setShowTicket(!showTicket)}
+              >
+                <UnfoldVertical />
+              </Button>
+              <div className='p-1 lg:p-[5%]'>
+                <Stepper steps={STEPS} currentStep={step - 1} />
               </div>
-            )}
-          </div>
-          <div className='lg:w-3/5'>
-            <div className={cn('w-full py-1.5 lg:max-w-[477px] mx-auto space-y-9')}>
-              <Title as='h1'>{STEPS[step - 1]?.title}</Title>
-              {renderStepContent()}
+
+              {/* subscription details */}
+              {showTicket && (
+                <div className='justify-center bg-white border-gray-200 rounded-[8px] rounded-t-[32px] overflow-hidden mt-4'>
+                  <div className='h-fit flex flex-col p-4 space-y-4'>
+                    <div className='flex justify-between items-center mb-4'>
+                      <p className='text-lg font-medium text-gray-700'>{selectedTier.name}</p>
+                      <Button
+                        variant='outline'
+                        size='sm'
+                        className='w-fit'
+                        onClick={() => setStep(1)}
+                      >
+                        <Undo2 />
+                        Change
+                      </Button>
+                    </div>
+                    <div className='flex w-full flex-row items-center justify-between gap-2'>
+                      <img src={ODSLogoMobile} alt='' />
+                      <p className='text-sm font-semibold text-gray-500'>
+                        Ogun Digital Summit 2025
+                      </p>
+                    </div>
+                    <div className='flex justify-between'>
+                      <p className='text-sm text-gray-500'>{selectedTier.name}</p>
+                      <div className='text-sm font-medium text-gray-500'>
+                        {selectedTier.price === 0
+                          ? 'NGN 0'
+                          : `${selectedTier.currency}${selectedTier.price.toLocaleString()}`}
+                      </div>
+                    </div>
+                    <div className='h-px w-full bg-gray-200' />
+                    <div className='flex justify-between'>
+                      <p className='text-sm text-gray-500'>Subtotal</p>
+                      <div className='text-sm font-medium text-gray-500'>
+                        {selectedTier.price === 0
+                          ? 'NGN 0'
+                          : `${selectedTier.currency}${selectedTier.price.toLocaleString()}`}
+                      </div>
+                    </div>
+                    <div className='flex justify-between'>
+                      <p className='font-medium text-gray-500'>Total due</p>
+                      <div className='font-medium text-gray-500'>
+                        {selectedTier.price === 0
+                          ? 'NGN 0'
+                          : `${selectedTier.currency}${selectedTier.price.toLocaleString()}`}
+                      </div>
+                    </div>
+                    <div className='flex justify-between flex-col gap-3 p-2 bg-gray-50 rounded-lg mt-4'>
+                      {selectedTier.features.map((feature) => (
+                        <div key={feature} className='flex items-center gap-2'>
+                          <BadgeCheck className='size-4 text-green-500' />
+                          <p className='text-sm text-gray-500'>{feature}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div
+                    className='min-h-20 bg-cover bg-center bg-no-repeat'
+                    style={{ backgroundImage: `url(${ArtBg})` }}
+                  ></div>
+                </div>
+              )}
+            </div>
+            <div className='lg:w-3/5'>
+              <div className={cn('w-full py-1.5 lg:max-w-[477px] mx-auto space-y-9')}>
+                <Title as='h1'>{STEPS[step - 1]?.title}</Title>
+                {renderStepContent()}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
