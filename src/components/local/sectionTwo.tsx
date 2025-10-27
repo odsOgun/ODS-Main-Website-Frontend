@@ -15,14 +15,13 @@ enum Tabs {
 
 const events = [
   {
-    day: 'Thursday',
-    date: '20th November',
-    title: 'Startup Pitch Competition',
+    day: 'Friday',
+    date: '21st November',
+    title: 'The Builders Banquet and Hangout',
     items: [
-      'Strictly by Invitation',
-      'Introduction of Startups in the ecosystem',
-      'Startups Pitch',
-      'Judges Deliberation'
+      'Explore Olumo rock with other innovators',
+      'What’s next for the ecosystem ?',
+      'Classic Dinner'
     ],
     filter: Tabs.OffConference
   },
@@ -45,13 +44,15 @@ const events = [
     date: '20th November',
     title: 'Conference Day ',
     items: [
-      'Funding for Business/Startup',
-      'Technology and Mental Health',
-      'Blockchain Opportunity for Africa',
-      'Think Local: Go Global',
-      'Free Masterclass Sessions',
-      'Announcement of Winners for Startup Competition',
-      'Demos from Partners'
+      'Showcasing innovations in our ecosystem ',
+      'Builders direction in era of AI',
+      'The Entprenrenerus Playbook',
+      'Becoming Exceptional and Future ready',
+      'Journey from 0 to 1 billion - Real story of builders',
+      'Unlocking opportunities in the creative economy ',
+      'Indepth conversation on emerging technologies Blockchain, web3 and AI.',
+      'Rethinking Agriculture in the digital era: A way to building sustainable economy ',
+      'Masterclass sessions'
     ],
     filter: Tabs.Conference
   }
@@ -106,7 +107,7 @@ const whatToLookForwardItems = [
     image: '/img/fresh-insight.png'
   },
   {
-    title: 'Free Masterclass Sessions',
+    title: 'Masterclass Sessions',
     description:
       'Gain full knowledge on growing your career globally, getting remote international gigs and also learn how to increase sales if you run a startup/business for free.',
     image: '/img/free-masterclass.png'
@@ -158,8 +159,7 @@ function SectionTwo() {
               Take a Masterclass session during Ogun Digital Summit 2025 and make a real impact.
             </h1>
             <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
-              Join our masterclass trainers to help us train young individuals at ODS. It's free and
-              we don't charge anyone for this.
+              Join our masterclass trainers to help us train young individuals at ODS.
             </p>
             <a href={Sitelinks.applyMasterclass} target='_blank'>
               <button className='bg-[#178A2D] font-semibold h-10 w-full max-w-[260px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
@@ -185,7 +185,7 @@ function SectionTwo() {
           </div>
           <div className='flex flex-col items-center justify-center my-10'>
             <CustomTabBar
-              tabs={['Conference days', 'Off conference', 'All']}
+              tabs={['Conference days', 'Off Conference', 'All']}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
@@ -218,7 +218,7 @@ function SectionTwo() {
               Why join us as a Sponsor?
             </h2>
             <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-4'>
-              With over 5,000 participants expected to grace Ogun Digital Summit 2024, we’ve got the
+              With over 5,000 participants expected to grace Ogun Digital Summit, we’ve got the
               perfect audience for you.
             </p>
             {/* <a href={Sitelinks.becomeAsponsor} target='_blank'> */}
@@ -257,11 +257,8 @@ function SectionTwo() {
                 starts here, wherever you sit in the ecosystem, you'll find the insights,
                 inspiration and connections that you need to thrive.
               </p>
-              <a href={Sitelinks.register}>
-                <button
-                  className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
-                  // onClick={onOpenComingModal}
-                >
+              <a href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO' target='_blank'>
+                <button className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'>
                   <span className='text-sm font-semibold'>Register</span>
                   <ArrowRight />
                 </button>

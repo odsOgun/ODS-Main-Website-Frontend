@@ -5,28 +5,34 @@ export interface CustomTabBarProps {
 }
 
 function CustomTabBar({ tabs, activeTab, setActiveTab }: CustomTabBarProps) {
-  const md = window.matchMedia('1200px');
-
   return (
-    <div className='bg-[#F7F8F8] md:w-[550px] w-full h-[45px] rounded-xl flex relative'>
-      {tabs.map((tab, index) => (
-        <button
-          key={index}
-          onClick={() => setActiveTab(index)}
-          className={`font-semibold text-xs md:text-base tracking-[0.2px] basis-1/3 text-[#627587]`}
-        >
-          {tab}
-        </button>
-      ))}
-      <button
-        className='md:w-[calc(550px/3)] w-[calc(100%/3)] h-[45px] bg-[#FA6C20] absolute rounded-xl text-white font-semibold text-xs md:text-base'
+    <div className='bg-[#F7F8F8] md:w-[550px] w-full h-[45px] rounded-xl flex relative overflow-hidden'>
+      {/* Active tab highlight */}
+      <div
+        className='absolute top-0 h-[45px] bg-[#FA6C20] rounded-xl transition-all duration-300'
         style={{
-          left: md ? `calc(100%/3 * ${activeTab})` : `calc(550px/3 * ${activeTab})`,
-          transition: 'left 0.3s ease-in-out'
+          width: `calc(100% / ${tabs.length})`,
+          left: `calc((100% / ${tabs.length}) * ${activeTab})`
         }}
-      >
-        {tabs[activeTab]}
-      </button>
+      />
+
+      {tabs.map((tab, index) => {
+        const isActive = activeTab === index;
+        return (
+          <button
+            key={index}
+            onClick={() => setActiveTab(index)}
+            className={`
+              flex-1 z-10 font-semibold tracking-[0.2px]
+              text-xs md:text-base transition-all duration-300
+              ${isActive ? 'text-white' : 'text-[#627587]'}
+              whitespace-normal text-center px-1
+            `}
+          >
+            {tab}
+          </button>
+        );
+      })}
     </div>
   );
 }

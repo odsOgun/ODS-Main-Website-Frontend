@@ -26,7 +26,7 @@ const ContectTrack = () => {
       bg: '#EAEAEA'
     },
     {
-      title: 'The Creative Economy',
+      title: 'Policy and Governance',
       icon: '/img/economy.png',
       bg: '#E8E8FF'
     },
@@ -44,8 +44,8 @@ const ContectTrack = () => {
             Content Tracks
           </h2>
           <p className='text-[14px] font-normal inter-gf tracking-[0.2px] leading-[22px] text-[#627587] mt-4 mb-10 text-center'>
-            We are not limited to a topic, listen to industry experts talk across these topics and
-            gain unreplaceable insights
+            Your chance to hear directly from industry experts across different sectors shaping the
+            world tech economy and gain irreplaceable insights
           </p>
         </div>
         <div className='flex flex-wrap gap-9 items-center justify-center'>
@@ -58,10 +58,7 @@ const ContectTrack = () => {
               <img src={track.icon} alt={track.title} className='mb-2' />
               <h3 className='text-[12px] font-semibold text-[#23323F]'>{track.title}</h3>
             </div>
-          ))}   
-
-
-
+          ))}
         </div>
       </div>
     </div>

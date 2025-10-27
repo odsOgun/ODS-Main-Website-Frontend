@@ -45,7 +45,6 @@ function Nav() {
   ];
 
   const [navState, setNavState] = useState<boolean>(false);
-
   return (
     <nav className={` flex items-center justify-center w-full`}>
       <div
@@ -87,17 +86,14 @@ function Nav() {
             return null;
           })}
         </div>
-
-        <a href={Sitelinks.register}>
-          <button
-            className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] px-3 max-md:hidden'
-            // onClick={openComingModal}
-          >
-            <span className='text-sm font-semibold'>Register</span>
-            <ArrowRight />
-          </button>
+        <a
+          href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO'
+          target='_blank'
+          className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] px-3 max-md:hidden'
+        >
+          <span className='text-sm font-semibold'>Register</span>
+          <ArrowRight />
         </a>
-
         {/* mobile */}
         <div onClick={() => setNavState(!navState)}>
           <img src={MenuSvg} className='cursor-pointer md:hidden' alt='Hamburger' />
@@ -154,14 +150,13 @@ function Nav() {
             })}
           </div>
           <div className='flex flex-col items-center gap-6 mt-6'>
-            <a href={Sitelinks.register} className='w-full'>
-              <button
-                className='bg-[#178A2D] font-semibold h-10 w-full rounded flex justify-center items-center tracking-[0.2px] text-white'
-                // onClick={openComingModal}
-              >
-                <span className='text-sm font-semibold'>Register</span>
-                <ArrowRight />
-              </button>
+            <a
+              href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO'
+              target='_blank'
+              className='bg-[#178A2D] font-semibold h-10 w-full rounded flex justify-center items-center tracking-[0.2px] text-white'
+            >
+              <span className='text-sm font-semibold'>Register</span>
+              <ArrowRight />
             </a>
             <a href={Sitelinks.becomeAsponsor} target='_blank' className='w-full'>
               <button className='w-full rounded-[2px] h-6 bg-white flex justify-center items-center gap-2'>
