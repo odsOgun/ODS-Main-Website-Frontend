@@ -12,7 +12,7 @@ import Modal from '@/components/modal';
 import SucessModal from '@/components/form/sucessModal';
 import ComingSoon from '@/components/comingModal';
 
-function HomePage() {
+function Home() {
   const [showSponsorModal, setShowSponsorModal] = useState(false);
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
@@ -32,7 +32,9 @@ function HomePage() {
       <div className='container max-md:px-5'>
         <Nav />
       </div>
-      <Hero />
+      <Hero
+      // onOpenComingModal={openComingModal}
+      />
       <SectionOne />
       <SectionTwo
       // onOpenSponsorModal={openSponsorModal}
@@ -67,4 +69,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Home;

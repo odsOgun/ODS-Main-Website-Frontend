@@ -69,7 +69,6 @@ import Statistics from './pages/statistics.tsx';
 import Exhibitors from './pages/register/exhibitors.tsx';
 import Sponsors from './pages/register/sponsors.tsx';
 import Applicants from './pages/applicants.tsx';
-// import HomePage from './pages/HomePage.tsx';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import Register from './pages/register/index.tsx';
 
@@ -79,11 +78,6 @@ const router = createBrowserRouter([
     element: <Home />,
     errorElement: <ErrorPage />
   },
-  // {
-  //   path: '/home',
-  //   element: <HomePage />,
-  //   errorElement: <ErrorPage />
-  // },
   {
     path: '/about',
     element: <About />,

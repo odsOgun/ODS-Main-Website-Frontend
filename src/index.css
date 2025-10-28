@@ -69,18 +69,6 @@
   }
 }
 
-.animate-scroll {
-  animation: scroll 20s steps(1) infinite;
-  transition: scroll 2s ease-in-out;
-}
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 .shadow-1 {
   box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
