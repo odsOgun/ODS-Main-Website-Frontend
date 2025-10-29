@@ -18,8 +18,9 @@ interface PersonalDetailsData {
   fullName: string;
   email: string;
   phoneNumber: string;
-  aboutYou: string[];
-  schoolCompany?: string;
+  jobRole: string;
+  schoolCompany: string;
+  isNyscCorpMember?: boolean;
 }
 
 interface TechInterestData {
@@ -83,18 +84,12 @@ export default function Register() {
       };
 
       // Format and log complete registration data
-      // const finalFormattedData = {
-      //   fullName: updatedData.personalDetails?.fullName || '',
-      //   email: updatedData.personalDetails?.email || '',
-      //   phoneNumber: updatedData.personalDetails?.phoneNumber || '',
-      //   aboutYou: updatedData.personalDetails?.aboutYou || [],
-      //   interestLevel: updatedData.techInterest?.interestLevel || '',
-      //   intrestAreas: updatedData.techInterest?.intrestAreas || [],
-      //   ownStartup: updatedData.startupBusiness?.ownStartup || false,
-      //   startupName: updatedData.startupBusiness?.startupName || '',
-      //   hearAboutUs: updatedData.startupBusiness?.hearAboutUs || '',
-      //   ticketTier: updatedData.selectedTicketTier || 'basic'
-      // };
+      console.log('Complete Registration Data:', {
+        ...updatedData.personalDetails,
+        ...updatedData.techInterest,
+        ...updatedData.startupBusiness,
+        ticketTier: updatedData.selectedTicketTier
+      });
 
       return updatedData;
     });
@@ -125,7 +120,9 @@ export default function Register() {
               fullName: registrationData.personalDetails?.fullName || '',
               email: registrationData.personalDetails?.email || '',
               phoneNumber: registrationData.personalDetails?.phoneNumber || '',
-              aboutYou: registrationData.personalDetails?.aboutYou || [],
+              jobRole: registrationData.personalDetails?.jobRole || '',
+              schoolCompany: registrationData.personalDetails?.schoolCompany || '',
+              isNyscCorpMember: registrationData.personalDetails?.isNyscCorpMember,
               interestLevel: registrationData.techInterest?.interestLevel || '',
               interestAreas: registrationData.techInterest?.interestAreas || []
             }}

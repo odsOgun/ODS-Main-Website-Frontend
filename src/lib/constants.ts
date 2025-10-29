@@ -89,8 +89,7 @@ export const REFERRAL_SOURCE_OPTIONS = [
   'Grazac',
   'Billboard',
   'Radio station',
-  'Friends',
-  'Other'
+  'Friends'
 ] as const;
 
 export type ReferralSourceOption = (typeof REFERRAL_SOURCE_OPTIONS)[number];
@@ -110,17 +109,17 @@ export interface TicketTier {
 export const TICKET_TIERS: TicketTier[] = [
   {
     id: 'basic',
-    name: 'General Attendee',
+    name: 'Regular Attendee',
     price: 0,
     currency: '₦',
     open: true,
     cta: 'Get ticket for free',
     popular: false,
-    features: ['Access to main conference', 'Access to Exhibition Booth']
+    features: ['Access to main conference', 'Access to Exhibition Booths']
   },
   {
     id: 'gold',
-    name: 'Masterclass',
+    name: 'Silver Attendee',
     price: 10000,
     currency: '₦',
     originalPrice: 20000,
@@ -139,7 +138,7 @@ export const TICKET_TIERS: TicketTier[] = [
   },
   {
     id: 'vip',
-    name: 'Prime Ticket',
+    name: 'Prime Attendee',
     price: 55000,
     currency: '₦',
     originalPrice: 70000,

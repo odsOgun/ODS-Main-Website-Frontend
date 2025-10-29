@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge } from '@/components/ui/badge';
 import Check from '@/components/ui/check';
 import { cn } from '@/lib/utils';
@@ -20,7 +19,7 @@ import {
 
 interface StartupBusinessData {
   ownStartup: boolean;
-  businessName?: string;
+  startupName?: string;
   hearAboutUs: string;
 }
 
@@ -32,16 +31,19 @@ interface StartupBusinessProps {
     fullName: string;
     email: string;
     phoneNumber: string;
-    aboutYou: string[];
+    jobRole: string;
+    schoolCompany: string;
+    isNyscCorpMember?: boolean;
     interestLevel: string;
-    interestAreas: string[];
+    interestAreas?: string[];
   };
 }
 
 interface FormErrors {
   ownStartup?: string;
-  businessName?: string;
+  startupName?: string;
   hearAboutUs?: string;
+  otherReferralSource?: string;
 }
 
 function StartupBusiness({
@@ -56,11 +58,13 @@ function StartupBusiness({
   const [selectedReferralSource, setSelectedReferralSource] = useState<string>(
     initialData?.hearAboutUs || ''
   );
-  const [businessName, setBusinessName] = useState<string>(initialData?.businessName || '');
+  const [startupName, setStartupName] = useState<string>(initialData?.startupName || '');
+  const [otherReferralSource, setOtherReferralSource] = useState<string>('');
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const startupBusinessId = useId();
-  const businessNameId = useId();
+  const startupNameId = useId();
+  const otherReferralId = useId();
 
   // Get ticket details for payment
   const ticketDetails = TICKET_TIERS.find((tier) => tier.id === selectedTicketTier);
@@ -79,9 +83,9 @@ function StartupBusiness({
       name: completeRegistrationData?.fullName || ''
     },
     customizations: {
-      title: 'ODS Conference Registration',
-      description: `Payment for ${ticketDetails?.name || 'ODS Conference'} ticket`,
-      logo: 'https://your-logo-url.com/logo.png' // Replace with your actual logo URL
+      title: 'Registration for Ogun Digital Summit 2025',
+      description: `Payment for ${ticketDetails?.name || 'ODS 2025'} ticket`,
+      logo: 'https://res.cloudinary.com/dbmvwrk56/image/upload/v1761758626/Layer_2_mh45id.png'
     }
   };
 
@@ -104,22 +108,29 @@ function StartupBusiness({
   const handleApiRegistration = (transactionId?: string | number) => {
     const apiTicketTier = mapTicketTierForApi(selectedTicketTier);
 
+    // Use custom referral source if "Others" is selected, otherwise use the selected option
+    const finalHearAboutUs =
+      selectedReferralSource === 'others' ? otherReferralSource.trim() : selectedReferralSource;
+
     const registrationData = {
       fullName: completeRegistrationData?.fullName || '',
       email: completeRegistrationData?.email || '',
       phoneNumber: completeRegistrationData?.phoneNumber || '',
-      aboutYou: completeRegistrationData?.aboutYou || [],
+      jobRole: completeRegistrationData?.jobRole || '',
+      schoolCompany: completeRegistrationData?.schoolCompany || '',
+      isNyscCorpMember: completeRegistrationData?.isNyscCorpMember || false,
       interestLevel: completeRegistrationData?.interestLevel || '',
       interestAreas: completeRegistrationData?.interestAreas || [],
       ownStartup: selectedOption === 'yes',
-      startupName: selectedOption === 'yes' ? businessName : '',
-      hearAboutUs: selectedReferralSource,
+      startupName: selectedOption === 'yes' ? startupName : '',
+      hearAboutUs: finalHearAboutUs,
       ticketTier: apiTicketTier,
       paymentStatus: selectedTicketTier === 'basic' ? 'success' : 'success',
       paymentType: selectedTicketTier === 'basic' ? 'free' : 'paid',
       paymentTransactionId: transactionId ? String(transactionId) : ''
     };
 
+    console.log('Sending registration data:', registrationData);
     return apiService.attendees.register(registrationData);
   };
 
@@ -128,17 +139,20 @@ function StartupBusiness({
     try {
       setIsSubmitting(true);
 
-      // Call API registration after successful payment with payment transaction_id
       await handleApiRegistration(transactionId);
 
       toast.success('Registration and payment successful!');
       onContinue({
         ownStartup: selectedOption === 'yes',
-        businessName: selectedOption === 'yes' ? businessName : '',
-        hearAboutUs: selectedReferralSource
+        startupName: selectedOption === 'yes' ? startupName : '',
+        hearAboutUs:
+          selectedReferralSource === 'others' ? otherReferralSource.trim() : selectedReferralSource
       });
     } catch (error: unknown) {
       console.log('Registration error after payment:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Registration failed. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -147,40 +161,58 @@ function StartupBusiness({
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
 
-    // Clear business ownership error when user makes selection
     if (errors.ownStartup) {
       setErrors((prev) => ({ ...prev, ownStartup: undefined }));
     }
 
-    // Reset business name if switching to "no"
     if (option === 'no') {
-      setBusinessName('');
-      // Clear business name error since it's no longer applicable
-      setErrors((prev) => ({ ...prev, businessName: undefined }));
+      setStartupName('');
+      setErrors((prev) => ({ ...prev, startupName: undefined }));
     }
   };
 
   const handleReferralSourceChange = (value: string) => {
     setSelectedReferralSource(value);
 
-    // Clear referral source error when user makes selection
+    // Clear other referral source when switching away from "others"
+    if (value !== 'others') {
+      setOtherReferralSource('');
+      setErrors((prev) => ({ ...prev, otherReferralSource: undefined }));
+    }
+
     if (errors.hearAboutUs) {
       setErrors((prev) => ({ ...prev, hearAboutUs: undefined }));
     }
   };
 
-  const handleBusinessNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStartupNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setBusinessName(value);
+    setStartupName(value);
 
-    // Clear business name error when user starts typing
-    if (errors.businessName && value.trim()) {
-      setErrors((prev) => ({ ...prev, businessName: undefined }));
+    if (errors.startupName && value.trim()) {
+      setErrors((prev) => ({ ...prev, startupName: undefined }));
     }
   };
 
-  // Check if business name field should be shown
-  const shouldShowBusinessName = selectedOption === 'yes';
+  const handleOtherReferralChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setOtherReferralSource(value);
+
+    if (errors.otherReferralSource && value.trim()) {
+      setErrors((prev) => ({ ...prev, otherReferralSource: undefined }));
+    }
+
+    // Clear hearAboutUs error when user starts typing in other referral
+    if (value.trim() && errors.hearAboutUs) {
+      setErrors((prev) => ({ ...prev, hearAboutUs: undefined }));
+    }
+  };
+
+  // Check if startup name field should be shown
+  const shouldShowStartupName = selectedOption === 'yes';
+
+  // Check if other referral input should be shown
+  const shouldShowOtherReferral = selectedReferralSource === 'others';
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -190,16 +222,21 @@ function StartupBusiness({
       newErrors.ownStartup = 'Please select whether you own a business/startup';
     }
 
-    // Validate business name if required
-    if (shouldShowBusinessName && !businessName.trim()) {
-      newErrors.businessName = 'Business name is required';
-    } else if (shouldShowBusinessName && businessName.trim().length < 2) {
-      newErrors.businessName = 'Business name must be at least 2 characters';
+    // Validate startup name if required
+    if (shouldShowStartupName && !startupName.trim()) {
+      newErrors.startupName = 'Startup name is required';
+    } else if (shouldShowStartupName && startupName.trim().length < 2) {
+      newErrors.startupName = 'Startup name must be at least 2 characters';
     }
 
     // Validate referral source
     if (!selectedReferralSource) {
       newErrors.hearAboutUs = 'Please select how you heard about us';
+    }
+
+    // Validate other referral source if "Others" is selected
+    if (shouldShowOtherReferral && !otherReferralSource.trim()) {
+      newErrors.otherReferralSource = 'Please specify how you heard about us';
     }
 
     setErrors(newErrors);
@@ -223,8 +260,11 @@ function StartupBusiness({
         toast.success('Registration successful!');
         onContinue({
           ownStartup: selectedOption === 'yes',
-          businessName: selectedOption === 'yes' ? businessName : '',
-          hearAboutUs: selectedReferralSource
+          startupName: selectedOption === 'yes' ? startupName : '',
+          hearAboutUs:
+            selectedReferralSource === 'others'
+              ? otherReferralSource.trim()
+              : selectedReferralSource
         });
       } catch (error) {
         console.log('Registration error:', error);
@@ -238,7 +278,6 @@ function StartupBusiness({
       // For paid tickets, initiate Flutterwave payment
       handleFlutterPayment({
         callback: (response) => {
-          // console.log('Payment response:', response);
           if (response.status === 'completed') {
             handlePaymentSuccess(response.transaction_id);
           } else {
@@ -266,80 +305,143 @@ function StartupBusiness({
 
   return (
     <div className='w-full'>
-      <form className='space-y-4' onSubmit={handleSubmit}>
+      <form className='space-y-6' onSubmit={handleSubmit}>
         <div>
-          <label htmlFor={startupBusinessId} className='text-sm mb-2 text-gray-1 block'>
+          <label htmlFor={startupBusinessId} className='text-sm mb-3 text-gray-1 block font-medium'>
             Do you own a business/startup?
           </label>
-          <div className='flex flex-wrap gap-2'>
+          <div className='flex flex-wrap gap-3'>
             {STARTUP_BUSINESS_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 type='button'
                 onClick={() => handleOptionChange(option.value)}
+                className='transition-transform hover:scale-105 active:scale-95'
               >
                 <Badge
                   variant='outline'
                   className={cn(
-                    'cursor-pointer !border h-[35px] transition-all py-2 pl-2 pr-3 duration-200 rounded-full text-sm font-normal text-gray-0 items-center gap-2',
-                    selectedOption === option.value ? '!border-gray-0' : 'border-gray-2',
+                    'cursor-pointer !border h-[42px] transition-all py-3 pl-3 pr-4 duration-200 rounded-full text-sm font-normal items-center gap-3',
+                    selectedOption === option.value
+                      ? '!border-gray-0 bg-gray-50 text-gray-0 shadow-sm'
+                      : 'border-gray-2 text-gray-1 hover:text-gray-0 hover:border-gray-1',
                     errors.ownStartup && 'border-red-500'
                   )}
                 >
-                  <div className='flex items-center justify-center gap-2 size-4 rounded-full border border-gray-1'>
-                    <Check isChecked={selectedOption === option.value} className='size-2.5' />
+                  <div
+                    className={cn(
+                      'flex items-center justify-center size-5 rounded-full border transition-colors',
+                      selectedOption === option.value ? 'border-gray-0 bg-gray-0' : 'border-gray-1'
+                    )}
+                  >
+                    <Check
+                      isChecked={selectedOption === option.value}
+                      className={cn(
+                        'size-3 transition-colors',
+                        selectedOption === option.value ? 'text-white' : 'text-transparent'
+                      )}
+                    />
                   </div>
                   {option.label}
                 </Badge>
               </button>
             ))}
           </div>
-          {errors.ownStartup && <p className='text-red-500 text-xs mt-1'>{errors.ownStartup}</p>}
+          {errors.ownStartup && (
+            <p className='text-red-500 text-xs mt-2 font-medium'>{errors.ownStartup}</p>
+          )}
         </div>
 
-        {/* Conditional Business Name field */}
-        {shouldShowBusinessName && (
-          <div>
-            <label htmlFor={businessNameId} className='text-sm mb-2 text-gray-1 block'>
+        {/* Conditional Startup Name field */}
+        {shouldShowStartupName && (
+          <div className='animate-in fade-in duration-300'>
+            <label htmlFor={startupNameId} className='text-sm mb-3 text-gray-1 block font-medium'>
               What&apos;s your business/startup name?
             </label>
             <Input
-              id={businessNameId}
-              name='business-name'
-              placeholder='Enter your business name'
-              value={businessName}
-              onChange={handleBusinessNameChange}
-              className={cn(errors.businessName && 'border-red-500')}
+              id={startupNameId}
+              name='startup-name'
+              placeholder='Enter your startup name'
+              value={startupName}
+              onChange={handleStartupNameChange}
+              className={cn(
+                'w-full transition-colors duration-200',
+                errors.startupName && 'border-red-500 focus:border-red-500'
+              )}
             />
-            {errors.businessName && (
-              <p className='text-red-500 text-xs mt-1'>{errors.businessName}</p>
+            {errors.startupName && (
+              <p className='text-red-500 text-xs mt-2 font-medium'>{errors.startupName}</p>
             )}
           </div>
         )}
 
         <div>
-          <label htmlFor='referral-source' className='text-sm mb-2 text-gray-1 block'>
+          <label htmlFor='referral-source' className='text-sm mb-3 text-gray-1 block font-medium'>
             How did you hear about us?
           </label>
           <Select value={selectedReferralSource} onValueChange={handleReferralSourceChange}>
-            <SelectTrigger className={cn('w-full', errors.hearAboutUs && 'border-red-500')}>
+            <SelectTrigger
+              className={cn(
+                'w-full transition-colors duration-200',
+                errors.hearAboutUs && !shouldShowOtherReferral && 'border-red-500'
+              )}
+            >
               <SelectValue placeholder='Select how you heard about us' />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {REFERRAL_SOURCE_OPTIONS.map((option) => (
-                  <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
+                {[...REFERRAL_SOURCE_OPTIONS, 'Others'].map((option) => (
+                  <SelectItem
+                    key={option}
+                    value={option.toLowerCase().replace(/\s+/g, '-')}
+                    className='transition-colors duration-150'
+                  >
                     {option}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors.hearAboutUs && <p className='text-red-500 text-xs mt-1'>{errors.hearAboutUs}</p>}
+
+          {/* Other Referral Source Input */}
+          {shouldShowOtherReferral && (
+            <div className='mt-4 animate-in fade-in duration-300'>
+              <label htmlFor={otherReferralId} className='text-sm mb-2 text-gray-1 block'>
+                Please specify
+              </label>
+              <Input
+                id={otherReferralId}
+                name='other-referral'
+                placeholder='Tell us how you heard about us...'
+                value={otherReferralSource}
+                onChange={handleOtherReferralChange}
+                className={cn(
+                  'w-full transition-colors duration-200',
+                  errors.otherReferralSource && 'border-red-500 focus:border-red-500'
+                )}
+              />
+              {errors.otherReferralSource && (
+                <p className='text-red-500 text-xs mt-2 font-medium'>
+                  {errors.otherReferralSource}
+                </p>
+              )}
+              <p className='text-xs text-gray-1 mt-2'>
+                Let us know where you discovered Ogun Digital Summit
+              </p>
+            </div>
+          )}
+
+          {errors.hearAboutUs && !shouldShowOtherReferral && (
+            <p className='text-red-500 text-xs mt-2 font-medium'>{errors.hearAboutUs}</p>
+          )}
         </div>
 
-        <div className='flex justify-between mt-10'>
-          <Button type='submit' className='w-fit' disabled={isSubmitting}>
+        <div className='flex justify-between pt-6'>
+          <Button
+            type='submit'
+            className='w-fit px-8 py-3 text-base font-medium transition-all duration-200 hover:scale-105 active:scale-95'
+            disabled={isSubmitting}
+          >
             {getButtonText()}
           </Button>
         </div>

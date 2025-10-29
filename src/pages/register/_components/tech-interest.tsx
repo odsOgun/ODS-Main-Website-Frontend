@@ -10,6 +10,7 @@ import {
 import { TECH_INTEREST_OPTIONS, TECH_AREAS } from '@/lib/constants';
 import { Button } from '@/components/ui/button2';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input2';
 import { Check, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -26,6 +27,7 @@ interface TechInterestProps {
 interface FormErrors {
   interestLevel?: string;
   interestAreas?: string;
+  otherArea?: string;
 }
 
 export default function TechInterest({ onContinue, initialData }: TechInterestProps) {
@@ -33,6 +35,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
     initialData?.interestLevel || ''
   );
   const [selectedAreas, setSelectedAreas] = useState<string[]>(initialData?.interestAreas || []);
+  const [showOtherInput, setShowOtherInput] = useState<boolean>(false);
+  const [otherArea, setOtherArea] = useState<string>('');
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -45,8 +49,37 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
         setErrors((prev) => ({ ...prev, interestAreas: undefined }));
       }
 
+      // If "Others" was selected and user selects another area, hide other input
+      if (area === 'Others' && !newAreas.includes('Others')) {
+        setShowOtherInput(false);
+        setOtherArea('');
+        if (errors.otherArea) {
+          setErrors((prev) => ({ ...prev, otherArea: undefined }));
+        }
+      }
+
       return newAreas;
     });
+
+    // Show input when "Others" is selected
+    if (area === 'Others' && !selectedAreas.includes('Others')) {
+      setShowOtherInput(true);
+    }
+  };
+
+  const handleOtherAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setOtherArea(value);
+
+    // Clear other area error when user starts typing
+    if (errors.otherArea) {
+      setErrors((prev) => ({ ...prev, otherArea: undefined }));
+    }
+
+    // Clear interest areas error if we have content in other area
+    if (value.trim() && errors.interestAreas) {
+      setErrors((prev) => ({ ...prev, interestAreas: undefined }));
+    }
   };
 
   const handleInterestChange = (value: string) => {
@@ -57,20 +90,19 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
       setErrors((prev) => ({ ...prev, interestLevel: undefined }));
     }
 
-    // Reset selected areas if switching away from beginner/interested-in-learning
-    const shouldShowTechAreas =
-      value === 'NotInterested' || value === 'Interested' || value === 'Expert';
+    // Reset selected areas if switching away from interested/expert
+    const shouldShowTechAreas = value === 'Interested' || value === 'Expert';
     if (!shouldShowTechAreas) {
       setSelectedAreas([]);
+      setShowOtherInput(false);
+      setOtherArea('');
       // Clear tech areas error since it's no longer applicable
-      setErrors((prev) => ({ ...prev, interestAreas: undefined }));
+      setErrors((prev) => ({ ...prev, interestAreas: undefined, otherArea: undefined }));
     }
   };
 
   // Check if tech areas should be shown
-  const shouldShowTechAreas =
-    // selectedInterest === 'NotInterested' ||
-    selectedInterest === 'Interested' || selectedInterest === 'Expert';
+  const shouldShowTechAreas = selectedInterest === 'Interested' || selectedInterest === 'Expert';
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -81,8 +113,18 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
     }
 
     // Validate tech areas if they should be shown
-    if (shouldShowTechAreas && selectedAreas.length === 0) {
-      newErrors.interestAreas = 'Please select at least one area that excites you';
+    if (shouldShowTechAreas) {
+      const hasSelectedAreas = selectedAreas.length > 0;
+      const hasOtherArea = selectedAreas.includes('Others') && otherArea.trim();
+
+      if (!hasSelectedAreas && !hasOtherArea) {
+        newErrors.interestAreas = 'Please select at least one area that excites you';
+      }
+
+      // Validate other area input if "Others" is selected
+      if (selectedAreas.includes('Others') && !otherArea.trim()) {
+        newErrors.otherArea = 'Please specify your area of interest';
+      }
     }
 
     setErrors(newErrors);
@@ -99,12 +141,21 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
     setIsSubmitting(true);
 
     try {
-      // Simulate API call delay (remove in real implementation)
-      // await new Promise((resolve) => setTimeout(resolve, 500));
+      // Prepare interest areas array
+      let finalInterestAreas: string[] = [];
+
+      // Add selected areas (excluding "Others" if no input provided)
+      const areasWithoutOthers = selectedAreas.filter((area) => area !== 'Others');
+      finalInterestAreas = [...areasWithoutOthers];
+
+      // Add other area if provided
+      if (selectedAreas.includes('Others') && otherArea.trim()) {
+        finalInterestAreas.push(otherArea.trim());
+      }
 
       const techInterestData: TechInterestData = {
         interestLevel: selectedInterest,
-        ...(shouldShowTechAreas && { interestAreas: selectedAreas })
+        ...(shouldShowTechAreas && { interestAreas: finalInterestAreas })
       };
 
       console.log('Tech Interest Data:', techInterestData);
@@ -112,7 +163,6 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
       onContinue(techInterestData);
     } catch (error) {
       console.error('Error submitting tech interest form:', error);
-      // Handle submission error here
     } finally {
       setIsSubmitting(false);
     }
@@ -132,8 +182,7 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
             <SelectContent>
               <SelectGroup>
                 {TECH_INTEREST_OPTIONS.map((option) => (
-                  // <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
-                  <SelectItem key={option.value} value={option.label}>
+                  <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
                 ))}
@@ -150,23 +199,27 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
           <div>
             <label className='text-sm mb-2 text-gray-1 block'>Which areas excite you?</label>
             <div className='flex flex-wrap gap-2 mt-3'>
-              {TECH_AREAS.map((area) => {
+              {[...TECH_AREAS, 'Others'].map((area) => {
                 const isSelected = selectedAreas.includes(area);
                 return (
                   <button
                     type='button'
                     key={area}
                     className={cn(
-                      'border rounded-full',
-                      isSelected ? '!border-gray-0' : 'border-transparent'
+                      'border rounded-full transition-all duration-200',
+                      isSelected
+                        ? '!border-gray-0 shadow-sm'
+                        : 'border-transparent hover:border-gray-2'
                     )}
                     onClick={() => toggleArea(area)}
                   >
                     <Badge
                       variant='outline'
                       className={cn(
-                        'cursor-pointer !border h-[35px] transition-all py-2 px-4 duration-200 rounded-full text-sm font-normal text-gray-0',
-                        isSelected ? '!border-gray-0' : 'border-gray-2'
+                        'cursor-pointer !border h-[35px] transition-all py-2 px-4 duration-200 rounded-full text-sm font-normal',
+                        isSelected
+                          ? '!border-gray-0 bg-gray-50 text-gray-0'
+                          : 'border-gray-2 text-gray-1 hover:text-gray-0 hover:border-gray-1'
                       )}
                     >
                       {area}
@@ -178,7 +231,31 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
                 );
               })}
             </div>
-            {errors.interestAreas && (
+
+            {/* Other Area Input */}
+            {showOtherInput && (
+              <div className='mt-4 animate-in fade-in duration-300'>
+                <label htmlFor='other-area' className='text-sm mb-2 text-gray-1 block'>
+                  Specify your area of interest
+                </label>
+                <Input
+                  id='other-area'
+                  name='otherArea'
+                  placeholder='Enter your specific area of interest...'
+                  value={otherArea}
+                  onChange={handleOtherAreaChange}
+                  className={cn('w-full', errors.otherArea && 'border-red-500')}
+                />
+                {errors.otherArea && (
+                  <p className='text-red-500 text-xs mt-1'>{errors.otherArea}</p>
+                )}
+                <p className='text-xs text-gray-1 mt-1'>
+                  Tell us about a specific tech area that excites you
+                </p>
+              </div>
+            )}
+
+            {errors.interestAreas && !showOtherInput && (
               <p className='text-red-500 text-xs mt-1'>{errors.interestAreas}</p>
             )}
           </div>

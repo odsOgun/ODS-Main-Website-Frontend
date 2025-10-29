@@ -1,17 +1,15 @@
 import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input2';
 import { cn } from '@/lib/utils';
-import { DESCRIPTIONS } from '@/lib/constants';
-import { Check, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button2';
 
 interface PersonalDetailsData {
   fullName: string;
   email: string;
   phoneNumber: string;
-  aboutYou: string[];
-  schoolCompany?: string;
+  jobRole: string;
+  schoolCompany: string;
+  isNyscCorpMember?: boolean;
 }
 
 interface PersonalDetailsProps {
@@ -22,35 +20,22 @@ interface FormErrors {
   fullName?: string;
   email?: string;
   phoneNumber?: string;
-  aboutYou?: string;
+  jobRole?: string;
   schoolCompany?: string;
+  isNyscCorpMember?: string;
 }
 
 export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
-  const [selectedDescriptions, setSelectedDescriptions] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phoneNumber: '',
-    schoolCompany: ''
+    jobRole: '',
+    schoolCompany: '',
+    isNyscCorpMember: undefined as boolean | undefined
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const toggleDescription = (description: string) => {
-    setSelectedDescriptions((prev) => {
-      const newDescriptions = prev.includes(description)
-        ? prev.filter((d) => d !== description)
-        : [...prev, description];
-
-      // Clear descriptions error when user selects at least one
-      if (newDescriptions.length > 0 && errors.aboutYou) {
-        setErrors((prev) => ({ ...prev, aboutYou: undefined }));
-      }
-
-      return newDescriptions;
-    });
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,10 +47,14 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
     }
   };
 
-  // Check if school/company field should be shown
-  const shouldShowSchoolCompany = selectedDescriptions.some(
-    (desc) => desc === 'Student' || desc === 'Software engineer'
-  );
+  const handleNyscSelection = (isNyscMember: boolean) => {
+    setFormData((prev) => ({ ...prev, isNyscCorpMember: isNyscMember }));
+
+    // Clear NYSC error when user makes selection
+    if (errors.isNyscCorpMember) {
+      setErrors((prev) => ({ ...prev, isNyscCorpMember: undefined }));
+    }
+  };
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -96,14 +85,19 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
       newErrors.phoneNumber = 'Phone number must be at least 10 characters';
     }
 
-    // Validate descriptions
-    if (selectedDescriptions.length === 0) {
-      newErrors.aboutYou = 'Please select at least one description';
+    // Validate job role
+    if (!formData.jobRole.trim()) {
+      newErrors.jobRole = 'Job role is required';
     }
 
-    // Validate school/company if shown
-    if (shouldShowSchoolCompany && !formData.schoolCompany.trim()) {
-      newErrors.schoolCompany = 'Company/School name is required';
+    // Validate school/company
+    if (!formData.schoolCompany.trim()) {
+      newErrors.schoolCompany = 'Company/Organization/School name is required';
+    }
+
+    // Validate NYSC selection
+    if (formData.isNyscCorpMember === undefined) {
+      newErrors.isNyscCorpMember = 'Please select your NYSC status';
     }
 
     setErrors(newErrors);
@@ -120,21 +114,18 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call delay (remove in real implementation)
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-
       const personalDetailsData: PersonalDetailsData = {
         fullName: formData.fullName.trim(),
         email: formData.email.trim().toLowerCase(),
         phoneNumber: formData.phoneNumber.trim(),
-        aboutYou: selectedDescriptions,
-        ...(shouldShowSchoolCompany && { schoolCompany: formData.schoolCompany.trim() })
+        jobRole: formData.jobRole.trim(),
+        schoolCompany: formData.schoolCompany.trim(),
+        isNyscCorpMember: formData.isNyscCorpMember
       };
 
       onContinue(personalDetailsData);
     } catch (error) {
       console.error('Error submitting form:', error);
-      // Handle submission error here
     } finally {
       setIsSubmitting(false);
     }
@@ -191,58 +182,110 @@ export default function PersonalDetails({ onContinue }: PersonalDetailsProps) {
         </div>
 
         <div>
-          <label className='text-sm mb-2 text-gray-1 block'>What best describes you</label>
-          <div className='flex flex-wrap gap-2 mt-3'>
-            {DESCRIPTIONS.map((description) => {
-              const isSelected = selectedDescriptions.includes(description);
-              return (
-                <button
-                  type='button'
-                  key={description}
-                  className={cn(
-                    'border rounded-full',
-                    isSelected ? '!border-gray-0' : 'border-transparent'
-                  )}
-                  onClick={() => toggleDescription(description)}
-                >
-                  <Badge
-                    variant='outline'
-                    className={cn(
-                      'cursor-pointer !border h-[35px] transition-all py-2 px-4 duration-200 rounded-full text-sm font-normal text-gray-0',
-                      isSelected ? '!border-gray-0' : 'border-gray-2'
-                    )}
-                  >
-                    {description}
-                    <span className='ml-1 text-xs'>
-                      {isSelected ? <Check className='size-4' /> : <Plus className='size-4' />}
-                    </span>
-                  </Badge>
-                </button>
-              );
-            })}
-          </div>
-          {errors.aboutYou && <p className='text-red-500 text-xs mt-1'>{errors.aboutYou}</p>}
+          <label htmlFor='jobRole' className='text-sm mb-2 text-gray-1 block'>
+            Job Role
+          </label>
+          <Input
+            id='jobRole'
+            name='jobRole'
+            placeholder='Enter your job role'
+            value={formData.jobRole}
+            onChange={handleInputChange}
+            className={cn(errors.jobRole && 'border-red-500')}
+          />
+          {errors.jobRole && <p className='text-red-500 text-xs mt-1'>{errors.jobRole}</p>}
         </div>
 
-        {/* Conditional School/Company field */}
-        {shouldShowSchoolCompany && (
-          <div>
-            <label htmlFor='schoolCompany' className='text-sm mb-2 text-gray-1 block'>
-              Company/School
-            </label>
-            <Input
-              id='schoolCompany'
-              name='schoolCompany'
-              placeholder='Enter your company or school name'
-              value={formData.schoolCompany}
-              onChange={handleInputChange}
-              className={cn(errors.schoolCompany && 'border-red-500')}
-            />
-            {errors.schoolCompany && (
-              <p className='text-red-500 text-xs mt-1'>{errors.schoolCompany}</p>
-            )}
+        <div>
+          <label htmlFor='schoolCompany' className='text-sm mb-2 text-gray-1 block'>
+            Company / Organization (Enter school name if you are a student)
+          </label>
+          <Input
+            id='schoolCompany'
+            name='schoolCompany'
+            placeholder='Enter your company, organization, or school name'
+            value={formData.schoolCompany}
+            onChange={handleInputChange}
+            className={cn(errors.schoolCompany && 'border-red-500')}
+          />
+          {errors.schoolCompany && (
+            <p className='text-red-500 text-xs mt-1'>{errors.schoolCompany}</p>
+          )}
+        </div>
+
+        <div>
+          <label className='text-sm mb-2 text-gray-1 block'>Are you a NYSC corp member?</label>
+          <div className='space-y-2 mt-3'>
+            {/* No Option */}
+            <button
+              type='button'
+              className={cn(
+                'w-full p-4 border rounded-lg text-left transition-all duration-200',
+                formData.isNyscCorpMember === false
+                  ? 'border-green-500 bg-green-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              )}
+              onClick={() => handleNyscSelection(false)}
+            >
+              <div className='flex items-center justify-between'>
+                <span className='text-gray-0'>No</span>
+                {formData.isNyscCorpMember === false && (
+                  <div className='w-6 h-6 rounded-full bg-green-500 flex items-center justify-center'>
+                    <svg
+                      className='w-4 h-4 text-white'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={3}
+                        d='M5 13l4 4L19 7'
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            </button>
+
+            {/* Yes Option */}
+            <button
+              type='button'
+              className={cn(
+                'w-full p-4 border rounded-lg text-left transition-all duration-200',
+                formData.isNyscCorpMember === true
+                  ? 'border-green-500 bg-green-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              )}
+              onClick={() => handleNyscSelection(true)}
+            >
+              <div className='flex items-center justify-between'>
+                <span className='text-gray-0'>Yes</span>
+                {formData.isNyscCorpMember === true && (
+                  <div className='w-6 h-6 rounded-full bg-green-500 flex items-center justify-center'>
+                    <svg
+                      className='w-4 h-4 text-white'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={3}
+                        d='M5 13l4 4L19 7'
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            </button>
           </div>
-        )}
+          {errors.isNyscCorpMember && (
+            <p className='text-red-500 text-xs mt-1'>{errors.isNyscCorpMember}</p>
+          )}
+        </div>
 
         <div className='flex justify-between mt-9'>
           <Button type='submit' className='w-fit' disabled={isSubmitting}>
