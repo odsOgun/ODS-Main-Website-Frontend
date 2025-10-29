@@ -34,7 +34,7 @@ interface StartupBusinessProps {
     phoneNumber: string;
     aboutYou: string[];
     interestLevel: string;
-    intrestAreas: string[];
+    interestAreas: string[];
   };
 }
 
@@ -110,12 +110,12 @@ function StartupBusiness({
       phoneNumber: completeRegistrationData?.phoneNumber || '',
       aboutYou: completeRegistrationData?.aboutYou || [],
       interestLevel: completeRegistrationData?.interestLevel || '',
-      intrestAreas: completeRegistrationData?.intrestAreas || [],
+      interestAreas: completeRegistrationData?.interestAreas || [],
       ownStartup: selectedOption === 'yes',
       startupName: selectedOption === 'yes' ? businessName : '',
       hearAboutUs: selectedReferralSource,
       ticketTier: apiTicketTier,
-      paymentStatus: selectedTicketTier === 'basic' ? 'free' : 'success',
+      paymentStatus: selectedTicketTier === 'basic' ? 'success' : 'success',
       paymentType: selectedTicketTier === 'basic' ? 'free' : 'paid',
       paymentTransactionId: transactionId ? String(transactionId) : ''
     };

@@ -24,7 +24,7 @@ interface PersonalDetailsData {
 
 interface TechInterestData {
   interestLevel: string;
-  intrestAreas?: string[];
+  interestAreas?: string[];
 }
 
 interface StartupBusinessData {
@@ -127,7 +127,7 @@ export default function Register() {
               phoneNumber: registrationData.personalDetails?.phoneNumber || '',
               aboutYou: registrationData.personalDetails?.aboutYou || [],
               interestLevel: registrationData.techInterest?.interestLevel || '',
-              intrestAreas: registrationData.techInterest?.intrestAreas || []
+              interestAreas: registrationData.techInterest?.interestAreas || []
             }}
           />
         );

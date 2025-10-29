@@ -48,7 +48,12 @@ export const STEPS = [
 
 export type Step = (typeof STEPS)[number];
 
-export const TECH_INTEREST_OPTIONS = ['Beginner', 'Intermediate', 'Advanced'] as const;
+// export const TECH_INTEREST_OPTIONS = ['Expert', 'Interested', 'NotInterested'] as const;
+export const TECH_INTEREST_OPTIONS = [
+  { value: 'Expert', label: 'Expert' },
+  { value: 'Interested', label: 'Interested' },
+  { value: 'NotInterested', label: 'NotInterested' }
+] as const;
 
 export type TechInterestOption = (typeof TECH_INTEREST_OPTIONS)[number];
 
@@ -62,7 +67,6 @@ export const TECH_AREAS = [
   'Web development',
   'Data analysis'
 ] as const;
-
 export type TechArea = (typeof TECH_AREAS)[number];
 
 export const STARTUP_BUSINESS_OPTIONS = [
