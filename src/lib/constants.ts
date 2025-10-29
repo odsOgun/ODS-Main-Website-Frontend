@@ -106,7 +106,7 @@ export interface TicketTier {
 export const TICKET_TIERS: TicketTier[] = [
   {
     id: 'basic',
-    name: 'General Attendee',
+    name: 'Regular Attendee',
     price: 0,
     currency: '₦',
     open: true,
@@ -116,7 +116,7 @@ export const TICKET_TIERS: TicketTier[] = [
   },
   {
     id: 'gold',
-    name: 'Masterclass',
+    name: 'Silver Attendee',
     price: 10000,
     currency: '₦',
     originalPrice: 20000,
