@@ -84,12 +84,12 @@ export default function Register() {
       };
 
       // Format and log complete registration data
-      console.log('Complete Registration Data:', {
-        ...updatedData.personalDetails,
-        ...updatedData.techInterest,
-        ...updatedData.startupBusiness,
-        ticketTier: updatedData.selectedTicketTier
-      });
+      // console.log('Complete Registration Data:', {
+      //   ...updatedData.personalDetails,
+      //   ...updatedData.techInterest,
+      //   ...updatedData.startupBusiness,
+      //   ticketTier: updatedData.selectedTicketTier
+      // });
 
       return updatedData;
     });

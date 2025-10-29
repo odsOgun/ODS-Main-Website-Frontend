@@ -130,7 +130,7 @@ function StartupBusiness({
       paymentTransactionId: transactionId ? String(transactionId) : ''
     };
 
-    console.log('Sending registration data:', registrationData);
+    // console.log('Sending registration data:', registrationData);
     return apiService.attendees.register(registrationData);
   };
 

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <input> */
+import type React from 'react';
+import { useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -158,7 +160,7 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
         ...(shouldShowTechAreas && { interestAreas: finalInterestAreas })
       };
 
-      console.log('Tech Interest Data:', techInterestData);
+      // console.log('Tech Interest Data:', techInterestData);
 
       onContinue(techInterestData);
     } catch (error) {
@@ -197,7 +199,7 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
         {/* Conditional Tech Areas section */}
         {shouldShowTechAreas && (
           <div>
-            <label className='text-sm mb-2 text-gray-1 block'>Which areas excite you?</label>
+            <span className='text-sm mb-2 text-gray-1 block'>Which areas excite you?</span>
             <div className='flex flex-wrap gap-2 mt-3'>
               {[...TECH_AREAS, 'Others'].map((area) => {
                 const isSelected = selectedAreas.includes(area);
