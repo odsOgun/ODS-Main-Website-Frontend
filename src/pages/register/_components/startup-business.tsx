@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge } from '@/components/ui/badge';
 import Check from '@/components/ui/check';
 import { cn } from '@/lib/utils';
-import React, { useState } from 'react';
+import { useState, useId } from 'react';
 import { Button } from '@/components/ui/button2';
 import { Input } from '@/components/ui/input2';
-import { STARTUP_BUSINESS_OPTIONS, REFERRAL_SOURCE_OPTIONS } from '@/lib/constants';
+import { STARTUP_BUSINESS_OPTIONS, REFERRAL_SOURCE_OPTIONS, TICKET_TIERS } from '@/lib/constants';
 import { apiService } from '@/api/apiService';
 import { toast } from 'sonner';
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import {
   Select,
   SelectContent,
@@ -32,7 +34,7 @@ interface StartupBusinessProps {
     phoneNumber: string;
     aboutYou: string[];
     interestLevel: string;
-    intrestAreas: string[];
+    interestAreas: string[];
   };
 }
 
@@ -57,6 +59,90 @@ function StartupBusiness({
   const [businessName, setBusinessName] = useState<string>(initialData?.businessName || '');
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const startupBusinessId = useId();
+  const businessNameId = useId();
+
+  // Get ticket details for payment
+  const ticketDetails = TICKET_TIERS.find((tier) => tier.id === selectedTicketTier);
+  const ticketPrice = (ticketDetails?.price as number) || 0;
+
+  // Flutterwave configuration - created at component level
+  const flutterwaveConfig = {
+    public_key: import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY,
+    tx_ref: `ODS-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    amount: ticketPrice,
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+      email: completeRegistrationData?.email || '',
+      phone_number: completeRegistrationData?.phoneNumber || '',
+      name: completeRegistrationData?.fullName || ''
+    },
+    customizations: {
+      title: 'ODS Conference Registration',
+      description: `Payment for ${ticketDetails?.name || 'ODS Conference'} ticket`,
+      logo: 'https://your-logo-url.com/logo.png' // Replace with your actual logo URL
+    }
+  };
+
+  const handleFlutterPayment = useFlutterwave(flutterwaveConfig);
+
+  // Function to map frontend ticket tier IDs to backend expected values
+  const mapTicketTierForApi = (tier: string | undefined): string => {
+    if (!tier) return 'regular';
+
+    const tierMap: Record<string, string> = {
+      basic: 'regular',
+      gold: 'silver',
+      vip: 'prime'
+    };
+
+    return tierMap[tier] || 'regular';
+  };
+
+  // Function to handle API registration
+  const handleApiRegistration = (transactionId?: string | number) => {
+    const apiTicketTier = mapTicketTierForApi(selectedTicketTier);
+
+    const registrationData = {
+      fullName: completeRegistrationData?.fullName || '',
+      email: completeRegistrationData?.email || '',
+      phoneNumber: completeRegistrationData?.phoneNumber || '',
+      aboutYou: completeRegistrationData?.aboutYou || [],
+      interestLevel: completeRegistrationData?.interestLevel || '',
+      interestAreas: completeRegistrationData?.interestAreas || [],
+      ownStartup: selectedOption === 'yes',
+      startupName: selectedOption === 'yes' ? businessName : '',
+      hearAboutUs: selectedReferralSource,
+      ticketTier: apiTicketTier,
+      paymentStatus: selectedTicketTier === 'basic' ? 'success' : 'success',
+      paymentType: selectedTicketTier === 'basic' ? 'free' : 'paid',
+      paymentTransactionId: transactionId ? String(transactionId) : ''
+    };
+
+    return apiService.attendees.register(registrationData);
+  };
+
+  // Function to handle payment success
+  const handlePaymentSuccess = async (transactionId?: string | number) => {
+    try {
+      setIsSubmitting(true);
+
+      // Call API registration after successful payment with payment transaction_id
+      await handleApiRegistration(transactionId);
+
+      toast.success('Registration and payment successful!');
+      onContinue({
+        ownStartup: selectedOption === 'yes',
+        businessName: selectedOption === 'yes' ? businessName : '',
+        hearAboutUs: selectedReferralSource
+      });
+    } catch (error: unknown) {
+      console.log('Registration error after payment:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
@@ -127,43 +213,43 @@ function StartupBusiness({
       return;
     }
 
-    setIsSubmitting(true);
+    // For basic tickets, register directly without payment
+    if (selectedTicketTier === 'basic') {
+      setIsSubmitting(true);
 
-    try {
-      // Prepare the data in the format expected by the API
-      const registrationData = {
-        fullName: completeRegistrationData?.fullName || '',
-        email: completeRegistrationData?.email || '',
-        phoneNumber: completeRegistrationData?.phoneNumber || '',
-        aboutYou: completeRegistrationData?.aboutYou || [],
-        interestLevel: completeRegistrationData?.interestLevel || '',
-        intrestAreas: completeRegistrationData?.intrestAreas || [],
-        ownStartup: selectedOption === 'yes',
-        startupName: selectedOption === 'yes' ? businessName : '',
-        hearAboutUs: selectedReferralSource
-      };
+      try {
+        await handleApiRegistration();
 
-      // Call the API service
-      const response = await apiService.attendees.register(registrationData);
-
-      if (response.status === 200 || response.status === 201) {
         toast.success('Registration successful!');
-        // Call the onContinue callback to proceed to the next step
         onContinue({
           ownStartup: selectedOption === 'yes',
           businessName: selectedOption === 'yes' ? businessName : '',
           hearAboutUs: selectedReferralSource
         });
-      } else {
-        toast.error('Registration failed. Please try again.');
+      } catch (error) {
+        console.log('Registration error:', error);
+        const errorMessage =
+          error instanceof Error ? error.message : 'Registration failed. Please try again.';
+        toast.error(errorMessage);
+      } finally {
+        setIsSubmitting(false);
       }
-    } catch (error: unknown) {
-      console.error('Registration error:', error);
-      const errorMessage =
-        error instanceof Error ? error.message : 'Registration failed. Please try again.';
-      toast.error(errorMessage);
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      // For paid tickets, initiate Flutterwave payment
+      handleFlutterPayment({
+        callback: (response) => {
+          // console.log('Payment response:', response);
+          if (response.status === 'completed') {
+            handlePaymentSuccess(response.transaction_id);
+          } else {
+            toast.error('Payment was not successful. Please try again.');
+          }
+          closePaymentModal();
+        },
+        onClose: () => {
+          toast.info('Payment cancelled');
+        }
+      });
     }
   };
 
@@ -174,7 +260,7 @@ function StartupBusiness({
     if (selectedTicketTier === 'basic') {
       return 'Register';
     } else {
-      return 'Make Payment';
+      return `Pay ${ticketDetails?.currency}${ticketPrice.toLocaleString()}`;
     }
   };
 
@@ -182,7 +268,7 @@ function StartupBusiness({
     <div className='w-full'>
       <form className='space-y-4' onSubmit={handleSubmit}>
         <div>
-          <label htmlFor='startup-business' className='text-sm mb-2 text-gray-1 block'>
+          <label htmlFor={startupBusinessId} className='text-sm mb-2 text-gray-1 block'>
             Do you own a business/startup?
           </label>
           <div className='flex flex-wrap gap-2'>
@@ -214,11 +300,11 @@ function StartupBusiness({
         {/* Conditional Business Name field */}
         {shouldShowBusinessName && (
           <div>
-            <label htmlFor='business-name' className='text-sm mb-2 text-gray-1 block'>
+            <label htmlFor={businessNameId} className='text-sm mb-2 text-gray-1 block'>
               What&apos;s your business/startup name?
             </label>
             <Input
-              id='business-name'
+              id={businessNameId}
               name='business-name'
               placeholder='Enter your business name'
               value={businessName}

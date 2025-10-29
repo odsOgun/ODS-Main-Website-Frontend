@@ -3,63 +3,33 @@ import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
 import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
 import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
 import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
+import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
 import CountDown from './countdown';
-// import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
+import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
+// mobile
+import GrazacLogoMobile from '/img/mobile/grazac.svg';
+import AfexLogoMobile from '/img/mobile/afex.svg';
+import OgunGovMobile from '/img/mobile/ogunGov.svg';
+import TechEconomyMobile from '/img/mobile/techeconomy.svg';
 import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
-// import AfexMobile from '/img/mobile/afex.svg';
-// import AlxMobile from '/img/mobile/alx2.svg';
-// import BushaMobile from '/img/mobile/Busha.svg';
-// import CondiaMobile from '/img/mobile/Condia.svg';
-// import OGTVMobile from '/img/mobile/OGTV.svg';
-// import TechCabalMobile from '/img/mobile/TechCabal.svg';
-// import TechPointMobile from '/img/mobile/TechPoint Africa.svg';
-import Alx from '@/assets/svgs/sponsors/alx2.png';
-import Busha from '@/assets/svgs/sponsors/busha2.svg';
-import Condia from '@/assets/svgs/sponsors/Condia.png';
-import OGTV from '@/assets/svgs/sponsors/OGTV.jpeg';
-import TechCabal from '@/assets/svgs/sponsors/TechCabal.png';
-import TechPoint from '@/assets/svgs/sponsors/TechPoint Africa.png';
-import Bunker from '@/assets/svgs/sponsors/theBUNKer Logo.png';
-import SouthKitchen from '@/assets/svgs/sponsors/south kitchen.png';
-import TheSouth from '@/assets/svgs/sponsors/TheSouth_Logo.png';
 
-import { motion } from 'framer-motion';
-
-const sponsors = [
-  { label: 'Grazac', icon: GrazacLogo },
-  { label: 'Afex', icon: AfexLogo },
-  { label: 'OgunDailyMobile', icon: OgunDailyMobile },
-  { label: 'Ogun Gov', icon: OgunGov },
-  { label: 'Tech Economy', icon: TechEconomy },
-  { label: 'Alx', icon: Alx },
-  { label: 'Busha', icon: Busha },
-  { label: 'Condia', icon: Condia },
-  { label: 'OGTV', icon: OGTV },
-  { label: 'TechCabal', icon: TechCabal },
-  { label: 'TechPoint', icon: TechPoint },
-  { label: 'Bunker', icon: Bunker },
-  { label: 'SouthKitchen', icon: SouthKitchen },
-  { label: 'TheSouth', icon: TheSouth }
-];
 function SponsorLogos() {
+  const isBelow = useIsScreenWidthBelow(768);
+
+  const sponsors = [
+    { label: 'Grazac', icon: isBelow ? GrazacLogoMobile : GrazacLogo },
+    { label: 'Afex', icon: isBelow ? AfexLogoMobile : AfexLogo },
+    { label: 'Ogun Gov', icon: isBelow ? OgunGovMobile : OgunGov },
+    { label: 'Tech Economy', icon: isBelow ? TechEconomyMobile : TechEconomy },
+    { label: 'Ogun Daily', icon: isBelow ? OgunDailyMobile : OgunDaily }
+  ];
   return (
-    <div className='relative w-full overflow-hidden bg-white py-6'>
-      <motion.div
-        className='flex w-max gap-12'
-        animate={{ x: ['0%', '-100%'] }}
-        transition={{
-          repeat: Infinity,
-          duration: 80,
-          ease: 'linear'
-        }}
-      >
-        {[...sponsors, ...sponsors].map((s, i) => (
-          <div key={i} className='flex items-center shrink-0'>
-            <img src={s.icon} alt={s.label} className='h-12 md:h-16 w-auto object-contain' />
-            {/* <span className="text-sm font-medium">{s.label}</span> */}
-          </div>
-        ))}
-      </motion.div>
+    <div className='max-md:gap-3 flex items-center justify-between md:px-6 mt-2 h-[62px] md:h-[72px] md:mt-5'>
+      {sponsors.map(({ label, icon }) => (
+        <div key={label}>
+          <img src={icon} alt={label} />
+        </div>
+      ))}
     </div>
   );
 }
@@ -67,6 +37,8 @@ function SponsorLogos() {
 //   // onOpenSponsorModal: () => void;
 //   onOpenComingModal: () => void;
 // }
+
+// function Hero({ onOpenComingModal }: SectionOneProps) {
 function Hero() {
   return (
     <div className='relative'>
@@ -75,26 +47,31 @@ function Hero() {
           <div className='flex flex-col gap-6 md:gap-8'>
             <div className='text-[34px] md:text-6xl leading-[40px] md:leading-[64px] text-left md:text-center tracking-[0.5px] md:tracking-[-1px] text-[#23323F] max-md:max-w-[332px]'>
               <h2 className='italic font-normal platypi-gf'>
-                The largest digital summit in Ogun State
+                Be a part of Ogun Digital summit 2025
               </h2>
+              {/* <h2 className='italic font-normal platypi-gf'>
+                Innovation:{' '}
+                <span className='font-semibold tracking-[0.5px] md:tracking-[-1px] not-italic'>
+                  Pathway to our nation's prosperity
+                </span>
+              </h2> */}
             </div>
-
             <p className='text-sm md:text-base leading-[22px] md:leading-[22px] font-normal tracking-[0.2px] text-[#627587]  md:text-center'>
-              Ogun Digital Summit is a gathering of creatives, entrepreneurs, innovators, investors,
-              tech and business leaders with focus on igniting conversations towards technology
-              advancement and showcasing innovations in our ecosystem
+              Ogun Digital Summit 2025 is focused on improving collaborations, paving the way for
+              new innovations and igniting conversation towards technology advancements and
+              prosperity for Nigeria's digital technology ecosystem.
             </p>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
-              <a
-                href='https://checkout.mainstack.co/ods2025/AelYp9iEF5RO'
-                target='_blank'
-                className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'
-              >
-                <span className='text-sm font-semibold'>Register</span>
-                <ArrowRight />
+              <a href={'/register'}>
+                <button
+                  className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+                  // onClick={onOpenComingModal}
+                >
+                  <span className='text-sm font-semibold'>Register</span>
+                  <ArrowRight />
+                </button>
               </a>
-
               <a href='/register/sponsors'>
                 <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
                   <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>
@@ -114,8 +91,9 @@ function Hero() {
           </div>
         </div>
       </div>
-
+      {/* <div> */}
       <CountDown />
+      {/* </div> */}
       <div className='art-bg' />
     </div>
   );

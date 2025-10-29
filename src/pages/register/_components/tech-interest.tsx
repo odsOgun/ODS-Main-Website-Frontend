@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 
 interface TechInterestData {
   interestLevel: string;
-  intrestAreas?: string[];
+  interestAreas?: string[];
 }
 
 interface TechInterestProps {
@@ -25,14 +25,14 @@ interface TechInterestProps {
 
 interface FormErrors {
   interestLevel?: string;
-  intrestAreas?: string;
+  interestAreas?: string;
 }
 
 export default function TechInterest({ onContinue, initialData }: TechInterestProps) {
   const [selectedInterest, setSelectedInterest] = useState<string>(
     initialData?.interestLevel || ''
   );
-  const [selectedAreas, setSelectedAreas] = useState<string[]>(initialData?.intrestAreas || []);
+  const [selectedAreas, setSelectedAreas] = useState<string[]>(initialData?.interestAreas || []);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,8 +41,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
       const newAreas = prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area];
 
       // Clear tech areas error when user selects at least one
-      if (newAreas.length > 0 && errors.intrestAreas) {
-        setErrors((prev) => ({ ...prev, intrestAreas: undefined }));
+      if (newAreas.length > 0 && errors.interestAreas) {
+        setErrors((prev) => ({ ...prev, interestAreas: undefined }));
       }
 
       return newAreas;
@@ -58,17 +58,19 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
     }
 
     // Reset selected areas if switching away from beginner/interested-in-learning
-    const shouldShowTechAreas = value === 'Beginner' || value === 'Intermediate';
+    const shouldShowTechAreas =
+      value === 'NotInterested' || value === 'Interested' || value === 'Expert';
     if (!shouldShowTechAreas) {
       setSelectedAreas([]);
       // Clear tech areas error since it's no longer applicable
-      setErrors((prev) => ({ ...prev, intrestAreas: undefined }));
+      setErrors((prev) => ({ ...prev, interestAreas: undefined }));
     }
   };
 
   // Check if tech areas should be shown
   const shouldShowTechAreas =
-    selectedInterest === 'Beginner' || selectedInterest === 'Intermediate';
+    // selectedInterest === 'NotInterested' ||
+    selectedInterest === 'Interested' || selectedInterest === 'Expert';
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -80,7 +82,7 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
 
     // Validate tech areas if they should be shown
     if (shouldShowTechAreas && selectedAreas.length === 0) {
-      newErrors.intrestAreas = 'Please select at least one area that excites you';
+      newErrors.interestAreas = 'Please select at least one area that excites you';
     }
 
     setErrors(newErrors);
@@ -102,8 +104,10 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
 
       const techInterestData: TechInterestData = {
         interestLevel: selectedInterest,
-        ...(shouldShowTechAreas && { intrestAreas: selectedAreas })
+        ...(shouldShowTechAreas && { interestAreas: selectedAreas })
       };
+
+      console.log('Tech Interest Data:', techInterestData);
 
       onContinue(techInterestData);
     } catch (error) {
@@ -129,8 +133,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
               <SelectGroup>
                 {TECH_INTEREST_OPTIONS.map((option) => (
                   // <SelectItem key={option} value={option.toLowerCase().replace(/\s+/g, '-')}>
-                  <SelectItem key={option} value={option}>
-                    {option}
+                  <SelectItem key={option.value} value={option.label}>
+                    {option.label}
                   </SelectItem>
                 ))}
               </SelectGroup>
@@ -174,8 +178,8 @@ export default function TechInterest({ onContinue, initialData }: TechInterestPr
                 );
               })}
             </div>
-            {errors.intrestAreas && (
-              <p className='text-red-500 text-xs mt-1'>{errors.intrestAreas}</p>
+            {errors.interestAreas && (
+              <p className='text-red-500 text-xs mt-1'>{errors.interestAreas}</p>
             )}
           </div>
         )}

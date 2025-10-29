@@ -1,29 +1,24 @@
 import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';
-import { useQueryState } from 'nuqs';
 import { STEPS } from '@/lib/constants';
 import Check from '@/components/ui/check';
 
 interface StepperProps {
   steps: typeof STEPS;
+  currentStep?: number;
 }
 
-function Stepper({ steps }: StepperProps) {
-  const [currentStep, setCurrentStep] = useQueryState('current', {
-    defaultValue: 'personal-details',
-    history: 'replace'
-  });
-
+function Stepper({ steps, currentStep = 0 }: StepperProps) {
   // Find the current step index
-  const currentStepIndex = steps.findIndex((step) => step.id === currentStep);
+  const currentStepIndex = currentStep;
 
   const handleStepClick = (stepId: string) => {
     const stepIndex = steps.findIndex((step) => step.id === stepId);
-    const currentIndex = steps.findIndex((step) => step.id === currentStep);
 
     // Only allow navigation to previous steps or current step
-    if (stepIndex <= currentIndex) {
-      setCurrentStep(stepId);
+    if (stepIndex <= currentStepIndex) {
+      // You can add navigation logic here if needed
+      // console.log('Navigate to step:', stepId);
     }
   };
 
@@ -35,7 +30,7 @@ function Stepper({ steps }: StepperProps) {
       className='space-y-1 flex lg:flex-col items-center lg:items-start flex-row flex-wrap lg:flex-nowrap'
     >
       {steps.map((step, index) => {
-        const isCurrentStep = step.id === currentStep;
+        const isCurrentStep = index === currentStepIndex;
         const isCompleted = currentStepIndex !== -1 && index < currentStepIndex;
         const isChecked = isCurrentStep || isCompleted;
         const isClickable = index <= currentStepIndex;

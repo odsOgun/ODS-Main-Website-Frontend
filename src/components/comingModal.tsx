@@ -1,12 +1,18 @@
 interface ModalProps {
   onClose: () => void;
+  
+ 
 }
 
 function ComingSoon({ onClose }: ModalProps) {
   return (
     <div className='fixed inset-0 flex items-center justify-center z-50'>
       {/* Backdrop */}
-      <div className='absolute inset-0 z-40' onClick={onClose} aria-hidden='true'></div>
+      <div
+        className='absolute inset-0 z-40'
+        onClick={onClose}
+        aria-hidden='true'
+      ></div>
 
       {/* Modal Content */}
       <div
@@ -32,8 +38,7 @@ function ComingSoon({ onClose }: ModalProps) {
           id='modal-description'
           className='text-[#70707B] text-[14px] text-center leading-[150%] font-normal inter-gf '
         >
-          Participants registration for Ogun Digital Summit 2025 will be opened by{' '}
-          <span className='font-bold'>September 8th 2025.</span>
+          Participants registration for Ogun Digital Summit 2025 will be opened by <span className='font-bold'>September 1st 2025.</span>
         </p>
         <p
           id='modal-description'
