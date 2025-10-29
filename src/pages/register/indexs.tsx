@@ -210,7 +210,7 @@ function Register() {
                         phoneNumber: registrationData.personalDetails?.phoneNumber || '',
                         aboutYou: registrationData.personalDetails?.aboutYou || [],
                         interestLevel: registrationData.techInterest?.interestLevel || '',
-                        intrestAreas: registrationData.techInterest?.intrestAreas || []
+                        interestAreas: registrationData.techInterest?.intrestAreas || []
                       }}
                     />
                   )}
