@@ -155,7 +155,7 @@ function Nav() {
           <div className='flex flex-col items-center gap-6 mt-6'>
             <button
               type='button'
-              className='w-full rounded bg-[#178A2D] font-semibold h-10 text-white tracking-[0.2px]'
+              className='w-full rounded bg-[#178A2D] font-semibold h-10 text-white tracking-[0.2px] flex items-center justify-center gap-2'
               onClick={() => {
                 window.dispatchEvent(new Event('openDownloadReportModal'));
                 setNavState(!navState);
