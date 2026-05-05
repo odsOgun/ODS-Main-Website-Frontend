@@ -71,6 +71,7 @@ import Sponsors from './pages/register/sponsors.tsx';
 import Applicants from './pages/applicants.tsx';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import Register from './pages/register/index.tsx';
+import DownloadReportProvider from './components/downloadReportProvider';
 
 const router = createBrowserRouter([
   {
@@ -129,7 +130,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <NuqsAdapter>
-      <RouterProvider router={router} />
+      <DownloadReportProvider>
+        <RouterProvider router={router} />
+      </DownloadReportProvider>
     </NuqsAdapter>
   </StrictMode>
 );
