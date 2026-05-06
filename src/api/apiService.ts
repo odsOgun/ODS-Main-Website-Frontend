@@ -51,6 +51,11 @@ export const apiService = {
   attendees: {
     register: async (data: any): Promise<AxiosResponse> => {
       return apiClient.post('/attendee/register', data);
+    },
+    requestImpactReport: async (data: any): Promise<AxiosResponse<Blob>> => {
+      return apiClient.post('/report/impact', data, {
+        responseType: 'blob'
+      });
     }
   },
 

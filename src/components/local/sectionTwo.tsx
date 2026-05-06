@@ -257,15 +257,14 @@ function SectionTwo() {
                 starts here, wherever you sit in the ecosystem, you'll find the insights,
                 inspiration and connections that you need to thrive.
               </p>
-              <a href={Sitelinks.register}>
-                <button
-                  className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
-                  // onClick={onOpenComingModal}
-                >
-                  <span className='text-sm font-semibold'>Register</span>
-                  <ArrowRight />
-                </button>
-              </a>
+              <button
+                type='button'
+                className='bg-[#178A2D] font-semibold h-10 min-w-[200px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
+                onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
+              >
+                <span className='text-sm font-semibold'>Download 2025 Report</span>
+                <ArrowRight />
+              </button>
             </div>
           </div>
 
