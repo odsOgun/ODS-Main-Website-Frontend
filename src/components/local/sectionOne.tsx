@@ -41,7 +41,7 @@ function SectionOne() {
       <div className='max-w-[1120px] w-full px-8 mx-auto py-20 xl:box-content'>
         <div className='max-w-[420px]'>
           <h1 className='text-2xl font-semibold text-white md:text-4xl platypi-gf'>
-            Our numbers in the last 5 years.
+            Our numbers in the last 6 years.
           </h1>
           <p className='text-base font-normal tracking-[0.2px] text-[#B0C5D6] my-5'>
             It all started with a dream in 2019 to bring together startup entrepreneurs, talents,
@@ -56,12 +56,12 @@ function SectionOne() {
               <span className='text-sm font-semibold'>Become a Sponsor</span>
               <ArrowRight fill='#23323F' />
             </a>
-            <a href='/statistics'>
+            {/* <a href='/statistics'>
               <button className='bg-inherit font-semibold h-10 min-w-[171px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#ACFAAC]'>
                 <span className='text-sm font-semibold'>View Our Statistics</span>
                 <ArrowRight fill='#ACFAAC' />
               </button>
-            </a>
+            </a> */}
           </div>
         </div>
 
@@ -79,7 +79,7 @@ function SectionOne() {
 
         <div className='flex justify-between w-full bg-[#0E140F] p-6 overflow-hidden'>
           <h2 className='flex items-center gap-4 font-semibold text-white md:text-5xl'>
-            9000+<span className='text-sm tracking-[3px]'>ATTENDEES</span>
+            10,000+<span className='text-sm tracking-[3px]'>ATTENDEES</span>
           </h2>
           <h2 className='flex items-center gap-4 font-semibold text-white md:text-5xl'>
             65+<span className='text-sm tracking-[3px]'>SPEAKERS</span>
@@ -97,8 +97,9 @@ function SectionOne() {
               We've made a real impact in people's lives.
             </h2>
             <p className='text-base font-normal tracking-[0.2px] text-[#B0C5D6] my-5 text-center'>
-              Watch a glimpse of how we improved the lives of pupils in the local community and gave
-              them access to ICT.
+              Watch a glimpse of how we brought over 2,000 policy makers, founders, talents,
+              creators and investors in one room, showcasing startups in Ogun Ecosystem and having
+              conversations that move the needle.
             </p>
           </div>
 
@@ -107,7 +108,7 @@ function SectionOne() {
               frameBorder='0'
               width='100%'
               height='100%'
-              src='https://www.youtube.com/embed/E5Y0KjFYG2Q?si=QKgVbHYpcPqsoGtk&amp;controls=0'
+              src='https://www.youtube.com/embed/BMIEBFkjpEA?controls=0'
               title='YouTube video player'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
               referrerPolicy='strict-origin-when-cross-origin'
