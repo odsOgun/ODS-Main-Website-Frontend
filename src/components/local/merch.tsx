@@ -9,7 +9,7 @@ const Merch = () => {
     <div className='mx-auto w-[90%] md:max-w-[1120px] mt-20'>
       <div className='md:basis-1/2 md:w-[479px]'>
         <h1 className='text-[#23323F] text-2xl md:text-4xl platypi-gf font-semibold'>
-          Get the Ogun digital summit ‘25 Merch
+          Get the Ogun digital summit ‘26 Merch
         </h1>
         <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
           We have various nice branded Ogun Digital Summit ‘24 merch

@@ -16,7 +16,7 @@ const ContectTrack = () => {
       bg: '#FEE5E5'
     },
     {
-      title: 'Blockchain and Web3',
+      title: 'Emerging Tech and Digital Transformation',
       icon: '/img/web.png',
       bg: '#E5EEFE'
     },
@@ -26,14 +26,19 @@ const ContectTrack = () => {
       bg: '#EAEAEA'
     },
     {
-      title: 'The Creative Economy',
+      title: 'Policy and Governance',
       icon: '/img/economy.png',
       bg: '#E8E8FF'
     },
     {
-      title: 'Startup Investment',
+      title: 'Startup',
       icon: '/img/investment.png',
       bg: '#EDFEE5'
+    },
+    {
+      title: 'Sustainability and Green Tech ',
+      icon: '/img/agric.png',
+      bg: '#E8E8FF'
     }
   ];
   return (
@@ -58,10 +63,7 @@ const ContectTrack = () => {
               <img src={track.icon} alt={track.title} className='mb-2' />
               <h3 className='text-[12px] font-semibold text-[#23323F]'>{track.title}</h3>
             </div>
-          ))}   
-
-
-
+          ))}
         </div>
       </div>
     </div>
