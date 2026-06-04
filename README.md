@@ -74,5 +74,4 @@ Common types according to [commitlint-config-conventional (based on the Angular 
 - test
 
 
-
-TRIGGERING THIS TO DEPLOY BASED ON THE TYPE OF REPOSITORY
+featuring commmit is not working that well again in this time so check very ell the complaint model of the codebase
