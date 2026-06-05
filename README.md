@@ -73,6 +73,3 @@ Common types according to [commitlint-config-conventional (based on the Angular 
 - style
 - test
 
-
-
-TRIGGERING THIS TO DEPLOY BASED ON THE TYPE OF REPOSITORY

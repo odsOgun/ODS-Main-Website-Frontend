@@ -72,6 +72,9 @@ import Applicants from './pages/applicants.tsx';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import Register from './pages/register/index.tsx';
 import DownloadReportProvider from './components/downloadReportProvider';
+import NewsPage from './pages/news/index.tsx';
+import NewsPostPage from './pages/news/[slug].tsx';
+import StudioPage from './pages/studio.tsx';
 
 const router = createBrowserRouter([
   {
@@ -124,6 +127,20 @@ const router = createBrowserRouter([
     path: '/register/sponsors',
     element: <Sponsors />,
     errorElement: <ErrorPage />
+  },
+  {
+    path: '/news',
+    element: <NewsPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/news/:slug',
+    element: <NewsPostPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/studio',
+    element: <StudioPage />
   }
 ]);
 
