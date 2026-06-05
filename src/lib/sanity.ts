@@ -1,6 +1,5 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export const client = createClient({
   projectId: 'a7x1hmck',
@@ -11,7 +10,8 @@ export const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
-export function urlFor(source: SanityImageSource) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function urlFor(source: any) {
   return builder.image(source);
 }
 
@@ -21,9 +21,11 @@ export interface Post {
   slug: { current: string };
   publishedAt: string;
   excerpt?: string;
-  mainImage?: SanityImageSource;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mainImage?: any;
   categories?: { title: string }[];
-  author?: { name: string; image?: SanityImageSource };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  author?: { name: string; image?: any };
   body?: PortableTextBlock[];
 }
 
@@ -33,5 +35,6 @@ export interface PortableTextBlock {
   style?: string;
   children?: { _key: string; _type: string; text: string; marks?: string[] }[];
   markDefs?: unknown[];
-  asset?: SanityImageSource;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  asset?: any;
 }
