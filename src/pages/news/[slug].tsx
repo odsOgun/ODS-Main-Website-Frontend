@@ -147,7 +147,15 @@ function CommentForm({ postId }: { postId: string }) {
         body: JSON.stringify({ name, email, comment, postId })
       });
 
-      const data = await res.json();
+      // Parse JSON safely — non-JSON responses (e.g. HTML 404) would throw
+      let data: { message?: string } = {};
+      try {
+        data = await res.json();
+      } catch {
+        setErrorMsg(`Server error (${res.status}). The API route may not be reachable.`);
+        setStatus('error');
+        return;
+      }
 
       if (!res.ok) {
         setErrorMsg(data.message || 'Something went wrong.');
@@ -159,7 +167,7 @@ function CommentForm({ postId }: { postId: string }) {
         setComment('');
       }
     } catch {
-      setErrorMsg('Failed to submit. Please try again.');
+      setErrorMsg('Network error — please check your connection and try again.');
       setStatus('error');
     }
   };

@@ -1,19 +1,25 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@sanity/client';
 
-const client = createClient({
-  projectId: 'a7x1hmck',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: false,
-  token: process.env.SANITY_WRITE_TOKEN
-});
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Allow only POST
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
+
+  // Check token is configured
+  if (!process.env.SANITY_WRITE_TOKEN) {
+    console.error('SANITY_WRITE_TOKEN is not set');
+    return res.status(500).json({ message: 'Server misconfiguration: missing write token.' });
+  }
+
+  const client = createClient({
+    projectId: 'a7x1hmck',
+    dataset: 'production',
+    apiVersion: '2024-01-01',
+    useCdn: false,
+    token: process.env.SANITY_WRITE_TOKEN
+  });
 
   const { name, email, comment, postId } = req.body;
 
@@ -38,8 +44,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     return res.status(201).json({ message: 'Comment submitted and awaiting approval.' });
-  } catch (err) {
-    console.error('Failed to save comment:', err);
-    return res.status(500).json({ message: 'Failed to submit comment. Please try again.' });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('Failed to save comment:', message);
+    return res.status(500).json({ message: `Failed to submit: ${message}` });
   }
 }
