@@ -1,12 +1,11 @@
+// This page is only reached locally (dev mode).
+// In production, /studio is proxied directly to ogundigitalsummit.sanity.studio via vercel.json.
 import { useEffect } from 'react';
-
-const STUDIO_URL = import.meta.env.DEV
-  ? 'http://localhost:3333/studio'
-  : 'https://ogundigitalsummit.sanity.studio';
 
 function StudioPage() {
   useEffect(() => {
-    window.location.replace(STUDIO_URL);
+    // Local dev only — proxy not available, redirect to hosted studio
+    window.location.replace('http://localhost:3333/studio');
   }, []);
 
   return (
