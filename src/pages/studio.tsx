@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 
+const STUDIO_URL = import.meta.env.DEV
+  ? 'http://localhost:3333/studio'
+  : 'https://ogundigitalsummit.sanity.studio';
+
 function StudioPage() {
   useEffect(() => {
-    window.location.replace('http://localhost:3333/studio');
+    window.location.replace(STUDIO_URL);
   }, []);
 
   return (
