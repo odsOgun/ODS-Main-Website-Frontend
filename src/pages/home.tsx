@@ -5,7 +5,7 @@ import Nav from '@/components/local/nav';
 import SectionOne from '@/components/local/sectionOne';
 import SectionTwo from '@/components/local/sectionTwo';
 import Footer from '@/components/local/footer';
-import Merch from '@/components/local/merch';
+// import Merch from '@/components/local/merch';
 import SponsorForm from '@/components/form/sponsor';
 import ExhibitorsForm from '@/components/form/exhibitor';
 import Modal from '@/components/modal';
@@ -41,9 +41,7 @@ function Home() {
       // onOpenExhibitorModal={openExhibitorModal}
       // onOpenComingModal={openComingModal}
       />
-      <div>
-        <Merch />
-      </div>
+      <div>{/* <Merch /> */}</div>
       <div>
         <MobileApp />
       </div>

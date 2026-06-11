@@ -7,9 +7,9 @@ import BarChartComponent from '@/components/local/barchart';
 
 const Statistics = () => {
   const cardValues = [
-    { id: 1, attendees: 7265, title: 'Total Attendees', bg: '#EDEEFC' },
-    { id: 1, attendees: 3671, title: 'Total Registered', bg: '#E6F1FD' },
-    { id: 1, attendees: 36, title: 'Total Speakers', bg: '#E2EFE4' }
+    { id: 1, attendees: 10000, title: 'Total Attendees', bg: '#EDEEFC' },
+    { id: 1, attendees: 30, title: 'Total Sessions', bg: '#E6F1FD' },
+    { id: 1, attendees: 60, title: 'Total Speakers', bg: '#E2EFE4' }
   ];
   return (
     <div>
@@ -26,11 +26,11 @@ const Statistics = () => {
         </p>
         <a target='_blank'>
           <button
-            className='bg-[#178A2D] font-semibold h-10 min-w-[200px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'
+            className='bg-[#178A2D] font-semibold h-10 min-w-[210px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'
             onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
           >
             <span className='text-[14px] leading-[20px] tracking-[0.2px] font-semibold'>
-              Download 2025 Report
+              Download Impact Report
             </span>
             <ArrowRight fill='#fff' />
           </button>

@@ -32,10 +32,10 @@ const Exhibitor = () => {
       {/* Hero */}
       <div className="  shrink-0     lg:w-[100%] lg:h-[618px] object-contain bg-[url('src/assets/img/Stagex.png')]">
         <h1 className='font-[Platypi] text-3xl font-semibold text-[#fff] w-[343px] h-[80px] leading-9 tracking-tighter pt-[241px] pl-[16px] pr-[16px]       lg:font-[Platypi] lg:font-semibold lg:text-[#fff] lg:w-[765px] lg:h-[128px] lg:text-6xl lg:leading-[3.75rem] lg:pt-[226px] lg:pl-[60px] lg:tracking-tighter '>
-          Exhibitors making a mark at ODS’24
+          Exhibitors making a mark at ODS’25
         </h1>
         <p className=' text-sm leading-5   pl-[16px] pr-[16px]   pt-[90px]                                 font-[inter] lg:w-[765px] lg:h-[72px] text-[#B0C5D6] font-normal lg:text-base lg:leading-6 lg:pt-[150px] lg:pl-[60px]'>
-          It all started with a dream in 2019 to bring together startup entrepreneurs, talents,
+          It all started with a dream in 2020 to bring together startup entrepreneurs, talents,
           creatives and founders with a strong focus to promote youth empowerment, tech
           entrepreneurship and social innovation.
         </p>
@@ -49,7 +49,7 @@ const Exhibitor = () => {
           Meet Our Exhibitors
         </h2>
         <p className='text-sm leading-5 font-[inter] font-normal text-[#B0C5D6]  pl-[16px]  lg:leading-6  tracking-wide lg:text-base pt-[40px] lg:pl-[60px]'>
-          Have a glimpse of our exhibitors at the ODS’24
+          Have a glimpse of our exhibitors at the ODS’25
         </p>
 
         <div className='hidden lg:block'>
@@ -134,7 +134,7 @@ const Exhibitor = () => {
             </h4>
             <p className=' h-[88px] lg:w-[544px] lg:h-[44px] text-[#B0C5D6] text-sm font-normal'>
               You can directly and indirectly learn and engage with industry experts, offering
-             </p>
+            </p>
           </div>
           <div className='lg:mr-[60px] '>
             <img src={africa} alt='africaicon' />
