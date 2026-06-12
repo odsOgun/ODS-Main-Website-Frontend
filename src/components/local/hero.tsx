@@ -65,10 +65,10 @@ function Hero() {
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
               <button
                 type='button'
-                className='bg-[#178A2D] font-semibold h-10 min-w-[200px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+                className='bg-[#178A2D] font-semibold h-10 min-w-[210px] rounded flex justify-center items-center tracking-[0.2px] text-white'
                 onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
               >
-                <span className='text-sm font-semibold'>Download 2025 Report</span>
+                <span className='text-sm font-semibold'>Download Impact Report</span>
                 <ArrowRight />
               </button>
               <a href='/register/sponsors'>

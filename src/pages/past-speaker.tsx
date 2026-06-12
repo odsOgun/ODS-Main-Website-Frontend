@@ -500,10 +500,10 @@ const PastSpeakers = () => {
       >
         <div className=' max-w-[335px] md:max-w-[669px] mb-14 md:mb-20 '>
           <h3 className='platypi-gf text-center text-[#23323F] md:mb-[16px] font-semibold text-2xl leading-[40px] tracking-[-0.5px] md:text-[34px]  md:text-left  '>
-            Our past speakers in the last 5 years.
+            Our past speakers in the last 6 years.
           </h3>
           <p className='text-center  text-[#627587] text-sm leading-[24px] tracking-[0.2px] font-normal md:text-base md:text-left '>
-            For the past 5 years, we have had amazing array of speakers who have have graced Ogun
+            For the past 6 years, we have had amazing array of speakers who have have graced Ogun
             digital summit over the years
           </p>
         </div>
@@ -516,7 +516,7 @@ const PastSpeakers = () => {
               color: selectedYear === 0 ? '#ffff' : '#5A5A5A'
             }}
           >
-            ODS 2024
+            ODS 2025
           </button>
           <button
             className='rounded-[10px] sm:text-sm text-xs font-semibold w-[166px] py-2'
@@ -526,7 +526,7 @@ const PastSpeakers = () => {
               color: selectedYear === 1 ? '#ffff' : '#5A5A5A'
             }}
           >
-            ODS 2023
+            ODS 2024
           </button>
           <button
             className='rounded-[10px] sm:text-sm text-xs font-semibold w-[166px] py-2'
@@ -536,7 +536,7 @@ const PastSpeakers = () => {
               color: selectedYear === 2 ? '#ffff' : '#5A5A5A'
             }}
           >
-            ODS 2022
+            ODS 2023
           </button>
           <button
             className='rounded-[10px] sm:text-sm text-xs font-semibold w-[166px] py-2'
@@ -546,7 +546,7 @@ const PastSpeakers = () => {
               color: selectedYear === 3 ? '#ffff' : '#5A5A5A'
             }}
           >
-            ODS 2021
+            ODS 2022
           </button>
           <button
             className='rounded-[10px] sm:text-sm text-xs font-semibold w-[166px] py-2'
@@ -554,6 +554,16 @@ const PastSpeakers = () => {
             style={{
               backgroundColor: selectedYear === 4 ? '#FA6C20' : 'transparent',
               color: selectedYear === 4 ? '#ffff' : '#5A5A5A'
+            }}
+          >
+            ODS 2021
+          </button>
+          <button
+            className='rounded-[10px] sm:text-sm text-xs font-semibold w-[166px] py-2'
+            onClick={() => handleClick(5)}
+            style={{
+              backgroundColor: selectedYear === 5 ? '#FA6C20' : 'transparent',
+              color: selectedYear === 5 ? '#ffff' : '#5A5A5A'
             }}
           >
             ODS 2020
@@ -571,25 +581,30 @@ const PastSpeakers = () => {
           </button>
           {selectedYear === 0 && (
             <button className='rounded-[10px] sm:text-sm text-xs font-semibold w-[199px] py-2 bg-[#FA6C20] text-white h-10'>
-              ODS 2024
+              ODS 2025
             </button>
           )}
           {selectedYear === 1 && (
             <button className='rounded-[10px] sm:text-sm text-xs font-semibold w-[199px] py-2 bg-[#FA6C20] text-white h-10'>
-              ODS 2023
+              ODS 2024
             </button>
           )}
           {selectedYear === 2 && (
             <button className='rounded-[10px] sm:text-sm text-xs font-semibold w-[199px] py-2 bg-[#FA6C20] text-white h-10'>
-              ODS 2022
+              ODS 2023
             </button>
           )}
           {selectedYear === 3 && (
             <button className='rounded-[10px] sm:text-sm text-xs font-semibold w-[199px] py-2 bg-[#FA6C20] text-white h-10'>
-              ODS 2021
+              ODS 2022
             </button>
           )}
           {selectedYear === 4 && (
+            <button className='rounded-[10px] sm:text-sm text-xs font-semibold w-[199px] py-2 bg-[#FA6C20] text-white h-10'>
+              ODS 2021
+            </button>
+          )}
+          {selectedYear === 5 && (
             <button className='rounded-[10px] sm:text-sm text-xs font-semibold w-[199px] py-2 bg-[#FA6C20] text-white h-10'>
               ODS 2020
             </button>

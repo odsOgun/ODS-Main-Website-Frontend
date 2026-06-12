@@ -319,7 +319,7 @@ const Speakers = () => {
               </h1>
               <p className='text-[16px] leading-6 font-normal text-[#FFFFFF] mt-4 text-center inter-gf'>
                 Exciting news! Stay tuned as we unveil the incredible speakers for the Ogun Digital
-                Summit 2025.
+                Summit 2026.
               </p>
             </div>
           </div>
@@ -349,10 +349,10 @@ const Speakers = () => {
       <section className='md:flex md:flex-row-reverse gap-20  justify-center items-center mb-8 md:mb-0 md:py-[100px] m-auto lg:ml-[160px]'>
         <div className='xl:w-[505px] xl:mx-0  mx-auto w-[90%]  md:mb-[80px] mb-[40px]'>
           <h1 className=' md:w-[358px] text-[34px] platypi-gf leading-10 font-semibold text-[#23323F] md:text-4xl platypi-gf'>
-            Our speakers in the last 4 years.
+            Our speakers in the last 6 years.
           </h1>
           <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
-            It all started with a dream in 2019 to bring together startup entrepreneurs, talents,
+            It all started with a dream in 2020 to bring together startup entrepreneurs, talents,
             creatives and founders with a strong focus to promote youth empowerment, tech
             entrepreneurship and social innovation.
           </p>

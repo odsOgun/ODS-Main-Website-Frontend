@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import IMG_0063 from '/src/assets/img/register/IMG_0063.jpg';
-import IMG_0134 from '/src/assets/img/register/IMG_0134.jpg';
-import IMG_0661 from '/src/assets/img/register/IMG_0661.jpg';
-import IMG_0726 from '/src/assets/img/register/IMG_0726.jpg';
-import IMG_0751 from '/src/assets/img/register/IMG_0751.jpg';
-import IMG_2007 from '/src/assets/img/register/IMG_2007.jpg';
-import IMG_9798 from '/src/assets/img/register/IMG_9798.jpg';
-import IMG_9851 from '/src/assets/img/register/IMG_9851.jpg';
-import IMG_9927 from '/src/assets/img/register/IMG_9927.jpg';
+import IMG_0063 from '/src/assets/img/register/ODS2025-1.jpg';
+import IMG_0064 from '/src/assets/img/register/ODS2025-2.jpg';
+import IMG_0134 from '/src/assets/img/register/ODS2025-3.jpg';
+import IMG_0661 from '/src/assets/img/register/ODS2025-4.jpg';
+import IMG_0726 from '/src/assets/img/register/ODS2025-5.jpg';
+import IMG_0751 from '/src/assets/img/register/ODS2025-6.jpg';
+import IMG_2007 from '/src/assets/img/register/ODS2025-7.jpg';
+import IMG_9798 from '/src/assets/img/register/ODS2025-8.jpg';
+import IMG_9851 from '/src/assets/img/register/ODS2025-9.jpg';
+import IMG_9927 from '/src/assets/img/register/ODS2025-10.jpg';
 
 const SlideShow = () => {
   const images = [
     IMG_0063,
+    IMG_0064,
     IMG_0134,
     IMG_0661,
     IMG_0726,

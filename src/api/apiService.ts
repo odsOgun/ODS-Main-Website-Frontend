@@ -83,6 +83,13 @@ export const apiService = {
     search: async (keyword: string): Promise<AxiosResponse> => {
       return apiClient.get(`/sponsor/search?keyword=${encodeURIComponent(keyword)}`);
     }
+  },
+
+  // Speakers endpoints
+  speakers: {
+    create: async (data: any): Promise<AxiosResponse> => {
+      return apiClient.post('/speaker/create', data);
+    }
   }
 };
 

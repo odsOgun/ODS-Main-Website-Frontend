@@ -19,9 +19,9 @@ import { Link } from 'react-router-dom';
 const items = [
   {
     icon: HeartIcon,
-    title: '7,500+ Inspired Minds',
+    title: '10,000+ Inspired Minds',
     description:
-      'Over the past three years, more than 6,000 participants have joined our summit, each one leaving with the inspiration, knowledge, and connections needed to pursue careers in the digital technology sector. '
+      'Over the past Six years, more than 6,000 participants have joined our summit, each one leaving with the inspiration, knowledge, and connections needed to pursue careers in the digital technology sector. '
   },
   {
     icon: PersonIcon,
@@ -51,6 +51,16 @@ const carouselItems = [
 ];
 
 const journeyItems = [
+  {
+    title: 'ODS 2025: Building the Future Through Innovation',
+    bgColor: '#E5E9EC',
+    points: [
+      'Industry experts shared insights on AI, innovation, and digital transformation.',
+      'Founders, investors, and policymakers discussed the future of technology and economic growth.',
+      'Sessions explored topics ranging from the future of work and the creative economy to sustainability and governance.',
+      'The event brought together stakeholders across sectors to drive conversations that shape the future.'
+    ]
+  },
   {
     title: 'ODS 2024: Innovation: Pathway to our Nation’s Prosperity',
     bgColor: '#E5E9EC',

@@ -190,12 +190,12 @@ const Exhibitors: React.FC = () => {
 
             <div>
               <label htmlFor='organisation' className='block text-sm text-[#67706D] mb-2'>
-                Organization
+                Industry/Sector
               </label>
               <Input
                 id='organisation'
                 name='organisation'
-                placeholder="What's your organisation"
+                placeholder="What's your Industry/Sector"
                 value={formData.organisation}
                 onChange={handleInputChange}
                 className={errors.organisation ? 'border-red-500' : ''}

@@ -55,11 +55,11 @@ function DownloadReportModal({ onClose }: DownloadReportModalProps) {
         </div>
 
         <h2 className='text-center text-2xl font-semibold text-[#0F172A] sm:text-[28px]'>
-          Get the 2025 Impact Report
+          Get the Impact Report
         </h2>
         <p className='mt-3 text-center text-sm leading-6 text-[#6B7280]'>
           Enter your details below to get exclusive access to our impact report for Ogun Digital
-          Summit 2025.
+          Summit.
         </p>
 
         <form onSubmit={handleSubmit} className='mt-8 space-y-5'>
