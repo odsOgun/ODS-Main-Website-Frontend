@@ -138,7 +138,7 @@ const whatToLookForwardItems = [
   {
     title: 'Fresh Insights',
     description:
-      'We will feature leading founders, government ministers, enterprise tech leaders and high profile entrepreneurs recognised locally and globally.',
+      'Gain practical insights into emerging technologies, industry trends, innovation strategies, and opportunities that will shape the future of work and business.',
     image: '/img/fresh-insight.png'
   },
   {
@@ -179,7 +179,7 @@ function SectionTwo() {
             </p>
             {/* <a href={Sitelinks.becomeAnExhibitor} target='_blank'> */}
             <a
-              href='/register/exhibitors'
+              href='/register/speakers'
               className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'
             >
               <span className='text-sm font-semibold'>Apply to Speak</span>
@@ -278,7 +278,7 @@ function SectionTwo() {
               Why join us as a Sponsor?
             </h2>
             <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-4'>
-              With over 5,000 participants expected to grace Ogun Digital Summit 2024, we’ve got the
+              With over 5,000 participants expected to grace Ogun Digital Summit 2026, we’ve got the
               perfect audience for you.
             </p>
             {/* <a href={Sitelinks.becomeAsponsor} target='_blank'> */}
@@ -319,16 +319,16 @@ function SectionTwo() {
               </p>
               <button
                 type='button'
-                className='bg-[#178A2D] font-semibold h-10 min-w-[200px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
+                className='bg-[#178A2D] font-semibold h-10 min-w-[210px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
                 onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
               >
-                <span className='text-sm font-semibold'>Download 2025 Report</span>
+                <span className='text-sm font-semibold'>Download Impact Report</span>
                 <ArrowRight />
               </button>
             </div>
           </div>
 
-          <div className='flex flex-col justify-between gap-4 md:flex-row'>
+          <div className='grid grid-cols-1 gap-4 my-20 md:grid-cols-2 lg:grid-cols-4'>
             {whatToLookForwardItems.map((item, index) => (
               <div
                 key={index}

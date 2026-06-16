@@ -128,7 +128,7 @@ function SectionOne() {
               </p>
             </div>
 
-            <div className='flex flex-col gap-8 py-20 md:flex-row'>
+            <div className='grid gap-8 py-20 grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
               {cardItems.map(({ icon, title, description }, index) => (
                 <div key={index} className=''>
                   <img src={icon} alt={title} />

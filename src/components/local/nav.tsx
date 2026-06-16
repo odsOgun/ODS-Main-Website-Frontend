@@ -50,14 +50,14 @@ function Nav() {
   return (
     <nav className={` flex items-center justify-center w-full`}>
       <div
-        className={`flex items-center h-[54px] w-full py-2 max-w-[1120px] px-2 md:h-16 md:py-[10px] md:px-2 max-md:justify-between `}
+        className={`flex items-center h-[54px] w-full py-2 max-w-[1120px] px-2 md:h-16 md:py-[10px] md:px-2 max-lg:justify-between `}
       >
         <Link to='/'>
           <img src={ODSLogo} className='logo md:hidden' alt='ODS logo' />
           <img src={ODSLogoMobile} className='logo max-md:hidden' alt='ODS logo' />
         </Link>
 
-        <div className='flex items-center justify-center flex-1 gap-4 text-sm font-semibold leading-6 text-[#627587] tracking-[0.2px] max-md:hidden'>
+        <div className='flex items-center justify-center flex-1 gap-4 text-sm font-semibold leading-6 text-[#627587] tracking-[0.2px] max-lg:hidden'>
           {navItems.map((item, index) => {
             if (typeof item.link === 'string') {
               const target = item.link.startsWith('/') ? '_self' : '_blank';
@@ -91,16 +91,16 @@ function Nav() {
 
         <button
           type='button'
-          className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[200px] rounded flex justify-center items-center text-white tracking-[0.2px] max-md:hidden'
+          className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[210px] rounded flex justify-center items-center text-white tracking-[0.2px] max-lg:hidden'
           onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
         >
-          <span className='text-sm font-semibold'>Download 2025 Report</span>
+          <span className='text-sm font-semibold'>Download Impact Report</span>
           <ArrowRight />
         </button>
 
         {/* mobile */}
         <div onClick={() => setNavState(!navState)}>
-          <img src={MenuSvg} className='cursor-pointer md:hidden' alt='Hamburger' />
+          <img src={MenuSvg} className='cursor-pointer lg:hidden' alt='Hamburger' />
         </div>
       </div>
       {/* mobileNav */}
@@ -113,7 +113,7 @@ function Nav() {
     return (
       <div className=''>
         <div
-          className={`mobileNav fixed h-fit w-[90vw] left-4 bg-white px-5 pt-5 pb-10 md:hidden ${navState ? 'showNav' : ''}`}
+          className={`mobileNav fixed h-fit w-[90vw] left-4 bg-white px-5 pt-5 pb-10 lg:hidden ${navState ? 'showNav' : ''}`}
           onClick={() => setNavState(!navState)}
         >
           <div className='flex flex-col w-full gap-6'>
@@ -162,7 +162,7 @@ function Nav() {
                 setNavState(!navState);
               }}
             >
-              <span className='text-sm font-semibold'>Download 2025 Report</span>
+              <span className='text-sm font-semibold'>Download Impact Report</span>
               <ArrowRight />
             </button>
             <a href={Sitelinks.becomeAsponsor} target='_blank' className='w-full'>
@@ -175,7 +175,7 @@ function Nav() {
         </div>
         {navState && (
           <div
-            className='fixed right-0 top-0 w-[100vh] h-full bg-[#000000] bg-opacity-70 cursor-pointer z-10'
+            className='fixed right-0 top-0 w-[100vw] h-full bg-[#000000] bg-opacity-70 cursor-pointer z-10'
             onClick={() => setNavState(!navState)}
           ></div>
         )}
