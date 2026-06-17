@@ -75,7 +75,9 @@ import Register from './pages/register/index.tsx';
 import DownloadReportProvider from './components/downloadReportProvider';
 import NewsPage from './pages/news/index.tsx';
 import NewsPostPage from './pages/news/[slug].tsx';
-import StudioPage from './pages/studio.tsx';
+import { lazy, Suspense } from 'react';
+
+const StudioPage = lazy(() => import('./pages/studio.tsx'));
 
 const router = createBrowserRouter([
   {
@@ -146,7 +148,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/studio',
-    element: <StudioPage />
+    element: (
+      <Suspense fallback={<div style={{ background: '#101611', minHeight: '100vh' }} />}>
+        <StudioPage />
+      </Suspense>
+    )
   }
 ]);
 

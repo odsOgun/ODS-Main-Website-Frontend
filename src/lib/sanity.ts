@@ -27,6 +27,7 @@ export interface Post {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   author?: { name: string; image?: any };
   body?: PortableTextBlock[];
+  featured?: boolean;
 }
 
 export interface PortableTextBlock {

@@ -4,13 +4,14 @@ import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
 import { client, urlFor, type Post } from '@/lib/sanity';
 
-const ALL_POSTS_QUERY = `*[_type == "post"] | order(publishedAt desc) {
+const ALL_POSTS_QUERY = `*[_type == "post"] | order(featured desc, publishedAt desc) {
   _id,
   title,
   slug,
   publishedAt,
   excerpt,
   mainImage,
+  featured,
   categories[]->{ title },
   author->{ name, image }
 }`;
@@ -21,6 +22,85 @@ function formatDate(dateString: string) {
     month: 'long',
     year: 'numeric'
   });
+}
+
+function FeaturedPostCard({ post }: { post: Post }) {
+  return (
+    <Link
+      to={`/news/${post.slug.current}`}
+      className='group grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden bg-white border border-[#E5EAE6] hover:shadow-xl transition-shadow duration-300'
+    >
+      {/* Image */}
+      <div className='w-full h-[280px] md:h-[420px] bg-[#E5EAE6] overflow-hidden'>
+        {post.mainImage ? (
+          <img
+            src={urlFor(post.mainImage).width(900).height(640).url()}
+            alt={post.title}
+            className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
+          />
+        ) : (
+          <div className='w-full h-full flex items-center justify-center bg-[#0E140F]'>
+            <span className='text-[#627587] text-sm'>No image</span>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className='flex flex-col justify-between p-8 md:p-10'>
+        <div className='flex flex-col gap-4'>
+          <div className='flex items-center gap-3 flex-wrap'>
+            <span className='text-xs font-bold tracking-[2px] uppercase text-white bg-[#FA6C20] px-3 py-1 rounded-full'>
+              Featured
+            </span>
+            {post.categories &&
+              post.categories.length > 0 &&
+              post.categories.map((cat) => (
+                <span
+                  key={cat.title}
+                  className='text-xs font-semibold tracking-[2px] uppercase text-[#178A2D] bg-[#ACFAAC] px-2 py-[2px] rounded'
+                >
+                  {cat.title}
+                </span>
+              ))}
+          </div>
+
+          <h2 className='platypi-gf text-[#101611] font-semibold text-2xl md:text-3xl leading-tight group-hover:text-[#178A2D] transition-colors'>
+            {post.title}
+          </h2>
+
+          {post.excerpt && (
+            <p className='text-[#627587] text-sm md:text-base leading-[26px] line-clamp-4'>
+              {post.excerpt}
+            </p>
+          )}
+        </div>
+
+        <div className='flex items-center justify-between pt-6 border-t border-[#E5EAE6] mt-6'>
+          {post.author && (
+            <div className='flex items-center gap-3'>
+              {post.author.image ? (
+                <img
+                  src={urlFor(post.author.image).width(40).height(40).url()}
+                  alt={post.author.name}
+                  className='w-10 h-10 rounded-full object-cover'
+                />
+              ) : (
+                <div className='w-10 h-10 rounded-full bg-[#178A2D] flex items-center justify-center'>
+                  <span className='text-white text-sm font-semibold'>
+                    {post.author.name.charAt(0)}
+                  </span>
+                </div>
+              )}
+              <span className='text-[#23323F] text-sm font-medium'>{post.author.name}</span>
+            </div>
+          )}
+          {post.publishedAt && (
+            <span className='text-[#627587] text-sm'>{formatDate(post.publishedAt)}</span>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
 }
 
 function PostCard({ post }: { post: Post }) {
@@ -111,6 +191,9 @@ function NewsPage() {
       });
   }, []);
 
+  const featuredPost = posts.find((p) => p.featured);
+  const otherPosts = posts.filter((p) => !p.featured);
+
   return (
     <div className='min-h-screen bg-white'>
       <div className='container max-md:px-5'>
@@ -133,7 +216,6 @@ function NewsPage() {
         </div>
       </div>
 
-      {/* Posts grid */}
       <div className='max-w-[1120px] mx-auto px-8 xl:box-content py-16'>
         {loading && (
           <div className='flex justify-center items-center py-20'>
@@ -154,10 +236,32 @@ function NewsPage() {
         )}
 
         {!loading && !error && posts.length > 0 && (
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {posts.map((post) => (
-              <PostCard key={post._id} post={post} />
-            ))}
+          <div className='flex flex-col gap-12'>
+            {/* Featured post */}
+            {featuredPost && (
+              <div>
+                <p className='text-xs font-semibold tracking-[3px] uppercase text-[#627587] mb-5'>
+                  Featured Story
+                </p>
+                <FeaturedPostCard post={featuredPost} />
+              </div>
+            )}
+
+            {/* Rest of posts */}
+            {otherPosts.length > 0 && (
+              <div>
+                {featuredPost && (
+                  <p className='text-xs font-semibold tracking-[3px] uppercase text-[#627587] mb-5'>
+                    More Stories
+                  </p>
+                )}
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                  {otherPosts.map((post) => (
+                    <PostCard key={post._id} post={post} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

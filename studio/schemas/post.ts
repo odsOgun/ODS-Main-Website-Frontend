@@ -45,6 +45,13 @@ export const post = defineType({
       rows: 3,
       description: 'Short summary shown on the news listing page.'
     }),
+    defineField({
+      name: 'featured',
+      title: 'Featured Post',
+      type: 'boolean',
+      description: 'Pin this post to the top of the news page as the featured story.',
+      initialValue: false
+    }),
     defineField({ name: 'body', title: 'Body', type: 'blockContent' })
   ],
   preview: {
