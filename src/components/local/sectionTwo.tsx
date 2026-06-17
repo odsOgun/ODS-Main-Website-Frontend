@@ -8,39 +8,39 @@ import SectionTwoImg2 from '@/assets/img/section-two-image2.png';
 import SectionTwoImg3 from '@/assets/img/speakers.png';
 import Sitelinks from '@/mock/sitelinks.json';
 
-import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
-import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
-import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
-import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
-import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
-import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
-// mobile
-import GrazacLogoMobile from '/img/mobile/grazac.svg';
-import AfexLogoMobile from '/img/mobile/afex.svg';
-import OgunGovMobile from '/img/mobile/ogunGov.svg';
-import TechEconomyMobile from '/img/mobile/techeconomy.svg';
-import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
+// import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
+// import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
+// import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
+// import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
+// import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
+// import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
+// // mobile
+// import GrazacLogoMobile from '/img/mobile/grazac.svg';
+// import AfexLogoMobile from '/img/mobile/afex.svg';
+// import OgunGovMobile from '/img/mobile/ogunGov.svg';
+// import TechEconomyMobile from '/img/mobile/techeconomy.svg';
+// import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
 
-function SponsorLogos() {
-  const isBelow = useIsScreenWidthBelow(768);
+// function SponsorLogos() {
+//   const isBelow = useIsScreenWidthBelow(768);
 
-  const sponsors = [
-    { label: 'Grazac', icon: isBelow ? GrazacLogoMobile : GrazacLogo },
-    { label: 'Afex', icon: isBelow ? AfexLogoMobile : AfexLogo },
-    { label: 'Ogun Gov', icon: isBelow ? OgunGovMobile : OgunGov },
-    { label: 'Tech Economy', icon: isBelow ? TechEconomyMobile : TechEconomy },
-    { label: 'Ogun Daily', icon: isBelow ? OgunDailyMobile : OgunDaily }
-  ];
-  return (
-    <div className='max-md:gap-3 flex items-center justify-between md:px-6 mt-2 h-[62px] md:h-[72px] md:mt-5'>
-      {sponsors.map(({ label, icon }) => (
-        <div key={label}>
-          <img src={icon} alt={label} />
-        </div>
-      ))}
-    </div>
-  );
-}
+//   const sponsors = [
+//     { label: 'Grazac', icon: isBelow ? GrazacLogoMobile : GrazacLogo },
+//     { label: 'Afex', icon: isBelow ? AfexLogoMobile : AfexLogo },
+//     { label: 'Ogun Gov', icon: isBelow ? OgunGovMobile : OgunGov },
+//     { label: 'Tech Economy', icon: isBelow ? TechEconomyMobile : TechEconomy },
+//     { label: 'Ogun Daily', icon: isBelow ? OgunDailyMobile : OgunDaily }
+//   ];
+//   return (
+//     <div className='max-md:gap-3 flex items-center justify-between md:px-6 mt-2 h-[62px] md:h-[72px] md:mt-5'>
+//       {sponsors.map(({ label, icon }) => (
+//         <div key={label}>
+//           <img src={icon} alt={label} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
 
 enum Tabs {
   Conference,
@@ -348,14 +348,14 @@ function SectionTwo() {
           </div>
         </div>
       </div>
-      <div className='max-w-[713px] mx-auto mt-20 md:mt-[100px]'>
+      {/* <div className='max-w-[713px] mx-auto mt-20 md:mt-[100px]'>
         <div className='flex flex-col justify-center w-full'>
           <p className='text-xs md:text-base font-semibold leading-5 md:leading-5 uppercase text-[#627587] tracking-[3px] md:text-center'>
             Proudly supported by
           </p>
           <SponsorLogos />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,6 +1,13 @@
 import RegisterLayout from '@/components/layouts/registerLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +24,7 @@ interface FormData {
   country: string;
   industry: string;
   contentTrack: string;
-  topicPro: string;
+  topicProposal: string;
 }
 
 interface FormErrors {
@@ -31,7 +38,7 @@ interface FormErrors {
   country: string;
   industry: string;
   contentTrack: string;
-  topicPro: string;
+  topicProposal: string;
 }
 
 const Speakers: React.FC = () => {
@@ -47,7 +54,7 @@ const Speakers: React.FC = () => {
     country: '',
     industry: '',
     contentTrack: '',
-    topicPro: ''
+    topicProposal: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({
@@ -61,7 +68,7 @@ const Speakers: React.FC = () => {
     country: '',
     industry: '',
     contentTrack: '',
-    topicPro: ''
+    topicProposal: ''
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -105,7 +112,7 @@ const Speakers: React.FC = () => {
       country: '',
       industry: '',
       contentTrack: '',
-      topicPro: ''
+      topicProposal: ''
     };
 
     // Full Name validation
@@ -166,8 +173,8 @@ const Speakers: React.FC = () => {
     }
 
     // Topic proposal validation
-    if (!formData.topicPro.trim()) {
-      newErrors.topicPro = 'Topic and idea is required';
+    if (!formData.topicProposal.trim()) {
+      newErrors.topicProposal = 'Topic and idea is required';
     }
 
     setErrors(newErrors);
@@ -188,6 +195,21 @@ const Speakers: React.FC = () => {
       setErrors((prev) => ({
         ...prev,
         [name]: ''
+      }));
+    }
+  };
+
+  const handleContentTrackChange = (value: string): void => {
+    setFormData((prev) => ({
+      ...prev,
+      contentTrack: value
+    }));
+
+    // Clear error when user selects an option
+    if (errors.contentTrack) {
+      setErrors((prev) => ({
+        ...prev,
+        contentTrack: ''
       }));
     }
   };
@@ -214,7 +236,7 @@ const Speakers: React.FC = () => {
         country: '',
         industry: '',
         contentTrack: '',
-        topicPro: ''
+        topicProposal: ''
       });
       toast.success('Speaker application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
@@ -417,15 +439,29 @@ const Speakers: React.FC = () => {
                 >
                   Content track you'd like to speak on
                 </label>
-                <Input
-                  id='contentTrack'
-                  name='contentTrack'
-                  placeholder='Enter content track'
+                <Select
                   value={formData.contentTrack}
-                  onChange={handleInputChange}
-                  className={errors.contentTrack ? 'border-red-500' : ''}
+                  onValueChange={handleContentTrackChange}
                   disabled={loading}
-                />
+                >
+                  <SelectTrigger error={!!errors.contentTrack}>
+                    <SelectValue placeholder='Select content track' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='Creative Economy'>Creative Economy</SelectItem>
+                    <SelectItem value='AI & Innovation'>AI & Innovation</SelectItem>
+                    <SelectItem value='Emerging Tech and Digital Transformation'>
+                      Emerging Tech and Digital Transformation
+                    </SelectItem>
+                    <SelectItem value='Policy and Governance'>Policy and Governance</SelectItem>
+                    <SelectItem value='AgriTech'>AgriTech</SelectItem>
+                    <SelectItem value='Sustainability and Green Tech'>
+                      Sustainability and Green Tech
+                    </SelectItem>
+                    <SelectItem value='Future of Work'>Future of Work</SelectItem>
+                    <SelectItem value='Startups'>Startups</SelectItem>
+                  </SelectContent>
+                </Select>
                 {errors.contentTrack && (
                   <p className='text-red-500 text-xs mt-1'>{errors.contentTrack}</p>
                 )}
@@ -433,19 +469,24 @@ const Speakers: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor='topicPro' className='block text-sm text-[#67706D] mb-2 font-bold'>
+              <label
+                htmlFor='topicProposal'
+                className='block text-sm text-[#67706D] mb-2 font-bold'
+              >
                 Topic and idea for the session you'd like to propose
               </label>
               <textarea
-                id='topicPro'
-                name='topicPro'
+                id='topicProposal'
+                name='topicProposal'
                 placeholder='Give us a wroking title and a short outline of what attendees will learn.'
-                value={formData.topicPro}
+                value={formData.topicProposal}
                 onChange={handleInputChange}
-                className={`w-full p-3 rounded border ${errors.topicPro ? 'border-red-500' : 'border-[#000000]'} min-h-[150px]`}
+                className={`w-full p-3 rounded border ${errors.topicProposal ? 'border-red-500' : 'border-[#000000]'} min-h-[150px]`}
                 disabled={loading}
               />
-              {errors.topicPro && <p className='text-red-500 text-xs mt-1'>{errors.topicPro}</p>}
+              {errors.topicProposal && (
+                <p className='text-red-500 text-xs mt-1'>{errors.topicProposal}</p>
+              )}
             </div>
           </div>
 

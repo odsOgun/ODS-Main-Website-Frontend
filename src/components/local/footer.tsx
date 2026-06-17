@@ -41,11 +41,11 @@ const Footer = () => {
           <li className='cursor-pointer'>
             <a href='/register/sponsors'>Sponsors</a>
           </li>
-          <li>
+          {/* <li>
             <a href='https://selar.co/m/ods2024' target='_blank' rel='noopener noreferrer'>
               Store
             </a>
-          </li>
+          </li> */}
           {/* <li onClick={openExhibitorModal} className='cursor-pointer'> */}
           <li className='cursor-pointer'>
             <a href='/register/exhibitors'>Exhibitors</a>
@@ -70,7 +70,7 @@ const Footer = () => {
           </div>
 
           <div className='text-[#627587] text-center text-xs md:text-base leading-[18px] md:leading-6 font-normal tracking-[-0.2px] md:tracking-[0.2px]'>
-            <p>Copyright © 2025 Ogun Digital Summit. All rights reserved.</p>
+            <p>Copyright © 2026 Ogun Digital Summit. All rights reserved.</p>
           </div>
         </div>
       </div>
