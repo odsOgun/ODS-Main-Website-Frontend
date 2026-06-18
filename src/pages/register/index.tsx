@@ -142,7 +142,7 @@ export default function Register() {
             <div className='text-center text-white max-w-[448px] mx-auto'>
               <h1 className='text-4xl font-bold mb-2'>You got yourself a ticket!</h1>
               <p className='text-base text-white/60 mb-8'>
-                Your Ogun digital summit ticket 2025 has been sent to your email. We can't wait to
+                Your Ogun digital summit ticket 2026 has been sent to your email. We can't wait to
                 see you in November.
               </p>
               <button
@@ -200,7 +200,7 @@ export default function Register() {
                     <div className='flex w-full flex-row items-center justify-between gap-2'>
                       <img src={ODSLogoMobile} alt='' />
                       <p className='text-sm font-semibold text-gray-500'>
-                        Ogun Digital Summit 2025
+                        Ogun Digital Summit 2026
                       </p>
                     </div>
                     <div className='flex justify-between'>

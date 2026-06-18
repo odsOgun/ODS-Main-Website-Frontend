@@ -38,7 +38,7 @@ function Nav() {
     { label: 'About', link: '/about' },
     { label: 'Sponsor', link: '/register/sponsors' },
     // { label: 'Sponsor', link: openSponsorModal },
-    { label: 'Store', link: 'https://selar.co/m/ods2024' },
+    // { label: 'Store', link: 'https://selar.co/m/ods2024' },
     { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
     { label: 'Speakers', link: '/speaker' },

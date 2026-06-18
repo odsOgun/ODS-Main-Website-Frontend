@@ -21,7 +21,7 @@ const items = [
     icon: HeartIcon,
     title: '10,000+ Inspired Minds',
     description:
-      'Over the past Six years, more than 6,000 participants have joined our summit, each one leaving with the inspiration, knowledge, and connections needed to pursue careers in the digital technology sector. '
+      'Over the past Six years, more than 10,000 participants have joined our summit, each one leaving with the inspiration, knowledge, and connections needed to pursue careers in the digital technology sector. '
   },
   {
     icon: PersonIcon,
