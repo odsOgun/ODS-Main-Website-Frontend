@@ -90,6 +90,13 @@ export const apiService = {
     create: async (data: any): Promise<AxiosResponse> => {
       return apiClient.post('/speaker/create', data);
     }
+  },
+
+  // Master Class endpoints
+  masterClass: {
+    create: async (data: any): Promise<AxiosResponse> => {
+      return apiClient.post('/speaker/create', data);
+    }
   }
 };
 

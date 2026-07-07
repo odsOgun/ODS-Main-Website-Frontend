@@ -6,7 +6,6 @@ import SponsorCard, { SponsorCardProps } from '../ui/sponsorCard';
 import SectionTwoImg from '@/assets/img/section-two-image.png';
 import SectionTwoImg2 from '@/assets/img/section-two-image2.png';
 import SectionTwoImg3 from '@/assets/img/speakers.png';
-import Sitelinks from '@/mock/sitelinks.json';
 
 // import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
 // import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
@@ -198,7 +197,7 @@ function SectionTwo() {
               Join our masterclass trainers to help us train young individuals at ODS. It's free and
               we don't charge anyone for this.
             </p>
-            <a href={Sitelinks.applyMasterclass} target='_blank'>
+            <a href='/register/masterclass'>
               <button className='bg-[#178A2D] font-semibold h-10 w-full max-w-[260px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
                 <span className='text-sm font-semibold'>Apply to conduct a masterclass</span>
                 <ArrowRight />

@@ -69,6 +69,7 @@ import Statistics from './pages/statistics.tsx';
 import Exhibitors from './pages/register/exhibitors.tsx';
 import Sponsors from './pages/register/sponsors.tsx';
 import SpeakerRegistration from './pages/register/speakers.tsx';
+import MasterClass from './pages/register/masterclass.tsx';
 import Applicants from './pages/applicants.tsx';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import Register from './pages/register/index.tsx';
@@ -134,6 +135,11 @@ const router = createBrowserRouter([
   {
     path: '/register/speakers',
     element: <SpeakerRegistration />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/masterclass',
+    element: <MasterClass />,
     errorElement: <ErrorPage />
   },
   {
