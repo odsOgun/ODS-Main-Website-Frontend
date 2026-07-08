@@ -245,6 +245,7 @@ const Speakers: React.FC = () => {
         const axiosError = error as AxiosError;
 
         const errorMessage =
+          (axiosError.response?.data as { error?: string })?.error ||
           (axiosError.response?.data as { message?: string })?.message ||
           `Submission failed (${axiosError.response?.status})`;
         toast.error(errorMessage);

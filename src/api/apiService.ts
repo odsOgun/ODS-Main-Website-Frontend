@@ -95,7 +95,7 @@ export const apiService = {
   // Master Class endpoints
   masterClass: {
     create: async (data: any): Promise<AxiosResponse> => {
-      return apiClient.post('/speaker/create', data);
+      return apiClient.post('speaker/master-class', data);
     }
   }
 };

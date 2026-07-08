@@ -1,13 +1,6 @@
 import RegisterLayout from '@/components/layouts/registerLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
@@ -20,11 +13,9 @@ interface FormData {
   phoneNumber: string;
   companyName: string;
   role: string;
-  website: string;
   country: string;
   industry: string;
-  contentTrack: string;
-  topicProposal: string;
+  topic: string;
 }
 
 interface FormErrors {
@@ -34,11 +25,9 @@ interface FormErrors {
   phoneNumber: string;
   companyName: string;
   role: string;
-  website: string;
   country: string;
   industry: string;
-  contentTrack: string;
-  topicProposal: string;
+  topic: string;
 }
 
 const MasterClass: React.FC = () => {
@@ -50,11 +39,9 @@ const MasterClass: React.FC = () => {
     phoneNumber: '',
     companyName: '',
     role: '',
-    website: '',
     country: '',
     industry: '',
-    contentTrack: '',
-    topicProposal: ''
+    topic: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({
@@ -64,11 +51,9 @@ const MasterClass: React.FC = () => {
     phoneNumber: '',
     companyName: '',
     role: '',
-    website: '',
     country: '',
     industry: '',
-    contentTrack: '',
-    topicProposal: ''
+    topic: ''
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,15 +66,6 @@ const MasterClass: React.FC = () => {
     return patterns.some((pattern) => pattern.test(cleanPhone));
   };
 
-  const validateUrl = (url: string): boolean => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {
       firstName: '',
@@ -98,11 +74,9 @@ const MasterClass: React.FC = () => {
       phoneNumber: '',
       companyName: '',
       role: '',
-      website: '',
       country: '',
       industry: '',
-      contentTrack: '',
-      topicProposal: ''
+      topic: ''
     };
 
     if (!formData.firstName.trim()) {
@@ -134,12 +108,6 @@ const MasterClass: React.FC = () => {
       newErrors.role = 'Role is required';
     }
 
-    if (!formData.website.trim()) {
-      newErrors.website = 'Website URL is required';
-    } else if (!validateUrl(formData.website)) {
-      newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
-    }
-
     if (!formData.country.trim()) {
       newErrors.country = 'Country is required';
     }
@@ -148,12 +116,8 @@ const MasterClass: React.FC = () => {
       newErrors.industry = 'Industry is required';
     }
 
-    if (!formData.contentTrack.trim()) {
-      newErrors.contentTrack = 'Content track is required';
-    }
-
-    if (!formData.topicProposal.trim()) {
-      newErrors.topicProposal = 'Topic and idea is required';
+    if (!formData.topic.trim()) {
+      newErrors.topic = 'Topic and idea is required';
     }
 
     setErrors(newErrors);
@@ -177,20 +141,6 @@ const MasterClass: React.FC = () => {
     }
   };
 
-  const handleContentTrackChange = (value: string): void => {
-    setFormData((prev) => ({
-      ...prev,
-      contentTrack: value
-    }));
-
-    if (errors.contentTrack) {
-      setErrors((prev) => ({
-        ...prev,
-        contentTrack: ''
-      }));
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
@@ -208,11 +158,9 @@ const MasterClass: React.FC = () => {
         phoneNumber: '',
         companyName: '',
         role: '',
-        website: '',
         country: '',
         industry: '',
-        contentTrack: '',
-        topicProposal: ''
+        topic: ''
       });
       toast.success('Master class application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
@@ -221,6 +169,7 @@ const MasterClass: React.FC = () => {
         const axiosError = error as AxiosError;
 
         const errorMessage =
+          (axiosError.response?.data as { error?: string })?.error ||
           (axiosError.response?.data as { message?: string })?.message ||
           `Submission failed (${axiosError.response?.status})`;
         toast.error(errorMessage);
@@ -358,7 +307,7 @@ const MasterClass: React.FC = () => {
             </div>
 
             <div className='flex flex-col gap-4 md:flex-row'>
-              <div className='flex-1'>
+              {/* <div className='flex-1'>
                 <label htmlFor='website' className='block text-sm text-[#67706D] mb-2 font-bold'>
                   Website URL
                 </label>
@@ -373,7 +322,7 @@ const MasterClass: React.FC = () => {
                   disabled={loading}
                 />
                 {errors.website && <p className='text-red-500 text-xs mt-1'>{errors.website}</p>}
-              </div>
+              </div> */}
 
               <div className='flex-1'>
                 <label htmlFor='country' className='block text-sm text-[#67706D] mb-2 font-bold'>
@@ -390,9 +339,7 @@ const MasterClass: React.FC = () => {
                 />
                 {errors.country && <p className='text-red-500 text-xs mt-1'>{errors.country}</p>}
               </div>
-            </div>
 
-            <div className='flex flex-col gap-4 md:flex-row'>
               <div className='flex-1'>
                 <label htmlFor='industry' className='block text-sm text-[#67706D] mb-2 font-bold'>
                   Industry
@@ -408,61 +355,22 @@ const MasterClass: React.FC = () => {
                 />
                 {errors.industry && <p className='text-red-500 text-xs mt-1'>{errors.industry}</p>}
               </div>
-              <div className='flex-1'>
-                <label
-                  htmlFor='contentTrack'
-                  className='block text-sm text-[#67706D] mb-2 font-bold '
-                >
-                  Content track you'd like to speak on
-                </label>
-                <Select
-                  value={formData.contentTrack}
-                  onValueChange={handleContentTrackChange}
-                  disabled={loading}
-                >
-                  <SelectTrigger error={!!errors.contentTrack}>
-                    <SelectValue placeholder='Select content track' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='Creative Economy'>Creative Economy</SelectItem>
-                    <SelectItem value='AI & Innovation'>AI & Innovation</SelectItem>
-                    <SelectItem value='Emerging Tech and Digital Transformation'>
-                      Emerging Tech and Digital Transformation
-                    </SelectItem>
-                    <SelectItem value='Policy and Governance'>Policy and Governance</SelectItem>
-                    <SelectItem value='AgriTech'>AgriTech</SelectItem>
-                    <SelectItem value='Sustainability and Green Tech'>
-                      Sustainability and Green Tech
-                    </SelectItem>
-                    <SelectItem value='Future of Work'>Future of Work</SelectItem>
-                    <SelectItem value='Startups'>Startups</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.contentTrack && (
-                  <p className='text-red-500 text-xs mt-1'>{errors.contentTrack}</p>
-                )}
-              </div>
             </div>
 
             <div>
-              <label
-                htmlFor='topicProposal'
-                className='block text-sm text-[#67706D] mb-2 font-bold'
-              >
+              <label htmlFor='topic' className='block text-sm text-[#67706D] mb-2 font-bold'>
                 Topic and idea for the session you'd like to propose
               </label>
               <textarea
-                id='topicProposal'
-                name='topicProposal'
+                id='topic'
+                name='topic'
                 placeholder='Give us a working title and a short outline of what attendees will learn.'
-                value={formData.topicProposal}
+                value={formData.topic}
                 onChange={handleInputChange}
-                className={`w-full p-3 rounded border ${errors.topicProposal ? 'border-red-500' : 'border-[#000000]'} min-h-[150px]`}
+                className={`w-full p-3 rounded border ${errors.topic ? 'border-red-500' : 'border-[#000000]'} min-h-[150px]`}
                 disabled={loading}
               />
-              {errors.topicProposal && (
-                <p className='text-red-500 text-xs mt-1'>{errors.topicProposal}</p>
-              )}
+              {errors.topic && <p className='text-red-500 text-xs mt-1'>{errors.topic}</p>}
             </div>
           </div>
 
