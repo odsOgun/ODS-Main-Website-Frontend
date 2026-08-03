@@ -165,7 +165,7 @@ const MasterClass: React.FC = () => {
       toast.success('Master class application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
     } catch (error: unknown) {
-      console.log('Master class application error:', error);
+      // console.log('Master class application error:', error);
       // Extract error message from API response structure
       const errorMessage =
         (error as ApiError)?.message ||

@@ -138,7 +138,7 @@ function StartupBusiness({
         hearAboutUs: selectedReferralSource
       });
     } catch (error: unknown) {
-      console.log('Registration error after payment:', error);
+      // console.log('Registration error after payment:', error);
       // Extract error message from API response structure
       const errorMessage = (error as ApiError)?.message || 'Registration failed. Please try again.';
       toast.error(errorMessage);
@@ -230,7 +230,7 @@ function StartupBusiness({
           hearAboutUs: selectedReferralSource
         });
       } catch (error) {
-        console.log('Registration error:', error);
+        // console.log('Registration error:', error);
         // Extract error message from API response structure
         const errorMessage =
           (error as ApiError)?.message || 'Registration failed. Please try again.';

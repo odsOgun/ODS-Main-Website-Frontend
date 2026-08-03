@@ -173,7 +173,7 @@ const Sponsors: React.FC = () => {
       toast.success('Sponsorship application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
     } catch (error: unknown) {
-      console.log('Sponsorship application error:', error);
+      // console.log('Sponsorship application error:', error);
       // Extract error message from API response structure
       const errorMessage =
         (error as ApiError)?.message ||

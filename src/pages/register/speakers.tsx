@@ -241,7 +241,7 @@ const Speakers: React.FC = () => {
       toast.success('Speaker application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
     } catch (error: unknown) {
-      console.log('Speaker application error:', error);
+      // console.log('Speaker application error:', error);
       // Extract error message from API response structure
       const errorMessage =
         (error as ApiError)?.message || 'Failed to submit speaker application. Please try again.';

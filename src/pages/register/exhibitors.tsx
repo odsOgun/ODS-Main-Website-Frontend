@@ -124,7 +124,7 @@ const Exhibitors: React.FC = () => {
       toast.success('Application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
     } catch (error: unknown) {
-      console.log('Exhibitor application error:', error);
+      // console.log('Exhibitor application error:', error);
       // Extract error message from API response structure
       const errorMessage =
         (error as ApiError)?.message || 'Failed to submit application. Please try again.';
