@@ -11,7 +11,7 @@ import {
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { apiService, AxiosError } from '@/api/apiService';
+import { apiService, type ApiError } from '@/api/apiService';
 
 interface FormData {
   firstName: string;
@@ -241,19 +241,11 @@ const Speakers: React.FC = () => {
       toast.success('Speaker application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
     } catch (error: unknown) {
-      if (error && typeof error === 'object' && 'response' in error) {
-        const axiosError = error as AxiosError;
-
-        const errorMessage =
-          (axiosError.response?.data as { error?: string })?.error ||
-          (axiosError.response?.data as { message?: string })?.message ||
-          `Submission failed (${axiosError.response?.status})`;
-        toast.error(errorMessage);
-      } else if (error && typeof error === 'object' && 'request' in error) {
-        toast.error('No response from server. Please check your connection.');
-      } else {
-        toast.error('Failed to submit speaker application. Please try again.');
-      }
+      console.log('Speaker application error:', error);
+      // Extract error message from API response structure
+      const errorMessage =
+        (error as ApiError)?.message || 'Failed to submit speaker application. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

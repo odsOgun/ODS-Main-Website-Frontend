@@ -6,7 +6,7 @@ import { useState, useId } from 'react';
 import { Button } from '@/components/ui/button2';
 import { Input } from '@/components/ui/input2';
 import { STARTUP_BUSINESS_OPTIONS, REFERRAL_SOURCE_OPTIONS, TICKET_TIERS } from '@/lib/constants';
-import { apiService } from '@/api/apiService';
+import { apiService, type ApiError } from '@/api/apiService';
 import { toast } from 'sonner';
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import {
@@ -139,6 +139,9 @@ function StartupBusiness({
       });
     } catch (error: unknown) {
       console.log('Registration error after payment:', error);
+      // Extract error message from API response structure
+      const errorMessage = (error as ApiError)?.message || 'Registration failed. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -228,8 +231,9 @@ function StartupBusiness({
         });
       } catch (error) {
         console.log('Registration error:', error);
+        // Extract error message from API response structure
         const errorMessage =
-          error instanceof Error ? error.message : 'Registration failed. Please try again.';
+          (error as ApiError)?.message || 'Registration failed. Please try again.';
         toast.error(errorMessage);
       } finally {
         setIsSubmitting(false);

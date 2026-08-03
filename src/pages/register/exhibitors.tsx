@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { apiService, AxiosError } from '@/api/apiService';
+import { apiService, type ApiError } from '@/api/apiService';
 
 interface FormData {
   fullName: string;
@@ -124,20 +124,11 @@ const Exhibitors: React.FC = () => {
       toast.success('Application submitted successfully! Redirecting to home...');
       setTimeout(() => navigate('/'), 1500);
     } catch (error: unknown) {
-      // Error handling with full access to request data
-      if (error && typeof error === 'object' && 'response' in error) {
-        // Server responded with error status (AxiosError)
-        const axiosError = error as AxiosError;
-
-        const errorMessage =
-          (axiosError.response?.data as { message?: string })?.message ||
-          `Submission failed (${axiosError.response?.status})`;
-        toast.error(errorMessage);
-      } else if (error && typeof error === 'object' && 'request' in error) {
-        toast.error('No response from server. Please check your connection.');
-      } else {
-        toast.error('Failed to submit application. Please try again.');
-      }
+      console.log('Exhibitor application error:', error);
+      // Extract error message from API response structure
+      const errorMessage =
+        (error as ApiError)?.message || 'Failed to submit application. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

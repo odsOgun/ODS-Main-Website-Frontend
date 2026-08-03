@@ -27,19 +27,21 @@ apiClient.interceptors.response.use(
   (error: AxiosError) => {
     // If request never reached server → CORS / Network error
     if (!error.response) {
-      throw {
+      const networkError: ApiError = {
         status: null,
         message: 'Network error. Check internet or CORS configuration.',
         data: null
       };
+      throw networkError;
     }
 
     // Normalize backend error shape
-    throw {
+    const apiError: ApiError = {
       status: error.response.status,
       message: (error.response.data as any)?.message ?? 'Request failed. Please try again.',
       data: error.response.data
     };
+    throw apiError;
   }
 );
 
@@ -102,6 +104,13 @@ export const apiService = {
 
 // Export the axios instance for direct use if needed
 export { apiClient };
+
+// API Error type
+export interface ApiError {
+  status: number | null;
+  message: string;
+  data: unknown;
+}
 
 // Export types
 export type { AxiosResponse, AxiosError };
