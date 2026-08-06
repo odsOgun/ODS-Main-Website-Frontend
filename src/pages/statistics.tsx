@@ -25,12 +25,9 @@ const Statistics = () => {
           digital change, connecting visionaries, and empowering communities across Ogun State.
         </p>
         <a target='_blank'>
-          <button
-            className='bg-[#178A2D] font-semibold h-10 min-w-[210px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'
-            onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
-          >
+          <button className='bg-[#178A2D] font-semibold h-10 min-w-[161px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'>
             <span className='text-[14px] leading-[20px] tracking-[0.2px] font-semibold'>
-              Download Impact Report
+              Register
             </span>
             <ArrowRight fill='#fff' />
           </button>

@@ -1,45 +1,6 @@
 import { ArrowRight, ArrowRightGreen } from '@/assets/icons';
 import CountDown from './countdown';
-// import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
-// import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
-// import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
-// import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
-// import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
 
-// import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
-// // mobile
-// import GrazacLogoMobile from '/img/mobile/grazac.svg';
-// import AfexLogoMobile from '/img/mobile/afex.svg';
-// import OgunGovMobile from '/img/mobile/ogunGov.svg';
-// import TechEconomyMobile from '/img/mobile/techeconomy.svg';
-// import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
-
-// function SponsorLogos() {
-//   const isBelow = useIsScreenWidthBelow(768);
-
-//   const sponsors = [
-//     { label: 'Grazac', icon: isBelow ? GrazacLogoMobile : GrazacLogo },
-//     { label: 'Afex', icon: isBelow ? AfexLogoMobile : AfexLogo },
-//     { label: 'Ogun Gov', icon: isBelow ? OgunGovMobile : OgunGov },
-//     { label: 'Tech Economy', icon: isBelow ? TechEconomyMobile : TechEconomy },
-//     { label: 'Ogun Daily', icon: isBelow ? OgunDailyMobile : OgunDaily }
-//   ];
-//   return (
-//     <div className='max-md:gap-3 flex items-center justify-between md:px-6 mt-2 h-[62px] md:h-[72px] md:mt-5'>
-//       {sponsors.map(({ label, icon }) => (
-//         <div key={label}>
-//           <img src={icon} alt={label} />
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
-// interface SectionOneProps {
-//   // onOpenSponsorModal: () => void;
-//   onOpenComingModal: () => void;
-// }
-
-// function Hero({ onOpenComingModal }: SectionOneProps) {
 function Hero() {
   return (
     <div className='relative'>
@@ -65,10 +26,9 @@ function Hero() {
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
               <button
                 type='button'
-                className='bg-[#178A2D] font-semibold h-10 min-w-[210px] rounded flex justify-center items-center tracking-[0.2px] text-white'
-                onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
+                className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white'
               >
-                <span className='text-sm font-semibold'>Download Impact Report</span>
+                <span className='text-sm font-semibold'>Register</span>
                 <ArrowRight />
               </button>
               <a href='/register/sponsors'>
