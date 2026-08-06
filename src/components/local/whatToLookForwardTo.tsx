@@ -44,7 +44,6 @@ function WhatToLookForwardTo() {
           <button
             type='button'
             className='bg-[#178A2D] font-semibold min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
-            onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
           >
             <span className='text-sm font-semibold'>Download Report</span>
             <ArrowRight />

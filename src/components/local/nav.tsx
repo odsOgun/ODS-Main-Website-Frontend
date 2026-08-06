@@ -42,7 +42,8 @@ function Nav() {
     { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
     { label: 'Speakers', link: '/speaker' },
-    { label: 'News', link: '/news' }
+    { label: 'News', link: '/news' },
+    { label: 'Impact Report', link: '/reports' }
   ];
 
   const [navState, setNavState] = useState<boolean>(false);
@@ -91,10 +92,9 @@ function Nav() {
 
         <button
           type='button'
-          className='bg-[#178A2D] font-semibold h-10 min-w-[110px] w-[210px] rounded flex justify-center items-center text-white tracking-[0.2px] max-lg:hidden'
-          onClick={() => window.dispatchEvent(new Event('openDownloadReportModal'))}
+          className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] max-lg:hidden'
         >
-          <span className='text-sm font-semibold'>Download Impact Report</span>
+          <span className='text-sm font-semibold'>Register</span>
           <ArrowRight />
         </button>
 
@@ -157,12 +157,8 @@ function Nav() {
             <button
               type='button'
               className='w-full rounded bg-[#178A2D] font-semibold h-10 text-white tracking-[0.2px] flex items-center justify-center gap-2'
-              onClick={() => {
-                window.dispatchEvent(new Event('openDownloadReportModal'));
-                setNavState(!navState);
-              }}
             >
-              <span className='text-sm font-semibold'>Download Impact Report</span>
+              <span className='text-sm font-semibold'>Register</span>
               <ArrowRight />
             </button>
             <a href={Sitelinks.becomeAsponsor} target='_blank' className='w-full'>

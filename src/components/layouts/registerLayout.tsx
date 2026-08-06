@@ -12,7 +12,7 @@ function RegisterLayout({ children }: { children: React.ReactNode }) {
         <SlideShow />
       </div>
       <div
-        className='absolute top-4 right-4 bg-white rounded-full p-2'
+        className='absolute top-4 right-4 bg-white rounded-full p-2 cursor-pointer'
         onClick={() => navigate('/')}
       >
         <X />
