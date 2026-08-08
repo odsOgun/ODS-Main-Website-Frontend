@@ -1,5 +1,4 @@
 import RegisterLayout from '@/components/layouts/registerLayout';
-import { FilePlus } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 import { apiService } from '@/api/apiService';
 import { toast } from 'sonner';
@@ -14,21 +13,12 @@ const Reports = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await apiService.attendees.requestImpactReport({ name, email });
-      const blob = new Blob([response.data], { type: response.data.type || 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'ODS-Impact-Report.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-
-      toast.success('Your report is downloading now.');
-    } catch (error) {
-      console.error('Download report submission error:', error);
-      toast.error('Unable to download report. Please try again.');
+      await apiService.attendees.requestImpactReport({ name, email });
+      toast.success('Impact report sent to your email');
+      setName('');
+      setEmail('');
+    } catch {
+      toast.error('Unable to Submit. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -36,10 +26,6 @@ const Reports = () => {
   return (
     <RegisterLayout>
       <div className='max-w-[516px] mx-auto p-6 pt-20'>
-        <div className='mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-[8px] bg-[#E6F8EE] text-[#178A2D]'>
-          <FilePlus />
-        </div>
-
         <h2 className='text-center text-2xl font-semibold text-[#0F172A] sm:text-[28px]'>
           Get the Impact Report
         </h2>
@@ -77,7 +63,7 @@ const Reports = () => {
             disabled={isSubmitting}
             className='w-full rounded-[8px] bg-[#178A2D] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#166f27] disabled:cursor-not-allowed disabled:bg-[#94A3B8]'
           >
-            {isSubmitting ? 'Downloading...' : 'Download the report'}
+            {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
         </form>
       </div>
