@@ -8,13 +8,7 @@ function Hero() {
         <div className='max-w-[713px] mx-auto'>
           <div className='flex flex-col gap-6 md:gap-8'>
             <div className='text-[34px] md:text-6xl leading-[40px] md:leading-[64px] text-left md:text-center tracking-[0.5px] md:tracking-[-1px] text-[#23323F] max-md:max-w-[332px]'>
-              <h2 className='italic font-normal platypi-gf'>Shaping Nigeria’s Digital Future</h2>
-              {/* <h2 className='italic font-normal platypi-gf'>
-                Innovation:{' '}
-                <span className='font-semibold tracking-[0.5px] md:tracking-[-1px] not-italic'>
-                  Pathway to our nation's prosperity
-                </span>
-              </h2> */}
+              <h2 className='italic font-normal platypi-gf'>The Next Move</h2>
             </div>
             <p className='text-sm md:text-base leading-[22px] md:leading-[22px] font-normal tracking-[0.2px] text-[#627587]  md:text-center'>
               Ogun Digital Summit is focused on showcasing new innovations in Ogun Tech Ecosystem
@@ -22,6 +16,26 @@ function Hero() {
               for bold conversations, real connections, and decisions that move Nigeria's tech
               ecosystem forward.
             </p>
+
+            <div className='flex flex-wrap items-center md:justify-center gap-[8px] lg:gap-[16px]'>
+              <div className='flex items-center gap-[8px]'>
+                <img src='/img/tech-brain.png' alt='tech-brain' />
+                <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>Technology</p>
+                <p className=' md:ml-[16px] ml-[8px] h-[12px] md:h-[18px] border-r border-[#BCC1C1]'></p>
+              </div>
+
+              <div className='flex items-center gap-[8px]'>
+                <img src='/img/motion.png' alt='motion' />
+                <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>
+                  Progress in Motion
+                </p>
+                <p className=' md:ml-[16px] ml-[8px] h-[12px] md:h-[18px] border-r border-[#BCC1C1]'></p>
+              </div>
+              <div className='flex items-center gap-[8px]'>
+                <img src='/img/innovation.png' alt='innovation' />
+                <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>Innovation</p>
+              </div>
+            </div>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
               <button
