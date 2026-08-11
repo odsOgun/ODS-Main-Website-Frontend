@@ -9,9 +9,10 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { apiService, type ApiError } from '@/api/apiService';
+import SuccessModal from '@/components/shared/SuccessModal';
+import ErrorModal from '@/components/shared/ErrorModal';
 
 interface FormData {
   firstName: string;
@@ -72,6 +73,9 @@ const Speakers: React.FC = () => {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const validateNigerianPhoneNumber = (phone: string): boolean => {
     // Remove all spaces and special characters except +
@@ -238,14 +242,14 @@ const Speakers: React.FC = () => {
         contentTrack: '',
         topicProposal: ''
       });
-      toast.success('Speaker application submitted successfully! Redirecting to home...');
-      setTimeout(() => navigate('/'), 1500);
+      setShowSuccessModal(true);
     } catch (error: unknown) {
       // console.log('Speaker application error:', error);
       // Extract error message from API response structure
       const errorMessage =
         (error as ApiError)?.message || 'Failed to submit speaker application. Please try again.';
-      toast.error(errorMessage);
+      setErrorMessage(errorMessage);
+      setShowErrorModal(true);
     } finally {
       setLoading(false);
     }
@@ -492,6 +496,21 @@ const Speakers: React.FC = () => {
           </div>
         </form>
       </div>
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => {
+          setShowSuccessModal(false);
+          navigate('/');
+        }}
+        title='Registration Successful'
+        message='You have successfully registered as a speaker, our team will reach out to you soon.'
+      />
+      <ErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        title='Registration Failed'
+        message={errorMessage}
+      />
     </RegisterLayout>
   );
 };
