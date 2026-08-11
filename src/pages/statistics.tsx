@@ -24,7 +24,7 @@ const Statistics = () => {
           From our start to now, the Ogun Digital Summit has grown into a key player in driving
           digital change, connecting visionaries, and empowering communities across Ogun State.
         </p>
-        <a target='_blank'>
+        <a href='https://tix.africa/discover/ods2026' target='_blank' rel='noopener noreferrer'>
           <button className='bg-[#178A2D] font-semibold h-10 min-w-[161px] md:mx-auto rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#fff]'>
             <span className='text-[14px] leading-[20px] tracking-[0.2px] font-semibold'>
               Register

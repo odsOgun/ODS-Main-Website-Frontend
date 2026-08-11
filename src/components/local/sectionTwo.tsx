@@ -316,13 +316,19 @@ function SectionTwo() {
                 starts here, wherever you sit in the ecosystem, you'll find the insights,
                 inspiration and connections that you need to thrive.
               </p>
-              <button
-                type='button'
-                className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
+              <a
+                href='https://tix.africa/discover/ods2026'
+                target='_blank'
+                rel='noopener noreferrer'
               >
-                <span className='text-sm font-semibold'>Register</span>
-                <ArrowRight />
-              </button>
+                <button
+                  type='button'
+                  className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
+                >
+                  <span className='text-sm font-semibold'>Register</span>
+                  <ArrowRight />
+                </button>
+              </a>
             </div>
           </div>
 

@@ -38,13 +38,15 @@ function Hero() {
             </div>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
-              <button
-                type='button'
+              <a
+                href='https://tix.africa/discover/ods2026'
+                target='_blank'
+                rel='noopener noreferrer'
                 className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white'
               >
                 <span className='text-sm font-semibold'>Register</span>
                 <ArrowRight />
-              </button>
+              </a>
               <a href='/register/sponsors'>
                 <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
                   <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>
