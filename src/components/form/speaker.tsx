@@ -133,7 +133,14 @@ function SponsorForm({ onClose, openModal }: ModalProps) {
   return (
     <div>
       <div className='max-w-[640px] h-[95vh] mx-auto relative z-10 bg-[#FFFFFF] rounded-[20px] p-8 md:p-20 overflow-y-auto'>
-        <ToastContainer />
+        <ToastContainer
+          toastClassName={(context) => {
+            if (!context) return '';
+            if (context.type === 'success') return 'bg-green-500 text-white';
+            if (context.type === 'error') return 'bg-red-500 text-white';
+            return '';
+          }}
+        />
         <div className='flex justify-start gap-16 sm:gap-20 text-center items-center mb-4'>
           <div onClick={onClose}>
             <BsArrowLeftShort className='cursor-pointer text-[#787676] w-6 h-6' />
