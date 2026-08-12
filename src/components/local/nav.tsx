@@ -174,7 +174,7 @@ function Nav() {
         </div>
         {navState && (
           <div
-            className='fixed right-0 top-0 w-[100vw] h-full bg-[#000000] bg-opacity-70 cursor-pointer z-10'
+            className='fixed right-0 top-0 w-[100vw] h-full bg-[#000000] bg-opacity-70 cursor-pointer z-10 lg:hidden'
             onClick={() => setNavState(!navState)}
           ></div>
         )}
