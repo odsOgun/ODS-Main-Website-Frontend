@@ -19,12 +19,14 @@ function Hero() {
 
             <div className='flex flex-wrap items-center md:justify-center gap-[8px] lg:gap-[16px]'>
               <div className='flex items-center gap-[8px]'>
-                <img src='/img/tech-brain.png' alt='tech-brain' />
-                <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>Technology</p>
-                <p className=' md:ml-[16px] ml-[8px] h-[12px] md:h-[18px] border-r border-[#BCC1C1]'></p>
+                {/* <img src='/img/tech-brain.png' alt='tech-brain' /> */}
+                <p className='font-medium md:font-normal text-[12px]  md:text-[18px] text-[#2D3936]'>
+                  Technology, Innovation and Progress in Motion{' '}
+                </p>
+                {/* <p className=' md:ml-[16px] ml-[8px] h-[12px] md:h-[18px] border-r border-[#BCC1C1]'></p> */}
               </div>
 
-              <div className='flex items-center gap-[8px]'>
+              {/* <div className='flex items-center gap-[8px]'>
                 <img src='/img/motion.png' alt='motion' />
                 <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>
                   Progress in Motion
@@ -34,7 +36,7 @@ function Hero() {
               <div className='flex items-center gap-[8px]'>
                 <img src='/img/innovation.png' alt='innovation' />
                 <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>Innovation</p>
-              </div>
+              </div> */}
             </div>
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
