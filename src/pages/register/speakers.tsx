@@ -20,6 +20,7 @@ interface FormData {
   email: string;
   phoneNumber: string;
   companyName: string;
+  linkedinUrl: string;
   role: string;
   website: string;
   country: string;
@@ -34,6 +35,7 @@ interface FormErrors {
   email: string;
   phoneNumber: string;
   companyName: string;
+  linkedinUrl: string;
   role: string;
   website: string;
   country: string;
@@ -50,6 +52,7 @@ const Speakers: React.FC = () => {
     email: '',
     phoneNumber: '',
     companyName: '',
+    linkedinUrl: '',
     role: '',
     website: '',
     country: '',
@@ -64,6 +67,7 @@ const Speakers: React.FC = () => {
     email: '',
     phoneNumber: '',
     companyName: '',
+    linkedinUrl: '',
     role: '',
     website: '',
     country: '',
@@ -111,6 +115,7 @@ const Speakers: React.FC = () => {
       email: '',
       phoneNumber: '',
       companyName: '',
+      linkedinUrl: '',
       role: '',
       website: '',
       country: '',
@@ -160,7 +165,13 @@ const Speakers: React.FC = () => {
     } else if (!validateUrl(formData.website)) {
       newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
     }
-
+    //  linkedinUrl validation
+    if (!formData.linkedinUrl.trim()) {
+      newErrors.linkedinUrl = 'linkedin URL is required';
+    } else if (!validateUrl(formData.linkedinUrl)) {
+      newErrors.linkedinUrl =
+        'Please enter a valid linkedinUrl URL (e.g., https://linkedin.com/company/example)';
+    }
     // Country validation
     if (!formData.country.trim()) {
       newErrors.country = 'Country is required';
@@ -235,6 +246,7 @@ const Speakers: React.FC = () => {
         email: '',
         phoneNumber: '',
         companyName: '',
+        linkedinUrl: '',
         role: '',
         website: '',
         country: '',
@@ -378,24 +390,50 @@ const Speakers: React.FC = () => {
               </div>
             </div>
 
-            <div className='flex flex-col gap-4 md:flex-row'>
-              <div className='flex-1'>
-                <label htmlFor='website' className='block text-sm text-[#67706D] mb-2 font-bold'>
-                  Website URL
-                </label>
-                <Input
-                  id='website'
-                  name='website'
-                  type='url'
-                  placeholder='https://'
-                  value={formData.website}
-                  onChange={handleInputChange}
-                  className={errors.website ? 'border-red-500' : ''}
-                  disabled={loading}
-                />
-                {errors.website && <p className='text-red-500 text-xs mt-1'>{errors.website}</p>}
-              </div>
+            <div className='flex-1'>
+              <label htmlFor='website' className='block text-sm text-[#67706D] mb-2 font-bold'>
+                linkedin Profile
+              </label>
+              <Input
+                id='linkedinUrl'
+                name='linkedinUrl'
+                type='url'
+                placeholder='https://linkedin.com/in/yourname'
+                value={formData.linkedinUrl}
+                onChange={handleInputChange}
+                className={errors.linkedinUrl ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.linkedinUrl && (
+                <p className='text-red-500 text-xs mt-1'>{errors.linkedinUrl}</p>
+              )}
+              <p className='font-normal text-[10px] text-[#67706D]'>
+                Share your linkedinUrl profile so we can learn more about your professional
+                experience and background.
+              </p>
+            </div>
+            <div className='flex-1'>
+              <label htmlFor='website' className='block text-sm text-[#67706D] mb-2 font-bold'>
+                Portfolio/Website
+              </label>
+              <Input
+                id='website'
+                name='website'
+                type='url'
+                placeholder='https://yourwebsite.com'
+                value={formData.website}
+                onChange={handleInputChange}
+                className={errors.website ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.website && <p className='text-red-500 text-xs mt-1'>{errors.website}</p>}
+              <p className='font-normal text-[10px] text-[#67706D]'>
+                Share a link that showcases your portfolio, previous speaking engagement, or other
+                relevant professional work.
+              </p>
+            </div>
 
+            <div className='flex flex-col gap-4 md:flex-row'>
               <div className='flex-1'>
                 <label htmlFor='country' className='block text-sm text-[#67706D] mb-2 font-bold'>
                   Country
@@ -411,9 +449,6 @@ const Speakers: React.FC = () => {
                 />
                 {errors.country && <p className='text-red-500 text-xs mt-1'>{errors.country}</p>}
               </div>
-            </div>
-
-            <div className='flex flex-col gap-4 md:flex-row'>
               <div className='flex-1'>
                 <label htmlFor='industry' className='block text-sm text-[#67706D] mb-2 font-bold'>
                   Industry
@@ -429,42 +464,41 @@ const Speakers: React.FC = () => {
                 />
                 {errors.industry && <p className='text-red-500 text-xs mt-1'>{errors.industry}</p>}
               </div>
-              <div className='flex-1'>
-                <label
-                  htmlFor='contentTrack'
-                  className='block text-sm text-[#67706D] mb-2 font-bold '
-                >
-                  Content track you'd like to speak on
-                </label>
-                <Select
-                  value={formData.contentTrack}
-                  onValueChange={handleContentTrackChange}
-                  disabled={loading}
-                >
-                  <SelectTrigger error={!!errors.contentTrack}>
-                    <SelectValue placeholder='Select content track' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='Creative Economy'>Creative Economy</SelectItem>
-                    <SelectItem value='AI & Innovation'>AI & Innovation</SelectItem>
-                    <SelectItem value='Emerging Tech and Digital Transformation'>
-                      Emerging Tech and Digital Transformation
-                    </SelectItem>
-                    <SelectItem value='Policy and Governance'>Policy and Governance</SelectItem>
-                    <SelectItem value='AgriTech'>AgriTech</SelectItem>
-                    <SelectItem value='Sustainability and Green Tech'>
-                      Sustainability and Green Tech
-                    </SelectItem>
-                    <SelectItem value='Future of Work'>Future of Work</SelectItem>
-                    <SelectItem value='Startups'>Startups</SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.contentTrack && (
-                  <p className='text-red-500 text-xs mt-1'>{errors.contentTrack}</p>
-                )}
-              </div>
             </div>
-
+            <div className='flex-1'>
+              <label
+                htmlFor='contentTrack'
+                className='block text-sm text-[#67706D] mb-2 font-bold '
+              >
+                Content track you'd like to speak on
+              </label>
+              <Select
+                value={formData.contentTrack}
+                onValueChange={handleContentTrackChange}
+                disabled={loading}
+              >
+                <SelectTrigger error={!!errors.contentTrack}>
+                  <SelectValue placeholder='Select content track' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='Creative Economy'>Creative Economy</SelectItem>
+                  <SelectItem value='AI & Innovation'>AI & Innovation</SelectItem>
+                  <SelectItem value='Emerging Tech and Digital Transformation'>
+                    Emerging Tech and Digital Transformation
+                  </SelectItem>
+                  <SelectItem value='Policy and Governance'>Policy and Governance</SelectItem>
+                  <SelectItem value='AgriTech'>AgriTech</SelectItem>
+                  <SelectItem value='Sustainability and Green Tech'>
+                    Sustainability and Green Tech
+                  </SelectItem>
+                  <SelectItem value='Future of Work'>Future of Work</SelectItem>
+                  <SelectItem value='Startups'>Startups</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.contentTrack && (
+                <p className='text-red-500 text-xs mt-1'>{errors.contentTrack}</p>
+              )}
+            </div>
             <div>
               <label
                 htmlFor='topicProposal'
@@ -475,7 +509,7 @@ const Speakers: React.FC = () => {
               <textarea
                 id='topicProposal'
                 name='topicProposal'
-                placeholder='Give us a wroking title and a short outline of what attendees will learn.'
+                placeholder='Give us a working title and a short outline of what attendees will learn.'
                 value={formData.topicProposal}
                 onChange={handleInputChange}
                 className={`w-full p-3 rounded border ${errors.topicProposal ? 'border-red-500' : 'border-[#000000]'} min-h-[150px]`}

@@ -255,6 +255,12 @@ const Speakers = () => {
               Africa, spanning industries such as entertainment, technology, agriculture, the
               creative sector, finance, and policy-making.
             </p>
+            <a href='/register/speakers'>
+              <button className='bg-[#178A2D] ml-6 mt-3 w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
+                <span className='text-sm font-semibold'>Apply to Speak</span>
+                <ArrowRight />
+              </button>
+            </a>
           </div>
         </div>
       </div>
