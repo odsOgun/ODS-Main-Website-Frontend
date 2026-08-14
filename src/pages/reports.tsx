@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import RequestReportModal from '@/components/form/downloadReport';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
+import '@/styles/reports.css';
 
 const Reports = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,205 +108,50 @@ const Reports = () => {
         href='https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap'
         rel='stylesheet'
       />
-      <style>{`
-        :root {
-          --green: #00A651;
-          --green-light: #B9FBC0;
-          --purple: #8E44AD;
-          --yellow: #F4D35E;
-          --blue: #06AED5;
-          --navy: #31004A;
-          --black: #1B1B1B;
-          --coral: #FF5C5C;
-          --green-tint20: #CCEDDC;
-          --green-tint40: #99DBB9;
-          --green-tint80: #33B885;
-          --white: #FFFFFF;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-          background: var(--white);
-          color: var(--black);
-          font-family: 'Sora', sans-serif;
-          -webkit-font-smoothing: antialiased;
-          overflow-x: hidden;
-        }
-        h1, h2, h3 { font-family: 'Sora', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
-        .script { font-family: 'Caveat', cursive; font-weight: 700; }
-        a { color: inherit; }
-        .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
-
-        .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
-        .reveal.in { opacity: 1; transform: translateY(0); }
-        @media (prefers-reduced-motion: reduce) {
-          .reveal { opacity: 1; transform: none; transition: none; }
-          * { animation: none !important; }
-        }
-
-        .ods-pattern { height: 24px; width: 100%; background-repeat: repeat-x; background-size: 48px 24px; }
-        .pattern-on-green {
-          background-color: var(--green);
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpolygon points='12,1 22,12 12,23 2,12' fill='white'/%3E%3Ccircle cx='36' cy='12' r='9' fill='white'/%3E%3Ccircle cx='36' cy='12' r='4.5' fill='%2300A651'/%3E%3C/svg%3E");
-        }
-        .pattern-on-white {
-          background-color: var(--white);
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'%3E%3Cpolygon points='12,1 22,12 12,23 2,12' fill='%2300A651'/%3E%3Ccircle cx='36' cy='12' r='9' fill='%2300A651'/%3E%3Ccircle cx='36' cy='12' r='4.5' fill='white'/%3E%3C/svg%3E");
-        }
-
-        .ticket {
-          position: relative;
-          clip-path: polygon(0% 10%, 6% 10%, 6% 0%, 94% 0%, 94% 10%, 100% 10%, 100% 90%, 94% 90%, 94% 100%, 6% 100%, 6% 90%, 0% 90%);
-        }
-
-        nav { display: flex; align-items: center; justify-content: space-between; max-width: 1180px; margin: 0 auto; padding: 26px 32px; position: relative; z-index: 2; }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .dotmap { width: 34px; height: 26px; }
-        .brand-word { font-size: 15px; font-weight: 800; color: var(--green); line-height: 1.1; }
-        .brand-word span { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--black); }
-        nav .site-link {
-          font-size: 13px; font-weight: 600; color: var(--green);
-          border: 1.5px solid var(--green); padding: 9px 18px; border-radius: 100px;
-          text-decoration: none; transition: background .18s, color .18s;
-        }
-        nav .site-link:hover { background: var(--green); color: var(--white); }
-
-        .hero { background: var(--green-tint20); padding: 40px 0 0; overflow: hidden; position: relative; }
-        .hero-inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; padding-bottom: 64px; position: relative; z-index: 1; }
-        .eyebrow {
-          display: inline-flex; align-items: center; gap: 9px;
-          font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-          color: var(--green); background: var(--white);
-          padding: 8px 14px 8px 10px; border-radius: 100px; margin-bottom: 24px;
-        }
-        .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
-        .hero h1 { font-size: clamp(38px, 4.8vw, 60px); line-height: 1.06; color: var(--black); max-width: 13.5ch; }
-        .hero h1 .script { color: var(--green); font-size: 1.15em; display: inline-block; transform: rotate(-2deg); }
-        .hero-sub { margin-top: 22px; font-size: 17px; line-height: 1.65; font-weight: 500; color: #3a3a3a; max-width: 46ch; }
-        .cta-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 36px; }
-        .btn {
-          display: inline-flex; align-items: center; gap: 10px;
-          background: var(--black); color: var(--white);
-          font-family: 'Sora'; font-weight: 700; font-size: 15.5px;
-          padding: 16px 26px; border-radius: 10px;
-          text-decoration: none; border: none; cursor: pointer;
-          transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
-        }
-        .btn:hover { background: var(--green); transform: translateY(-3px); box-shadow: 0 14px 30px -10px rgba(0,166,81,0.45); }
-        .btn svg { width: 17px; height: 17px; }
-        .btn .arrow { transition: transform .16s ease; }
-        .btn:hover .arrow { transform: translateY(2px); }
-
-        .cover-wrap { display: flex; justify-content: center; position: relative; }
-        .cover {
-          width: 100%; max-width: 320px; aspect-ratio: 3/4;
-          background: var(--green); padding: 30px;
-          display: flex; flex-direction: column; justify-content: space-between;
-          position: relative; z-index: 1;
-          transform: rotate(2.5deg);
-          box-shadow: 0 30px 60px -20px rgba(0,80,40,0.35);
-          transition: transform .35s ease;
-        }
-        .cover-wrap:hover .cover { transform: rotate(0deg) translateY(-4px); }
-        .cover-tag {
-          display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-          color: var(--black); background: var(--white); padding: 5px 10px; border-radius: 5px; margin-bottom: 16px;
-        }
-        .cover-title { font-size: 25px; font-weight: 800; color: var(--white); line-height: 1.15; }
-        .cover-year { margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--green-light); }
-        .cover-bottom { font-size: 11px; font-weight: 600; color: var(--green-light); opacity: 0.85; }
-
-        .stats { background: var(--black); display: grid; grid-template-columns: repeat(4, 1fr); position: relative; }
-        .stat { padding: 40px 26px; border-right: 1px solid rgba(255,255,255,0.12); position: relative; transition: background .2s ease; }
-        .stat:hover { background: rgba(255,255,255,0.04); }
-        .stat:last-child { border-right: none; }
-        .stat::before { content: ''; position: absolute; top: 0; left: 0; width: 34px; height: 4px; background: var(--accent, var(--green)); }
-        .stat:nth-child(1) { --accent: var(--green-light); }
-        .stat:nth-child(2) { --accent: var(--yellow); }
-        .stat:nth-child(3) { --accent: var(--blue); }
-        .stat:nth-child(4) { --accent: var(--coral); }
-        .stat .num { font-size: clamp(30px, 3.2vw, 42px); font-weight: 800; color: var(--white); font-variant-numeric: tabular-nums; }
-        .stat .label { margin-top: 8px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1.4; }
-
-        .inside { padding: 20px 0 100px; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; }
-        .inside-copy h2 { font-size: clamp(28px, 3vw, 36px); max-width: 12ch; color: var(--black); }
-        .inside-copy > p { margin-top: 16px; font-size: 15.5px; line-height: 1.7; color: #4a4a4a; max-width: 44ch; font-weight: 500; }
-        .chapter { display: flex; align-items: flex-start; gap: 20px; padding: 22px 0; border-top: 1px solid #e7e7e7; transition: padding-left .2s ease; }
-        .chapter:hover { padding-left: 8px; }
-        .chapter:last-child { border-bottom: 1px solid #e7e7e7; }
-        .chapter .idx {
-          font-size: 26px; font-weight: 800;
-          -webkit-text-stroke: 1.5px var(--green); color: transparent;
-          width: 44px; flex-shrink: 0; transition: color .2s ease;
-        }
-        .chapter:hover .idx { color: var(--green-tint40); }
-        .chapter .body .title { font-size: 15.5px; font-weight: 700; color: var(--black); }
-        .chapter .body .desc { margin-top: 3px; font-size: 13.5px; color: #6b6b6b; font-weight: 500; }
-
-        .closing { background: var(--green); padding: 100px 0; text-align: center; position: relative; overflow: hidden; }
-        .closing h2 { font-size: clamp(28px, 3.6vw, 42px); color: var(--white); max-width: 17ch; margin: 0 auto 34px; }
-        .closing .btn { background: var(--black); }
-        .closing .btn:hover { background: var(--white); color: var(--green); }
-
-        footer { background: var(--black); padding: 38px 0; }
-        .foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.5); }
-        .foot-row a { margin-left: 18px; text-decoration: none; color: rgba(255,255,255,0.75); }
-        .foot-row a:hover { color: var(--green-light); }
-
-        @media (max-width: 900px) {
-          .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-          .inside { grid-template-columns: 1fr; gap: 36px; }
-          .stats { grid-template-columns: repeat(2, 1fr); }
-          .stat { border-bottom: 1px solid rgba(255,255,255,0.12); }
-          .stat:nth-child(2) { border-right: none; }
-          nav { padding: 20px; }
-          .wrap { padding: 0 20px; }
-        }
-
-        @media (max-width: 520px) {
-          nav { flex-wrap: wrap; gap: 12px; padding: 18px 20px; }
-          nav .site-link { font-size: 12px; padding: 8px 14px; }
-          .hero { padding-top: 32px; }
-          .hero-inner { padding-bottom: 44px; }
-          .eyebrow { font-size: 11px; }
-          .hero h1 { max-width: none; }
-          .cta-row { gap: 16px; }
-          .stats { grid-template-columns: 1fr; }
-          .stat { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.12); }
-          .stat:last-child { border-bottom: none; }
-          .chapter { gap: 14px; }
-          .chapter .idx { font-size: 22px; width: 34px; }
-          .closing { padding: 72px 0; }
-        }
-
-        .footer-logo { display: flex; justify-content: center; align-items: center; }
-
-        @media (max-width: 768px) {
-          .footer-nav { flex-direction: column !important; gap: 16px !important; }
-          .footer-social { flex-direction: column !important; gap: 24px !important; }
-        }
-      `}</style>
 
       <Nav />
 
-      <section className='hero'>
-        <div className='wrap'>
-          <div className='hero-inner'>
+      <section
+        className='bg-ods-green-tint20 pt-10 overflow-hidden relative'
+        style={{
+          backgroundImage: 'url(/src/assets/img/about-two.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Dark overlay */}
+        <div className='absolute inset-0 bg-black/60 z-0'></div>
+
+        <div className='max-w-[1180px] mx-auto px-8 relative z-10'>
+          <div className=' max-w-[640px] items-center pb-16 relative z-10 max-[900px]:grid-cols-1 max-[900px]:gap-10 max-[520px]:pb-11'>
             <div ref={setRevealRef(0)} className='reveal'>
-              <div className='eyebrow'>
-                <span className='dot'></span>IMPACT REPORT · 2025 EDITION
+              <div className='inline-flex items-center gap-2 text-xs font-bold tracking-widest text-ods-green bg-white px-3 py-2 rounded-full mb-6'>
+                ODS impact report
               </div>
-              <h1>
-                Our 6th edition, and biggest <span className='script'>impact</span> yet.
+              <h1 className='text-[clamp(38px,4.8vw,60px)] leading-[1.06] text-white  font-bold tracking-tight'>
+                Six editions. Growing{' '}
+                <span
+                  className='script text-ods-green-light text-[1.15em] inline-block'
+                  style={{ transform: 'rotate(-2deg)' }}
+                >
+                  impact.
+                </span>
               </h1>
-              <p className='hero-sub'>
-                Ogun Digital Summit's 2025 edition in full — who we reached, the startups we
-                engaged, and the partnerships built this year for Ogun State's tech ecosystem.
+              <p className='mt-6 text-base font-medium leading-relaxed text-white/90 '>
+                From connecting talent and founders to building partnerships, supporting startups
+                and expanding access to digital opportunities, Ogun Digital Summit has spent six
+                editions helping shape Ogun State’s technology ecosystem. <br />
+                <br /> Explore the journey, the people reached, the startups engaged, the
+                partnerships built, and the impact we’ve created in the last six years.
               </p>
-              <div className='cta-row'>
-                <button className='btn' onClick={handleDownloadClick}>
+              <div className='flex items-center gap-5 flex-wrap mt-9'>
+                <button
+                  className='inline-flex items-center gap-2 hover:bg-ods-black text-white font-bold text-[15px] px-6 py-4 rounded-[10px] transition-all duration-200 bg-ods-green hover:shadow-[0_14px_30px_-10px_rgba(0,166,81,0.45)] hover:translate-y-[-3px]'
+                  onClick={handleDownloadClick}
+                >
                   <svg
-                    className='arrow'
+                    className='arrow w-[17px] h-[17px] transition-transform duration-200'
                     viewBox='0 0 24 24'
                     fill='none'
                     stroke='currentColor'
@@ -321,108 +167,266 @@ const Reports = () => {
                 </button>
               </div>
             </div>
-            <div ref={setRevealRef(1)} className='cover-wrap reveal'>
-              <div className='cover ticket'>
-                <div>
-                  <div className='cover-tag'>Impact Report</div>
-                  <div className='cover-title'>Ogun Digital Summit Impact Report</div>
-                  <div className='cover-year'>2025 Edition</div>
-                </div>
-                {/* <div className="cover-bottom">Abeokuta, Ogun State · Nigeria</div> */}
+          </div>
+        </div>
+        <div className='pattern-on-white'></div>
+      </section>
+
+      <section className='bg-ods-black grid grid-cols-4 relative max-[900px]:grid-cols-2 max-[520px]:grid-cols-1'>
+        <div
+          ref={setRevealRef(2)}
+          className='stat reveal px-6 py-10 border-r border-white/12 relative transition-all duration-200 hover:bg-white/4 last:border-r-0'
+        >
+          <div
+            ref={setCounterRef(0)}
+            className='num text-[clamp(30px,3.2vw,42px)] font-black text-white tabular-nums'
+            data-count='12000'
+            data-suffix='+'
+          >
+            0
+          </div>
+          <div className='label mt-2 text-xs font-medium text-white/60 leading-relaxed'>
+            Participants reached since 2020
+          </div>
+        </div>
+        <div
+          ref={setRevealRef(3)}
+          className='stat reveal px-6 py-10 border-r border-white/12 relative transition-all duration-200 hover:bg-white/4 max-[900px]:border-b max-[900px]:border-r-0 max-[900px]:nth-child(2):border-r-0'
+        >
+          <div
+            ref={setCounterRef(1)}
+            className='num text-[clamp(30px,3.2vw,42px)] font-black text-white tabular-nums'
+            data-count='100'
+            data-suffix='+'
+          >
+            0
+          </div>
+          <div className='label mt-2 text-xs font-medium text-white/60 leading-relaxed'>
+            Startups engaged
+          </div>
+        </div>
+        <div
+          ref={setRevealRef(4)}
+          className='stat reveal px-6 py-10 border-r border-white/12 relative transition-all duration-200 hover:bg-white/4'
+        >
+          <div
+            ref={setCounterRef(2)}
+            className='num text-[clamp(30px,3.2vw,42px)] font-black text-white tabular-nums'
+            data-count='6'
+            data-suffix='x'
+          >
+            0
+          </div>
+          <div className='label mt-2 text-xs font-medium text-white/60 leading-relaxed'>
+            Growth in the local tech community
+          </div>
+        </div>
+        <div
+          ref={setRevealRef(5)}
+          className='stat reveal px-6 py-10 border-r border-white/12 relative transition-all duration-200 hover:bg-white/4 last:border-r-0 max-[520px]:border-r-0'
+        >
+          <div
+            ref={setCounterRef(3)}
+            className='num text-[clamp(30px,3.2vw,42px)] font-black text-white tabular-nums'
+            data-count='60'
+            data-suffix='+'
+          >
+            0
+          </div>
+          <div className='label mt-2 text-xs font-medium text-white/60 leading-relaxed'>
+            Speakers and stakeholders
+          </div>
+        </div>
+      </section>
+
+      <section className='max-w-[1180px] mx-auto px-8 py-5 grid grid-cols-[0.9fr_1.1fr] gap-16 max-[900px]:grid-cols-1 max-[900px]:gap-9'>
+        <div ref={setRevealRef(6)} className='inside-copy reveal pt-5'>
+          <h2 className='text-[clamp(28px,3vw,36px)] max-w-[12ch] text-ods-black font-bold tracking-tight'>
+            Inside the report
+          </h2>
+          <p className='mt-4 text-base leading-relaxed text-[#4a4a4a] max-w-[44ch] font-medium'>
+            It covers the six editions of Ogun Digital Summit from 2020 - 2025, the journey, people,
+            startups, partnerships, and impact behind the platform. The impact report was designed
+            for partners, government stakeholders, investors, ecosystem leaders, and the press who
+            need the complete picture.
+          </p>
+        </div>
+        <div ref={setRevealRef(7)} className='chapters reveal space-y-0'>
+          <div className='chapter flex items-start gap-5 px-0 py-5 border-t border-[#e7e7e7] transition-all duration-200 hover:pl-2 last:border-b last:border-[#e7e7e7] max-[520px]:gap-3'>
+            <div
+              className='idx text-2xl font-black'
+              style={{
+                WebkitTextStroke: '1px #00A651',
+                color: 'transparent',
+                width: '44px',
+                flexShrink: 0
+              }}
+            >
+              01
+            </div>
+            <div className='body'>
+              <div className='title text-base font-bold text-ods-black'>Summit overview</div>
+              <div className='desc mt-1 text-sm text-[#6b6b6b] font-medium'>
+                Ogun Digital Summit began in 2020 with a mission to strengthen Ogun State's
+                technology ecosystem by connecting talent, entrepreneurs, investors, government, and
+                ecosystem players.
+                <br />
+                <br />
+                Across six editions, ODS has grown into a platform for learning, collaboration,
+                innovation, and digital opportunities. The 2025 edition expanded this focus across
+                AI, Web3, Agritech, Creative Economy, Future of Work, Startup Investment, and Policy
+                & Governance.
+              </div>
+            </div>
+          </div>
+          <div className='chapter flex items-start gap-5 px-0 py-5 border-t border-[#e7e7e7] transition-all duration-200 hover:pl-2 last:border-b last:border-[#e7e7e7] max-[520px]:gap-3'>
+            <div
+              className='idx text-2xl font-black'
+              style={{
+                WebkitTextStroke: '1px #00A651',
+                color: 'transparent',
+                width: '44px',
+                flexShrink: 0
+              }}
+            >
+              02
+            </div>
+            <div className='body'>
+              <div className='title text-base font-bold text-ods-black'>
+                Reach &amp; participation
+              </div>
+              <div className='desc mt-1 text-sm text-[#6b6b6b] font-medium'>
+                Across six editions, ODS has continued to grow its community and reach, engaging
+                10,000+ people through its programmes and ecosystem activities. The 2025 edition
+                recorded 3,500 registered attendees and 2,500+ physical attendees, alongside 534+
+                virtual participants. <br />
+                <br />
+                The 2025 edition also generated 3.2M+ social media impressions, bringing together
+                founders, professionals, creatives, investors, students, and ecosystem stakeholders.
+              </div>
+            </div>
+          </div>
+          <div className='chapter flex items-start gap-5 px-0 py-5 border-t border-[#e7e7e7] transition-all duration-200 hover:pl-2 last:border-b last:border-[#e7e7e7] max-[520px]:gap-3'>
+            <div
+              className='idx text-2xl font-black'
+              style={{
+                WebkitTextStroke: '1px #00A651',
+                color: 'transparent',
+                width: '44px',
+                flexShrink: 0
+              }}
+            >
+              03
+            </div>
+            <div className='body'>
+              <div className='title text-base font-bold text-ods-black'>
+                Startups &amp; the local ecosystem
+              </div>
+              <div className='desc mt-1 text-sm text-[#6b6b6b] font-medium'>
+                Across its editions, ODS has created a platform for 20+ startups to showcase their
+                solutions, connect with investors, and gain visibility within the ecosystem. <br />
+                <br />
+                In 2025, 10 startups were showcased, giving founders opportunities for product
+                validation, customer feedback, mentorship, and investor exposure. The summit
+                continues to help connect Ogun's emerging founders to the networks and opportunities
+                they need to build and scale.
+              </div>
+            </div>
+          </div>
+          <div className='chapter flex items-start gap-5 px-0 py-5 border-t border-[#e7e7e7] transition-all duration-200 hover:pl-2 last:border-b last:border-[#e7e7e7] max-[520px]:gap-3'>
+            <div
+              className='idx text-2xl font-black'
+              style={{
+                WebkitTextStroke: '1px #00A651',
+                color: 'transparent',
+                width: '44px',
+                flexShrink: 0
+              }}
+            >
+              04
+            </div>
+            <div className='body'>
+              <div className='title text-base font-bold text-ods-black'>
+                Training &amp; skills outcomes
+              </div>
+              <div className='desc mt-1 text-sm text-[#6b6b6b] font-medium'>
+                Since its launch, ODS has inspired 10,000+ people to explore technology careers
+                through learning, mentorship, and ecosystem opportunities. <br />
+                <br />
+                Across the six editions, conversations and learning have evolved alongside the
+                digital economy, with the 2025 edition covering AI, Web3, Agritech, Creative
+                Economy, Future of Work, Investment and Policy. ODS has also extended its impact
+                beyond the summit through initiatives such as solar-powered ICT stations supporting
+                digital learning in local communities.
+              </div>
+            </div>
+          </div>
+          <div className='chapter flex items-start gap-5 px-0 py-5 border-t border-[#e7e7e7] transition-all duration-200 hover:pl-2 last:border-b last:border-[#e7e7e7] max-[520px]:gap-3'>
+            <div
+              className='idx text-2xl font-black'
+              style={{
+                WebkitTextStroke: '1px #00A651',
+                color: 'transparent',
+                width: '44px',
+                flexShrink: 0
+              }}
+            >
+              05
+            </div>
+            <div className='body'>
+              <div className='title text-base font-bold text-ods-black'>
+                Partners &amp; government support
+              </div>
+              <div className='desc mt-1 text-sm text-[#6b6b6b] font-medium'>
+                Over six editions, ODS has brought together government, private-sector
+                organisations, investors, sponsors, speakers and ecosystem leaders around a shared
+                vision for digital growth.
+                <br />
+                <br />
+                In 2025 alone, the summit featured 27 speakers, 5 investors, 12 sponsors and 10
+                exhibitors, alongside government and ecosystem stakeholders.
+              </div>
+            </div>
+          </div>
+          <div className='chapter flex items-start gap-5 px-0 py-5 border-t border-[#e7e7e7] transition-all duration-200 hover:pl-2 last:border-b last:border-[#e7e7e7] max-[520px]:gap-3'>
+            <div
+              className='idx text-2xl font-black'
+              style={{
+                WebkitTextStroke: '1px #00A651',
+                color: 'transparent',
+                width: '44px',
+                flexShrink: 0
+              }}
+            >
+              06
+            </div>
+            <div className='body'>
+              <div className='title text-base font-bold text-ods-black'>What's next</div>
+              <div className='desc mt-1 text-sm text-[#6b6b6b] font-medium'>
+                Six editions have shown that Ogun State has the talent and innovation potential to
+                build a stronger digital economy, but founders need greater access to funding,
+                networks, infrastructure and support. <br />
+                <br />
+                The next chapter is about strengthening innovation hubs, retaining local talent,
+                deepening collaboration between startups and government, and creating stronger
+                pathways to investment.
               </div>
             </div>
           </div>
         </div>
-        <div className='ods-pattern pattern-on-white'></div>
       </section>
 
-      <section className='stats'>
-        <div ref={setRevealRef(2)} className='stat reveal'>
-          <div ref={setCounterRef(0)} className='num' data-count='12000' data-suffix='+'>
-            0
-          </div>
-          <div className='label'>Participants reached since 2020</div>
-        </div>
-        <div ref={setRevealRef(3)} className='stat reveal'>
-          <div ref={setCounterRef(1)} className='num' data-count='100' data-suffix='+'>
-            0
-          </div>
-          <div className='label'>Startups engaged</div>
-        </div>
-        <div ref={setRevealRef(4)} className='stat reveal'>
-          <div ref={setCounterRef(2)} className='num' data-count='6' data-suffix='x'>
-            0
-          </div>
-          <div className='label'>Growth in the local tech community</div>
-        </div>
-        <div ref={setRevealRef(5)} className='stat reveal'>
-          <div ref={setCounterRef(3)} className='num' data-count='60' data-suffix='+'>
-            0
-          </div>
-          <div className='label'>Speakers and stakeholders</div>
-        </div>
-      </section>
-
-      <section className='wrap inside'>
-        <div ref={setRevealRef(6)} className='inside-copy reveal'>
-          <h2>Inside the report</h2>
-          <p>
-            Five sections covering the 2025 edition in full — built for partners, government
-            stakeholders and press who need the complete picture.
-          </p>
-        </div>
-        <div ref={setRevealRef(7)} className='chapters reveal'>
-          <div className='chapter'>
-            <div className='idx'>01</div>
-            <div className='body'>
-              <div className='title'>Summit overview</div>
-              <div className='desc'>Theme, goals and context for 2025</div>
-            </div>
-          </div>
-          <div className='chapter'>
-            <div className='idx'>02</div>
-            <div className='body'>
-              <div className='title'>Reach &amp; participation</div>
-              <div className='desc'>Who attended this year, and from where</div>
-            </div>
-          </div>
-          <div className='chapter'>
-            <div className='idx'>03</div>
-            <div className='body'>
-              <div className='title'>Startups &amp; the local ecosystem</div>
-              <div className='desc'>This year's founders, investors and outcomes</div>
-            </div>
-          </div>
-          <div className='chapter'>
-            <div className='idx'>04</div>
-            <div className='body'>
-              <div className='title'>Training &amp; skills outcomes</div>
-              <div className='desc'>Tracks, completion, follow-on impact</div>
-            </div>
-          </div>
-          <div className='chapter'>
-            <div className='idx'>05</div>
-            <div className='body'>
-              <div className='title'>Partners &amp; government support</div>
-              <div className='desc'>60+ speakers and stakeholders who backed us</div>
-            </div>
-          </div>
-          <div className='chapter'>
-            <div className='idx'>06</div>
-            <div className='body'>
-              <div className='title'>What's next</div>
-              <div className='desc'>Priorities for the 2026 edition</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className='closing'>
-        <div ref={setRevealRef(8)} className='wrap reveal'>
-          <h2>The 2025 story — full report is one download away.</h2>
-          <button className='btn' onClick={handleDownloadClick}>
+      <section className='bg-ods-green py-20 text-center relative overflow-hidden max-[520px]:py-18'>
+        <div ref={setRevealRef(8)} className='reveal max-w-[1180px] mx-auto px-8 relative z-10'>
+          <h2 className='text-[clamp(28px,3.6vw,42px)] text-white max-w-[17ch] mx-auto mb-8 font-bold tracking-tight'>
+            The ODS impact report is one download away.
+          </h2>
+          <button
+            className='inline-flex items-center gap-2 bg-ods-black text-white font-bold text-[15px] px-6 py-4 rounded-[10px] transition-all duration-200 hover:bg-white hover:text-ods-green'
+            onClick={handleDownloadClick}
+          >
             <svg
-              className='arrow'
+              className='arrow w-[17px] h-[17px] transition-transform duration-200'
               viewBox='0 0 24 24'
               fill='none'
               stroke='currentColor'
@@ -437,10 +441,7 @@ const Reports = () => {
             Download the report
           </button>
         </div>
-        <div
-          className='ods-pattern pattern-on-green'
-          style={{ position: 'absolute', bottom: 0, left: 0 }}
-        ></div>
+        <div className='pattern-on-green absolute bottom-0 left-0 z-0'></div>
       </section>
 
       <Footer />
