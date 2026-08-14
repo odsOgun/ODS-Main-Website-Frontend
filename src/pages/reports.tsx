@@ -126,9 +126,6 @@ const Reports = () => {
         <div className='max-w-[1180px] mx-auto px-8 relative z-10'>
           <div className=' max-w-[640px] items-center pb-16 relative z-10 max-[900px]:grid-cols-1 max-[900px]:gap-10 max-[520px]:pb-11'>
             <div ref={setRevealRef(0)} className='reveal'>
-              <div className='inline-flex items-center gap-2 text-xs font-bold tracking-widest text-ods-green bg-white px-3 py-2 rounded-full mb-6'>
-                ODS impact report
-              </div>
               <h1 className='text-[clamp(38px,4.8vw,60px)] leading-[1.06] text-white  font-bold tracking-tight'>
                 Six editions. Growing{' '}
                 <span
