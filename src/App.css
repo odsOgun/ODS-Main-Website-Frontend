@@ -17,7 +17,9 @@ html {
   font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  overflow-x: hidden; /* temp fix for cal section */
+  /* Prevent horizontal bleed without creating a scroll container that breaks
+     position: sticky on sections such as the Impact Report chapter stack. */
+  overflow-x: clip;
 }
 .inter-gf {
   font-family: 'Inter', sans-serif;
@@ -157,5 +159,4 @@ iframe {
   color: #26272B !important;
 
 }
-
 

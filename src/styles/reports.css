@@ -23,6 +23,49 @@
   }
 }
 
+/* Chapters stacking container */
+.chapters {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Let sticky chapter cards use the viewport instead of a transformed ancestor. */
+.chapters.reveal.in {
+  transform: none;
+}
+
+/* Keep the section introduction in view while the chapters stack beside it. */
+.inside-copy.reveal.in {
+  position: sticky;
+  top: 76px;
+  align-self: start;
+  transform: none;
+}
+
+/*
+ * Each chapter pins below the one before it. As the next chapter arrives it
+ * covers the previous chapter's copy while leaving its numbered title visible.
+ */
+.chapter {
+  --chapter-position: 0;
+  position: sticky;
+  top: calc(76px + (var(--chapter-position) * 58px));
+  z-index: calc(10 + var(--chapter-position));
+  min-height: clamp(280px, 42vh, 390px);
+  background: #fff;
+  box-shadow: 0 -1px 0 #e7e7e7, 0 14px 30px -28px rgba(0, 0, 0, 0.42);
+  -webkit-font-smoothing: antialiased;
+}
+
+.chapter:nth-child(1) { --chapter-position: 0; }
+.chapter:nth-child(2) { --chapter-position: 1; }
+.chapter:nth-child(3) { --chapter-position: 2; }
+.chapter:nth-child(4) { --chapter-position: 3; }
+.chapter:nth-child(5) { --chapter-position: 4; }
+.chapter:nth-child(6) { --chapter-position: 5; }
+
 /* Stat underline animation */
 .stat::before {
   content: '';
@@ -82,5 +125,15 @@
     font-size: 22px;
     width: 34px;
   }
+
+  .chapter {
+    top: calc(64px + (var(--chapter-position) * 50px));
+    min-height: clamp(330px, 58vh, 460px);
+  }
 }
-/* No JS stacking — chapters remain in normal flow */
+
+@media (max-width: 900px) {
+  .inside-copy.reveal.in {
+    position: static;
+  }
+}
