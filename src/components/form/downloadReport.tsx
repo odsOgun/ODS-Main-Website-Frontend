@@ -116,7 +116,8 @@ function RequestReportModal({ onClose }: RequestReportModalProps) {
               Success!
             </h2>
             <p className='mt-3 text-center text-sm leading-6 text-[#6B7280]'>
-              The impact report has been sent to your email. Please check your inbox.
+              Our Impact report has been sent to you. It might take a few minutes to arrive in your
+              inbox.
             </p>
 
             <button
