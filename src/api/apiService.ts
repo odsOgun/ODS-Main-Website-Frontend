@@ -97,6 +97,13 @@ export const apiService = {
     create: async (data: any): Promise<AxiosResponse> => {
       return apiClient.post('speaker/master-class', data);
     }
+  },
+
+  // Startup endpoints
+  startup: {
+    create: async (data: any): Promise<AxiosResponse> => {
+      return apiClient.post('/startup/create', data);
+    }
   }
 };
 
