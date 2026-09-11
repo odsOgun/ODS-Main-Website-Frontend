@@ -17,7 +17,7 @@ interface FormData {
   website: string;
   linkedinUrl: string;
   twitterUrl: string;
-  pitchDeck: string;
+  pitchDeckUrl: string;
   startupStage: string;
 }
 
@@ -31,12 +31,12 @@ interface FormErrors {
   website: string;
   linkedinUrl: string;
   twitterUrl: string;
-  pitchDeck: string;
+  pitchDeckUrl: string;
   startupStage: string;
 }
 
 const SECTORS = ['Healthtech', 'Fintech', 'Proptech', 'Edutech', 'SaaS', 'Biotech', 'Others'];
-const STARTUP_STAGES = ['MVP', 'Preseed', 'Series A', 'Pre Revenue', 'Revenue Generation'];
+const STARTUP_STAGES = ['MVP', 'Preseed', 'Series A', 'Pre revenue', 'Revenue generating'];
 
 const Startup: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const Startup: React.FC = () => {
     website: '',
     linkedinUrl: '',
     twitterUrl: '',
-    pitchDeck: '',
+    pitchDeckUrl: '',
     startupStage: ''
   });
 
@@ -64,7 +64,7 @@ const Startup: React.FC = () => {
     website: '',
     linkedinUrl: '',
     twitterUrl: '',
-    pitchDeck: '',
+    pitchDeckUrl: '',
     startupStage: ''
   });
 
@@ -99,7 +99,7 @@ const Startup: React.FC = () => {
       website: '',
       linkedinUrl: '',
       twitterUrl: '',
-      pitchDeck: '',
+      pitchDeckUrl: '',
       startupStage: ''
     };
 
@@ -150,9 +150,11 @@ const Startup: React.FC = () => {
         'Please enter a valid Twitter URL (e.g., https://twitter.com/username)';
     }
 
-    if (formData.pitchDeck.trim() && !validateUrl(formData.pitchDeck)) {
-      newErrors.pitchDeck =
-        'Please enter a valid pitch deck URL (e.g., https://docs.google.com/...)';
+    if (!formData.pitchDeckUrl.trim()) {
+      newErrors.pitchDeckUrl = 'Pitch Deck URL is required';
+    } else if (!validateUrl(formData.pitchDeckUrl)) {
+      newErrors.pitchDeckUrl =
+        'Please enter a valid Pitch Deck URL (e.g., https://docs.google.com/...)';
     }
 
     if (!formData.startupStage) {
@@ -214,7 +216,7 @@ const Startup: React.FC = () => {
         website: '',
         linkedinUrl: '',
         twitterUrl: '',
-        pitchDeck: '',
+        pitchDeckUrl: '',
         startupStage: ''
       });
       setShowSuccessModal(true);
@@ -410,20 +412,22 @@ const Startup: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor='pitchDeck' className='block text-sm text-[#67706D] mb-2'>
+              <label htmlFor='pitchDeckUrl' className='block text-sm text-[#67706D] mb-2'>
                 Pitch Deck
               </label>
               <Input
-                id='pitchDeck'
-                name='pitchDeck'
+                id='pitchDeckUrl'
+                name='pitchDeckUrl'
                 type='url'
                 placeholder='https://docs.google.com/...'
-                value={formData.pitchDeck}
+                value={formData.pitchDeckUrl}
                 onChange={handleInputChange}
-                className={errors.pitchDeck ? 'border-red-500' : ''}
+                className={errors.pitchDeckUrl ? 'border-red-500' : ''}
                 disabled={loading}
               />
-              {errors.pitchDeck && <p className='text-red-500 text-xs mt-1'>{errors.pitchDeck}</p>}
+              {errors.pitchDeckUrl && (
+                <p className='text-red-500 text-xs mt-1'>{errors.pitchDeckUrl}</p>
+              )}
             </div>
 
             <div>
