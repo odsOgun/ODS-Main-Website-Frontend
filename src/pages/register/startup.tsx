@@ -13,9 +13,11 @@ interface FormData {
   founderEmail: string;
   startupName: string;
   sector: string;
+  sectorOther: string;
   website: string;
   linkedinUrl: string;
   twitterUrl: string;
+  pitchDeckUrl: string;
   startupStage: string;
 }
 
@@ -25,14 +27,16 @@ interface FormErrors {
   founderEmail: string;
   startupName: string;
   sector: string;
+  sectorOther: string;
   website: string;
   linkedinUrl: string;
   twitterUrl: string;
+  pitchDeckUrl: string;
   startupStage: string;
 }
 
 const SECTORS = ['Healthtech', 'Fintech', 'Proptech', 'Edutech', 'SaaS', 'Biotech', 'Others'];
-const STARTUP_STAGES = ['MVP', 'Preseed', 'Series A'];
+const STARTUP_STAGES = ['MVP', 'Preseed', 'Series A', 'Pre revenue', 'Revenue generating'];
 
 const Startup: React.FC = () => {
   const navigate = useNavigate();
@@ -42,9 +46,11 @@ const Startup: React.FC = () => {
     founderEmail: '',
     startupName: '',
     sector: '',
+    sectorOther: '',
     website: '',
     linkedinUrl: '',
     twitterUrl: '',
+    pitchDeckUrl: '',
     startupStage: ''
   });
 
@@ -54,9 +60,11 @@ const Startup: React.FC = () => {
     founderEmail: '',
     startupName: '',
     sector: '',
+    sectorOther: '',
     website: '',
     linkedinUrl: '',
     twitterUrl: '',
+    pitchDeckUrl: '',
     startupStage: ''
   });
 
@@ -87,9 +95,11 @@ const Startup: React.FC = () => {
       founderEmail: '',
       startupName: '',
       sector: '',
+      sectorOther: '',
       website: '',
       linkedinUrl: '',
       twitterUrl: '',
+      pitchDeckUrl: '',
       startupStage: ''
     };
 
@@ -118,18 +128,33 @@ const Startup: React.FC = () => {
       newErrors.sector = 'Sector is required';
     }
 
+    if (formData.sector === 'Others' && !formData.sectorOther.trim()) {
+      newErrors.sectorOther = 'Please specify your sector';
+    }
+
     if (formData.website.trim() && !validateUrl(formData.website)) {
       newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
     }
 
-    if (formData.linkedinUrl.trim() && !validateUrl(formData.linkedinUrl)) {
+    if (!formData.linkedinUrl.trim()) {
+      newErrors.linkedinUrl = 'LinkedIn URL is required';
+    } else if (!validateUrl(formData.linkedinUrl)) {
       newErrors.linkedinUrl =
         'Please enter a valid LinkedIn URL (e.g., https://linkedin.com/company/example)';
     }
 
-    if (formData.twitterUrl.trim() && !validateUrl(formData.twitterUrl)) {
+    if (!formData.twitterUrl.trim()) {
+      newErrors.twitterUrl = 'Twitter URL is required';
+    } else if (!validateUrl(formData.twitterUrl)) {
       newErrors.twitterUrl =
         'Please enter a valid Twitter URL (e.g., https://twitter.com/username)';
+    }
+
+    if (!formData.pitchDeckUrl.trim()) {
+      newErrors.pitchDeckUrl = 'Pitch Deck URL is required';
+    } else if (!validateUrl(formData.pitchDeckUrl)) {
+      newErrors.pitchDeckUrl =
+        'Please enter a valid Pitch Deck URL (e.g., https://docs.google.com/...)';
     }
 
     if (!formData.startupStage) {
@@ -159,7 +184,8 @@ const Startup: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
+      ...(name === 'sector' && value !== 'Others' ? { sectorOther: '' } : {})
     }));
 
     if (errors[name as keyof FormErrors]) {
@@ -186,9 +212,11 @@ const Startup: React.FC = () => {
         founderEmail: '',
         startupName: '',
         sector: '',
+        sectorOther: '',
         website: '',
         linkedinUrl: '',
         twitterUrl: '',
+        pitchDeckUrl: '',
         startupStage: ''
       });
       setShowSuccessModal(true);
@@ -308,6 +336,26 @@ const Startup: React.FC = () => {
               {errors.sector && <p className='text-red-500 text-xs mt-1'>{errors.sector}</p>}
             </div>
 
+            {formData.sector === 'Others' && (
+              <div>
+                <label htmlFor='sectorOther' className='block text-sm text-[#67706D] mb-2'>
+                  Please specify your sector
+                </label>
+                <Input
+                  id='sectorOther'
+                  name='sectorOther'
+                  placeholder='Enter your sector'
+                  value={formData.sectorOther}
+                  onChange={handleInputChange}
+                  className={errors.sectorOther ? 'border-red-500' : ''}
+                  disabled={loading}
+                />
+                {errors.sectorOther && (
+                  <p className='text-red-500 text-xs mt-1'>{errors.sectorOther}</p>
+                )}
+              </div>
+            )}
+
             <div>
               <label htmlFor='website' className='block text-sm text-[#67706D] mb-2'>
                 Website
@@ -360,6 +408,25 @@ const Startup: React.FC = () => {
               />
               {errors.twitterUrl && (
                 <p className='text-red-500 text-xs mt-1'>{errors.twitterUrl}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor='pitchDeckUrl' className='block text-sm text-[#67706D] mb-2'>
+                Pitch Deck
+              </label>
+              <Input
+                id='pitchDeckUrl'
+                name='pitchDeckUrl'
+                type='url'
+                placeholder='https://docs.google.com/...'
+                value={formData.pitchDeckUrl}
+                onChange={handleInputChange}
+                className={errors.pitchDeckUrl ? 'border-red-500' : ''}
+                disabled={loading}
+              />
+              {errors.pitchDeckUrl && (
+                <p className='text-red-500 text-xs mt-1'>{errors.pitchDeckUrl}</p>
               )}
             </div>
 
