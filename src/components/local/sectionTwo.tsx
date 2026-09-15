@@ -177,13 +177,13 @@ function SectionTwo() {
               Digital Future.
             </p>
             {/* <a href={Sitelinks.becomeAnExhibitor} target='_blank'> */}
-            <a
+            {/* <a
               href='/register/speakers'
               className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'
             >
               <span className='text-sm font-semibold'>Apply to Speak</span>
               <ArrowRight />
-            </a>
+            </a> */}
             {/* </a> */}
           </div>
         </div>

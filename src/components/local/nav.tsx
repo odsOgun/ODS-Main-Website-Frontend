@@ -9,6 +9,7 @@ import SponsorForm from '../form/sponsor';
 import ExhibitorsForm from '../form/exhibitor';
 import SucessModal from '../form/sucessModal';
 import ComingSoon from '../comingModal';
+import SpeakerModal from '../speakerModal';
 
 function Nav() {
   // Define types for navigation items
@@ -16,12 +17,14 @@ function Nav() {
     label: string;
     hasIcon?: boolean;
     icon?: React.ReactNode;
-    link?: string | (() => void);
+    link?: string;
+    onClick?: () => void;
   }
   const [showSponsorModal, setShowSponsorModal] = useState(false);
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
   const [showComingModal, setShowComingModal] = useState(false);
+  const [showSpeakerModal, setShowSpeakerModal] = useState(false);
 
   // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
@@ -31,6 +34,8 @@ function Nav() {
   const closeExhibitorModal = () => setShowExhibitorModal(false);
   const openSucessModal = () => setShowSucessModal(true);
   const closeSucessModal = () => setShowSucessModal(false);
+  const openSpeakerModal = () => setShowSpeakerModal(true);
+  const closeSpeakerModal = () => setShowSpeakerModal(false);
 
   const navItems: NavItemProps[] = [
     { label: 'Home', link: '/' },
@@ -41,7 +46,7 @@ function Nav() {
     { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
     { label: 'Startup', link: '/register/startup' },
-    { label: 'Speakers', link: '/speaker' },
+    { label: 'Speakers', onClick: openSpeakerModal },
     { label: 'News', link: '/news' },
     { label: 'Impact Report', link: '/reports' }
   ];
@@ -60,7 +65,19 @@ function Nav() {
 
         <div className='flex items-center justify-center flex-1 gap-4 text-sm font-semibold leading-6 text-[#627587] tracking-[0.2px] max-lg:hidden'>
           {navItems.map((item, index) => {
-            if (typeof item.link === 'string') {
+            if (item.onClick) {
+              return (
+                <div
+                  key={index}
+                  onClick={item.onClick}
+                  className={`py-[2px] px-3 cursor-pointer ${
+                    item.hasIcon ? 'flex justify-center items-center gap-[10px]' : ''
+                  }`}
+                >
+                  {item.label}
+                </div>
+              );
+            } else if (typeof item.link === 'string') {
               const target = item.link.startsWith('/') ? '_self' : '_blank';
               return (
                 <a href={item.link} target={target} key={index}>
@@ -72,18 +89,6 @@ function Nav() {
                     {item.label}
                   </div>
                 </a>
-              );
-            } else if (typeof item.link === 'function') {
-              return (
-                <div
-                  key={index}
-                  onClick={item.link}
-                  className={`py-[2px] px-3 cursor-pointer ${
-                    item.hasIcon ? 'flex justify-center items-center gap-[10px]' : ''
-                  }`}
-                >
-                  {item.label}
-                </div>
               );
             }
             return null;
@@ -120,7 +125,24 @@ function Nav() {
         >
           <div className='flex flex-col w-full gap-6'>
             {navItems.map((item, index) => {
-              if (typeof item.link === 'string') {
+              if (item.onClick) {
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      item.onClick();
+                      setNavState(false);
+                    }}
+                    className={`font-semibold text-base leading-6 tracking-[0.2px] py-[2px] text-[#627587] cursor-pointer ${
+                      item.hasIcon
+                        ? 'flex justify-center text-[#627587] items-center gap-[10px]'
+                        : ''
+                    }`}
+                  >
+                    {item.label}
+                  </div>
+                );
+              } else if (typeof item.link === 'string') {
                 const target = item.link?.startsWith('/') ? '_self' : '_blank';
 
                 return (
@@ -136,20 +158,6 @@ function Nav() {
                       </div>
                     </div>
                   </a>
-                );
-              } else if (typeof item.link === 'function') {
-                return (
-                  <div
-                    key={index}
-                    onClick={item.link}
-                    className={`font-semibold text-base leading-6 tracking-[0.2px] py-[2px] text-[#627587] cursor-pointer ${
-                      item.hasIcon
-                        ? 'flex justify-center text-[#627587] items-center gap-[10px]'
-                        : ''
-                    }`}
-                  >
-                    {item.label}
-                  </div>
                 );
               }
               return null;
@@ -192,6 +200,9 @@ function Nav() {
         </Modal>
         <Modal show={showComingModal} onClose={closeComingModal}>
           <ComingSoon onClose={closeComingModal} />
+        </Modal>
+        <Modal show={showSpeakerModal} onClose={closeSpeakerModal}>
+          <SpeakerModal onClose={closeSpeakerModal} />
         </Modal>
       </div>
     );
