@@ -101,7 +101,9 @@ const Speakers: React.FC = () => {
 
   const validateUrl = (url: string): boolean => {
     try {
-      new URL(url);
+      // Prepend https:// if URL doesn't have a protocol
+      const urlWithProtocol = url.match(/^https?:\/\//i) ? url : `https://${url}`;
+      new URL(urlWithProtocol);
       return true;
     } catch {
       return false;
@@ -163,14 +165,14 @@ const Speakers: React.FC = () => {
     if (!formData.website.trim()) {
       newErrors.website = 'Website URL is required';
     } else if (!validateUrl(formData.website)) {
-      newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
+      newErrors.website = 'Please enter a valid website URL (e.g., example.com)';
     }
     //  linkedinUrl validation
     if (!formData.linkedinUrl.trim()) {
       newErrors.linkedinUrl = 'linkedin URL is required';
     } else if (!validateUrl(formData.linkedinUrl)) {
       newErrors.linkedinUrl =
-        'Please enter a valid linkedinUrl URL (e.g., https://linkedin.com/company/example)';
+        'Please enter a valid linkedinUrl URL (e.g., linkedin.com/company/example)';
     }
     // Country validation
     if (!formData.country.trim()) {
@@ -398,7 +400,7 @@ const Speakers: React.FC = () => {
                 id='linkedinUrl'
                 name='linkedinUrl'
                 type='url'
-                placeholder='https://linkedin.com/in/yourname'
+                placeholder='linkedin.com/in/yourname'
                 value={formData.linkedinUrl}
                 onChange={handleInputChange}
                 className={errors.linkedinUrl ? 'border-red-500' : ''}
@@ -420,7 +422,7 @@ const Speakers: React.FC = () => {
                 id='website'
                 name='website'
                 type='url'
-                placeholder='https://yourwebsite.com'
+                placeholder='yourwebsite.com'
                 value={formData.website}
                 onChange={handleInputChange}
                 className={errors.website ? 'border-red-500' : ''}

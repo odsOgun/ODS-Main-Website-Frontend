@@ -81,7 +81,29 @@ const Startup: React.FC = () => {
 
   const validateUrl = (url: string): boolean => {
     try {
-      new URL(url);
+      // Prepend https:// if URL doesn't have a protocol
+      const urlWithProtocol = url.match(/^https?:\/\//i) ? url : `https://${url}`;
+      new URL(urlWithProtocol);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const validateGoogleDocUrl = (url: string): boolean => {
+    try {
+      // Google Docs URLs must use HTTPS
+      const urlWithProtocol = url.match(/^https?:\/\//i) ? url : `https://${url}`;
+      const parsedUrl = new URL(urlWithProtocol);
+
+      // Check if it's a Google Docs URL
+      const isGoogleDoc = parsedUrl.hostname.includes('docs.google.com');
+
+      // If it's a Google Doc, it must use HTTPS
+      if (isGoogleDoc && parsedUrl.protocol !== 'https:') {
+        return false;
+      }
+
       return true;
     } catch {
       return false;
@@ -133,26 +155,25 @@ const Startup: React.FC = () => {
     }
 
     if (formData.website.trim() && !validateUrl(formData.website)) {
-      newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
+      newErrors.website = 'Please enter a valid website URL (e.g., example.com)';
     }
 
     if (!formData.linkedinUrl.trim()) {
       newErrors.linkedinUrl = 'LinkedIn URL is required';
     } else if (!validateUrl(formData.linkedinUrl)) {
       newErrors.linkedinUrl =
-        'Please enter a valid LinkedIn URL (e.g., https://linkedin.com/company/example)';
+        'Please enter a valid LinkedIn URL (e.g., linkedin.com/company/example)';
     }
 
     if (!formData.twitterUrl.trim()) {
       newErrors.twitterUrl = 'Twitter URL is required';
     } else if (!validateUrl(formData.twitterUrl)) {
-      newErrors.twitterUrl =
-        'Please enter a valid Twitter URL (e.g., https://twitter.com/username)';
+      newErrors.twitterUrl = 'Please enter a valid Twitter URL (e.g., twitter.com/username)';
     }
 
     if (!formData.pitchDeckUrl.trim()) {
       newErrors.pitchDeckUrl = 'Pitch Deck URL is required';
-    } else if (!validateUrl(formData.pitchDeckUrl)) {
+    } else if (!validateGoogleDocUrl(formData.pitchDeckUrl)) {
       newErrors.pitchDeckUrl =
         'Please enter a valid Pitch Deck URL (e.g., https://docs.google.com/...)';
     }
@@ -364,7 +385,7 @@ const Startup: React.FC = () => {
                 id='website'
                 name='website'
                 type='url'
-                placeholder='https://example.com'
+                placeholder='example.com'
                 value={formData.website}
                 onChange={handleInputChange}
                 className={errors.website ? 'border-red-500' : ''}
@@ -381,7 +402,7 @@ const Startup: React.FC = () => {
                 id='linkedinUrl'
                 name='linkedinUrl'
                 type='url'
-                placeholder='https://linkedin.com/company/example'
+                placeholder='linkedin.com/company/example'
                 value={formData.linkedinUrl}
                 onChange={handleInputChange}
                 className={errors.linkedinUrl ? 'border-red-500' : ''}
@@ -400,7 +421,7 @@ const Startup: React.FC = () => {
                 id='twitterUrl'
                 name='twitterUrl'
                 type='url'
-                placeholder='https://twitter.com/username'
+                placeholder='twitter.com/username'
                 value={formData.twitterUrl}
                 onChange={handleInputChange}
                 className={errors.twitterUrl ? 'border-red-500' : ''}

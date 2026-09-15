@@ -74,7 +74,9 @@ const Sponsors: React.FC = () => {
 
   const validateUrl = (url: string): boolean => {
     try {
-      new URL(url);
+      // Prepend https:// if URL doesn't have a protocol
+      const urlWithProtocol = url.match(/^https?:\/\//i) ? url : `https://${url}`;
+      new URL(urlWithProtocol);
       return true;
     } catch {
       return false;
@@ -119,19 +121,18 @@ const Sponsors: React.FC = () => {
 
     // Website validation (optional but if provided, should be valid)
     if (formData.website.trim() && !validateUrl(formData.website)) {
-      newErrors.website = 'Please enter a valid website URL (e.g., https://example.com)';
+      newErrors.website = 'Please enter a valid website URL (e.g., example.com)';
     }
 
     // LinkedIn validation (optional but if provided, should be valid)
     if (formData.linkedinLink.trim() && !validateUrl(formData.linkedinLink)) {
       newErrors.linkedinLink =
-        'Please enter a valid LinkedIn URL (e.g., https://linkedin.com/company/example)';
+        'Please enter a valid LinkedIn URL (e.g., linkedin.com/company/example)';
     }
 
     // Twitter validation (optional but if provided, should be valid)
     if (formData.twitterLink.trim() && !validateUrl(formData.twitterLink)) {
-      newErrors.twitterLink =
-        'Please enter a valid Twitter/X URL (e.g., https://twitter.com/username)';
+      newErrors.twitterLink = 'Please enter a valid Twitter/X URL (e.g., twitter.com/username)';
     }
 
     setErrors(newErrors);
@@ -278,7 +279,7 @@ const Sponsors: React.FC = () => {
                 id='website'
                 name='website'
                 type='url'
-                placeholder='https://example.com'
+                placeholder='example.com'
                 value={formData.website}
                 onChange={handleInputChange}
                 className={errors.website ? 'border-red-500' : ''}
@@ -295,7 +296,7 @@ const Sponsors: React.FC = () => {
                 id='linkedinLink'
                 name='linkedinLink'
                 type='url'
-                placeholder='https://linkedin.com/company/example'
+                placeholder='linkedin.com/company/example'
                 value={formData.linkedinLink}
                 onChange={handleInputChange}
                 className={errors.linkedinLink ? 'border-red-500' : ''}
@@ -314,7 +315,7 @@ const Sponsors: React.FC = () => {
                 id='twitterLink'
                 name='twitterLink'
                 type='url'
-                placeholder='https://twitter.com/username'
+                placeholder='twitter.com/username'
                 value={formData.twitterLink}
                 onChange={handleInputChange}
                 className={errors.twitterLink ? 'border-red-500' : ''}
