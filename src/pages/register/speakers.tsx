@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiService, type ApiError } from '@/api/apiService';
 import SuccessModal from '@/components/shared/SuccessModal';
 import ErrorModal from '@/components/shared/ErrorModal';
+import SpeakerModal from '@/components/speakerModal';
 
 interface FormData {
   firstName: string;
@@ -80,6 +81,7 @@ const Speakers: React.FC = () => {
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [showSpeakerModal, setShowSpeakerModal] = useState<boolean>(true);
 
   const validateNigerianPhoneNumber = (phone: string): boolean => {
     // Remove all spaces and special characters except +
@@ -271,6 +273,14 @@ const Speakers: React.FC = () => {
 
   return (
     <RegisterLayout>
+      {showSpeakerModal && (
+        <SpeakerModal
+          onClose={() => {
+            setShowSpeakerModal(false);
+            navigate('/');
+          }}
+        />
+      )}
       <div className='max-w-[600px] mx-auto p-6 pt-20'>
         <h1 className='text-3xl font-bold text-gray-800 mb-4'>Speaker details</h1>
         <p className='text-sm text-gray-500 mb-10'>All fields are required</p>

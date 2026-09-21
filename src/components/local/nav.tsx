@@ -9,7 +9,6 @@ import SponsorForm from '../form/sponsor';
 import ExhibitorsForm from '../form/exhibitor';
 import SucessModal from '../form/sucessModal';
 import ComingSoon from '../comingModal';
-import SpeakerModal from '../speakerModal';
 
 function Nav() {
   // Define types for navigation items
@@ -24,7 +23,6 @@ function Nav() {
   const [showExhibitorModal, setShowExhibitorModal] = useState(false);
   const [showSucessModal, setShowSucessModal] = useState(false);
   const [showComingModal, setShowComingModal] = useState(false);
-  const [showSpeakerModal, setShowSpeakerModal] = useState(false);
 
   // const openSponsorModal = () => setShowSponsorModal(true);
   const closeSponsorModal = () => setShowSponsorModal(false);
@@ -34,8 +32,6 @@ function Nav() {
   const closeExhibitorModal = () => setShowExhibitorModal(false);
   const openSucessModal = () => setShowSucessModal(true);
   const closeSucessModal = () => setShowSucessModal(false);
-  const openSpeakerModal = () => setShowSpeakerModal(true);
-  const closeSpeakerModal = () => setShowSpeakerModal(false);
 
   const navItems: NavItemProps[] = [
     { label: 'Home', link: '/' },
@@ -46,7 +42,7 @@ function Nav() {
     { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
     { label: 'Startup', link: '/register/startup' },
-    { label: 'Speakers', onClick: openSpeakerModal },
+    { label: 'Speakers', link: '/register/speakers' },
     { label: 'News', link: '/news' },
     { label: 'Impact Report', link: '/reports' }
   ];
@@ -200,9 +196,6 @@ function Nav() {
         </Modal>
         <Modal show={showComingModal} onClose={closeComingModal}>
           <ComingSoon onClose={closeComingModal} />
-        </Modal>
-        <Modal show={showSpeakerModal} onClose={closeSpeakerModal}>
-          <SpeakerModal onClose={closeSpeakerModal} />
         </Modal>
       </div>
     );
