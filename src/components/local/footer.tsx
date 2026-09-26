@@ -46,9 +46,11 @@ const Footer = () => {
               Store
             </a>
           </li> */}
-          {/* <li onClick={openExhibitorModal} className='cursor-pointer'> */}
           <li className='cursor-pointer'>
             <a href='/register/exhibitors'>Exhibitors</a>
+          </li>
+          <li className='cursor-pointer'>
+            <a href='/news'>News</a>
           </li>
         </div>
 
