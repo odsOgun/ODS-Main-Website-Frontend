@@ -104,6 +104,13 @@ export const apiService = {
     create: async (data: any): Promise<AxiosResponse> => {
       return apiClient.post('/startup/create', data);
     }
+  },
+
+  // Hackathon endpoints
+  hackathon: {
+    register: async (data: any): Promise<AxiosResponse> => {
+      return apiClient.post('/hackathon/register', data);
+    }
   }
 };
 
