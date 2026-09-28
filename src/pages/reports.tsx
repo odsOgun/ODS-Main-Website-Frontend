@@ -3,6 +3,7 @@ import RequestReportModal from '@/components/form/downloadReport';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
 import '@/styles/reports.css';
+import aboutTwoImage from '@/assets/img/about-two.png';
 
 const Reports = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -114,7 +115,7 @@ const Reports = () => {
       <section
         className='bg-ods-green-tint20 pt-10 overflow-hidden relative'
         style={{
-          backgroundImage: 'url(/src/assets/img/about-two.png)',
+          backgroundImage: `url(${aboutTwoImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'

@@ -4,7 +4,7 @@ import Footer from '@/components/local/footer';
 import RocketSvg from '@/assets/svgs/rocket.svg';
 import ArtBg from '@/assets/img/readme/artBg.png';
 import HackathonRegistration from './register/hackathon';
-import { Check, Network } from 'lucide-react';
+import { Network } from 'lucide-react';
 
 const SparkleStar = ({ className = 'w-4 h-4 text-[#FF7B72]' }: { className?: string }) => (
   <svg viewBox='0 0 24 24' fill='currentColor' className={className} aria-hidden='true'>
@@ -369,32 +369,38 @@ export default function Hackathon() {
             {/* List */}
             <div className='max-w-2xl mx-auto flex flex-col items-center space-y-4'>
               {/* Item 1 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>
                   A clearly defined problem, supported by evidence or credible user insight.
                 </span>
               </div>
 
               {/* Item 2 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>An original and practical approach that fits the local context.</span>
               </div>
 
               {/* Item 3 (Prominent green pill) */}
               <div className='w-full sm:w-auto my-2'>
-                <div className='bg-[#009E49] text-white py-3 px-6 sm:px-8 rounded-full shadow-lg flex items-center justify-center gap-2.5 mx-auto text-center'>
-                  <Check className='w-4 h-4 stroke-[3] text-white flex-shrink-0' />
-                  <span className='font-semibold text-xs sm:text-sm'>
-                    A working prototype that demonstrates the core experience.
+                <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                  <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                    ✓
                   </span>
+                  <span>A working prototype that demonstrates the core experience.</span>
                 </div>
               </div>
 
               {/* Item 4 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>
                   A solution with believable impact, adoption potential and a path to
                   sustainability.
@@ -402,8 +408,10 @@ export default function Hackathon() {
               </div>
 
               {/* Item 5 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>
                   A team that can explain its choices, limitations and next steps clearly.
                 </span>
