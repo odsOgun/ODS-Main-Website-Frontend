@@ -36,14 +36,14 @@ function Nav() {
   const navItems: NavItemProps[] = [
     { label: 'Home', link: '/' },
     { label: 'About', link: '/about' },
-    { label: 'Sponsor', link: '/register/sponsors' },
+    // { label: 'Sponsor', link: '/register/sponsors' },
     // { label: 'Sponsor', link: openSponsorModal },
     // { label: 'Store', link: 'https://selar.co/m/ods2024' },
-    { label: 'Exhibitors', link: '/register/exhibitors' },
+    // { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
-    { label: 'Startup', link: '/register/startup' },
-    { label: 'Speakers', link: '/register/speakers' },
-    { label: 'News', link: '/news' },
+    // { label: 'Startup', link: '/register/startup' },
+    // { label: 'Speakers', link: '/register/speakers' },
+    { label: 'Hackathon', link: '/hackathon' },
     { label: 'Impact Report', link: '/reports' }
   ];
 
