@@ -151,9 +151,7 @@ export default function Hackathon() {
   return (
     <div className='min-h-screen bg-white text-[#101828] flex flex-col font-sans selection:bg-[#B9FBC0] selection:text-[#101828]'>
       {/* Existing Navbar - unchanged */}
-      <header className='w-full border-b border-[#F2F4F7] sticky top-0 z-40 bg-white/95 backdrop-blur-sm'>
-        <Nav />
-      </header>
+      <Nav />
 
       <main className='flex-1'>
         {/* ================= HERO SECTION ================= */}
@@ -218,7 +216,7 @@ export default function Hackathon() {
                 </div>
 
                 {/* Stats Card (Coral Red with subtle pattern) */}
-                <div className='relative w-full max-w-xl lg:max-w-none lg:w-[122%] xl:w-[128%] bg-[#DF554B] text-white rounded-2xl shadow-xl p-5 sm:p-6 sm:py-6 sm:px-7 overflow-hidden z-20'>
+                <div className='relative w-full max-w-xl lg:max-w-none lg:w-[122%] xl:w-[128%] bg-[#DF554B] text-white rounded-2xl shadow-xl p-5 sm:p-6 sm:py-6 sm:px-7 overflow-hidden z-20 sm:z-0'>
                   {/* Subtle pattern texture inside stats card */}
                   <div
                     className='pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-overlay'
@@ -229,7 +227,7 @@ export default function Hackathon() {
                     }}
                   />
 
-                  <div className='relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/25'>
+                  <div className='relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/25 '>
                     <div className='pt-2 sm:pt-0 sm:pr-4 lg:pr-5'>
                       <div className='text-xl sm:text-[23px] lg:text-[25px] font-bold tracking-tight leading-tight'>
                         &#8358;5,000,000
