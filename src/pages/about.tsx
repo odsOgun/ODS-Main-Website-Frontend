@@ -4,11 +4,11 @@ import { HeartIcon, PersonIcon, ConcentricCirclesIcon, StarIcon } from '@/assets
 import HeroImg from '@/assets/img/about-hero.png';
 import MapImage from '@/assets/img/about-one.png';
 import Image2 from '@/assets/img/about-two.png';
-import Image3 from '@/assets/img/about-3.png';
-import Image4 from '@/assets/img/about-4.png';
-import Image5 from '@/assets/img/about-5.png';
-import Image6 from '@/assets/img/about-6.png';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+// import Image3 from '@/assets/img/about-3.png';
+// import Image4 from '@/assets/img/about-4.png';
+// import Image5 from '@/assets/img/about-5.png';
+// import Image6 from '@/assets/img/about-6.png';
+// import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Sitelinks from '@/mock/sitelinks.json';
 import { ArrowRight } from '@/assets/icons';
 import MobileApp from '@/components/local/mobileApp';
@@ -43,12 +43,12 @@ const items = [
   }
 ];
 
-const carouselItems = [
-  { img: Image3, alt: 'Workshops' },
-  { img: Image4, alt: 'Isara Digital Economy Station' },
-  { img: Image5, alt: 'Investor-Startup Collaborations' },
-  { img: Image6, alt: 'Trainings' }
-];
+// const carouselItems = [
+//   { img: Image3, alt: 'Workshops' },
+//   { img: Image4, alt: 'Isara Digital Economy Station' },
+//   { img: Image5, alt: 'Investor-Startup Collaborations' },
+//   { img: Image6, alt: 'Trainings' }
+// ];
 
 const journeyItems = [
   {
@@ -267,7 +267,7 @@ function About() {
         </div>
       </div>
 
-      <div className='w-full mb-20'>
+      {/* <div className='w-full mb-20'>
         <Carousel className='' opts={{ align: 'center' }}>
           <CarouselContent className='md:-ml-20'>
             {carouselItems.map((item, index) => (
@@ -280,7 +280,7 @@ function About() {
             ))}
           </CarouselContent>
         </Carousel>
-      </div>
+      </div> */}
 
       <div className='bg-[#101611]'>
         <div className='max-w-[1120px] w-full px-8 mx-auto pt-20'>
@@ -297,15 +297,7 @@ function About() {
             {journeyItems.map((item, index) => (
               <div
                 key={index}
-                className={`px-10 py-6 rounded-lg my-5 last:my-0 mx-auto ${
-                  [
-                    'md:w-full',
-                    'md:w-[calc(100%-50px)]',
-                    'md:w-[calc(100%-100px)]',
-                    'md:w-[calc(100%-200px)]',
-                    'md:w-[calc(100%-300px)]'
-                  ][index]
-                }`}
+                className='px-10 py-6 rounded-lg my-5 last:my-0 mx-auto md:w-full'
                 style={{ backgroundColor: item.bgColor }}
               >
                 <h3 className='md:text-lg font-semibold mb-4'>{item.title}</h3>

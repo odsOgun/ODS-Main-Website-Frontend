@@ -7,7 +7,7 @@ const data = [
   { year: '2022', attendees: 2000, color: '#000000' },
   { year: '2023', attendees: 2500, color: '#86E1C3' },
   { year: '2024', attendees: 3000, color: '#000000' },
-  { year: '2025', attendees: 10000, color: '#A78BFA' }
+  { year: '2025', attendees: 2815, color: '#A78BFA' }
 ];
 
 const BarChartComponent: React.FC = () => {
