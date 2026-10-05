@@ -1,6 +1,6 @@
 import Nav from '@/components/local/nav';
 import { ArrowRight } from '@/assets/icons';
-import Merch from '@/components/local/merch';
+// import Merch from '@/components/local/merch';
 import MobileApp from '@/components/local/mobileApp';
 import Footer from '@/components/local/footer';
 import BarChartComponent from '@/components/local/barchart';
@@ -51,7 +51,7 @@ const Statistics = () => {
         </div>
         <BarChartComponent />
       </div>
-      <Merch />
+      {/* <Merch /> */}
       <MobileApp />
       <Footer />
     </div>
