@@ -1,454 +1,419 @@
 import Nav from '@/components/local/nav';
-import HeroImg from '@/assets/img/speaker-hero.png';
-import speaker1 from '@/assets/img/Speaker1.png';
-import speaker2 from '@/assets/img/speaker2.png';
-import speaker3 from '@/assets/img/speaker3.png';
-import speaker4 from '@/assets/img/speaker4.png';
-import speaker5 from '@/assets/img/speaker5.png';
-import speaker10 from '@/assets/img/speaker10.png';
-import speaker7 from '@/assets/img/speaker7.png';
-import speaker8 from '@/assets/img/speaker8.png';
-import speaker9 from '@/assets/img/speaker9.png';
-import speaker11 from '@/assets/img/speaker11.png';
-import speaker12 from '@/assets/img/speaker12.png';
-import speaker13 from '@/assets/img/speaker13.png';
-import speaker14 from '@/assets/img/speaker14.png';
-import speaker15 from '@/assets/img/speaker17.png';
-import speaker17 from '@/assets/img/speaker16.png';
-import speaker18 from '@/assets/img/speaker15.png';
-// import master1 from '@/assets/img/master1.png';
-// import master2 from '@/assets/img/master2.png';
-// import master3 from '@/assets/img/master3.png';
-// import master4 from '@/assets/img/master5.png';
-import Guest from '@/assets/img/guest.png';
-import Guest1 from '@/assets/img/guest1.png';
-import Guest2 from '@/assets/img/guest2.png';
-import Guest3 from '@/assets/img/guest3.png';
-import Guest4 from '@/assets/img/guest4.png';
-import { useEffect, useRef, useState } from 'react';
-import MobileApp from '@/components/local/mobileApp';
 import Footer from '@/components/local/footer';
-import { ArrowRight } from '@/assets/icons';
-// import { ArrowLeft } from '@/assets/icons';
 
-const Speakers = () => {
-  const whatToLookForwardItems = [
-    {
-      title: 'Kashifu Inuwa',
-      position: 'DG, NITDA',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker17
-    },
-    {
-      title: 'Iyin Aboyeji',
-      position: 'Managing Partner, Accelerate Africa',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker11
-    },
-    {
-      title: 'Mohammed Jega',
-      position: 'Co-founder Domineum',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker1
-    },
-    {
-      title: 'Mayowa Kuyoro',
-      position: 'Partner McKinsey',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker14
-    },
-    {
-      title: 'Salem King',
-      position: 'Content Creator/Storyteller',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker13
-    },
-    {
-      title: 'Dr. Ademola Adenubi',
-      position: 'Founder, EduTAMS',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker15
-    },
+// Hero background image
+const heroBg = '/img/IMG_0919 1 (1).png';
 
-    {
-      title: 'Bayo Omoboriowo',
-      position: 'Founder Madhouse by tikera',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker4
-    },
-    {
-      title: 'Kiki Osinbajo',
-      position: 'CEO, Ciar',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker5
-    },
+// 2024 / Main Speakers Lineup images from public/img
+const speakersLineup = [
+  {
+    name: 'Samson Ogbole',
+    role: 'Director, Soilless Farm Lab',
+    image: '/img/Frame 2147239201.png',
+    badge: null,
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Ayodeji Awosika',
+    role: 'Founder, Web3 Bridge',
+    image: '/img/Frame 2147239200.png',
+    badge: null,
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Seyi Ademeso',
+    role: 'Content Creator & Strategist | Co-Founder, Meshkiey',
+    image: '/img/Frame 2147239200 (1).png',
+    badge: 'MESHKIEY',
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Idris Olubisi',
+    role: 'Founder, Web3Afrika',
+    image: '/img/Frame 2147239200 (2).png',
+    badge: null,
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Debo Richards',
+    role: 'Content Creator',
+    image: '/img/Frame 2147239201.png',
+    badge: null,
+    isOverlayNeeded: true // Cleanly displays Debo Richards over base avatar
+  },
+  {
+    name: 'Adebayo Adewole',
+    role: 'Associate',
+    image: '/img/Frame 2147239200 (3).png',
+    badge: null,
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Joseph Onaolapo',
+    role: 'Media Personality and Founder, Jayonair',
+    image: '/img/Frame 2147239200 (4).png',
+    badge: 'JAYONAIR',
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Dára Sobaloju',
+    role: 'Founder of Pewbeam',
+    image: '/img/Frame 2147239200 (5).png',
+    badge: null,
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Fola Olatunji-David',
+    role: 'Founding Partner, Kickoff Africa',
+    image: '/img/Frame 2147239200 (6).png',
+    badge: null,
+    isOverlayNeeded: false
+  },
+  {
+    name: 'Sulaimon Adebayo',
+    role: 'Founder, Pooja Media and Communications',
+    image: '/img/Frame 2147239200 (7).png',
+    badge: 'POOJA',
+    isOverlayNeeded: false
+  }
+];
 
-    {
-      title: 'Dr. Smile',
-      position: 'Comedian',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker3
-    },
-    {
-      title: 'Dr Ajidahun Olusina',
-      position: 'Co-founder tryprivhealth',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker10
-    },
-    {
-      title: 'Dr Ishola Adebayo',
-      position: 'Lecturer, Tai Solarin UOE',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker18
-    },
-    {
-      title: 'Adenrele Sonariwo',
-      position: 'Entrepreneur and Art curator',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker7
-    },
-    {
-      title: 'Rahaman Abiola',
-      position: 'Editor-in-Chief - Legit.ng',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker8
-    },
-    {
-      title: 'Dr Gbonjubola Abiri',
-      position: 'CEO, Redi-Med Services',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker2
-    },
-    {
-      title: 'Niyi Fagbemi',
-      position: 'Travel Film Maker',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker9
-    },
+// Past Speakers from public/img
+const pastSpeakers = [
+  {
+    name: 'Olubunmi Fabanwo',
+    role: 'Afriex Program Manager',
+    image: '/img/Frame 173.png'
+  },
+  {
+    name: 'Harrison Obiefule',
+    role: 'Co-Host / SomewhereinG...',
+    image: '/img/Frame 174.png'
+  },
+  {
+    name: 'Odunayo Eweniyi',
+    role: 'Co-Founder, Piggyvest',
+    image: '/img/Frame 175.png'
+  },
+  {
+    name: 'Yosola Adekanmbi',
+    role: 'Former Media Exec, Access inc',
+    image: '/img/Frame 176.png'
+  },
+  {
+    name: 'Joshua Chibueze',
+    role: 'Co-founder, Piggyvest',
+    image: '/img/Frame 177.png'
+  }
+];
 
-    {
-      title: 'Samuel Ogunyinka (Psalmist)',
-      position: 'Spoken word artist',
-      description:
-        'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-      image: speaker12
-    }
-  ];
+// Green Pixel / Stepped Accents for Hero Bottom
+const GreenPixelAccentsLeft = () => (
+  <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <rect x='0' y='0' width='16' height='16' fill='#00A651' />
+    <rect x='16' y='0' width='16' height='16' fill='#00A651' />
+    <rect x='0' y='16' width='16' height='16' fill='#00A651' />
+    <rect x='32' y='16' width='16' height='16' fill='#00A651' />
+  </svg>
+);
 
-  // Define the types for state variables
-  const [currentIndex] = useState<number>(0);
-  const itemsPerPage: number = 8; // Define how many items per page
-  const sectionRef = useRef<HTMLDivElement | null>(null); // Ref for the section to scroll to
-  const visibleItems = whatToLookForwardItems.slice(currentIndex, currentIndex + itemsPerPage);
+const GreenPixelAccentsRight = () => (
+  <svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <rect x='16' y='0' width='16' height='16' fill='#00A651' />
+    <rect x='32' y='0' width='16' height='16' fill='#00A651' />
+    <rect x='32' y='16' width='16' height='16' fill='#00A651' />
+    <rect x='0' y='16' width='16' height='16' fill='#00A651' />
+  </svg>
+);
 
-  // // Handle the 'Previous' button click
-  // const handlePrev = (): void => {
-  //   if (currentIndex - itemsPerPage >= 0 && sectionRef.current) {
-  //     sectionRef.current.scrollIntoView({ behavior: 'smooth' });
-  //     setCurrentIndex(currentIndex - itemsPerPage);
-  //   }
-  // };
-  // // Handle the 'Next' button click
-  // const handleNext = (): void => {
-  //   const totalItems: number = 10; // Example total items
-  //   if (currentIndex + itemsPerPage < totalItems && sectionRef.current) {
-  //     sectionRef.current.scrollIntoView({ behavior: 'smooth' });
-  //     setCurrentIndex(currentIndex + itemsPerPage);
-  //   }
-  // };
-  // const Master = [
-  //   {
-  //     title: 'Omolara Dada',
-  //     position: 'Growth Lead, Anchor',
-  //     description:
-  //       'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-  //     image: master1
-  //   },
-  //   {
-  //     title: 'Sodiq Akinjobi',
-  //     position: 'Developer Ecostystem CM at google',
-  //     description:
-  //       'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-  //     image: master2
-  //   },
-  //   {
-  //     title: 'Kutaje O. Joseph',
-  //     position: 'UX design mentor, Designlab ',
-  //     description:
-  //       'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-  //     image: master3
-  //   },
-  //   {
-  //     title: 'Ibiniyi Obikoya',
-  //     position: 'Tech Lead, Korapay',
-  //     description:
-  //       'I’m a highly motivated and solution oriented software engineer and tech entrepreneur. I use my skills and knowledge to develop and contribute innovative ideas. I am interested in Edtech, Startup Ecosytem, Investment, Blockchain, Artificial Intelligence, Machine Learning and Decentralized Finance.',
-  //     image: master4
-  //   }
-  // ];
+// Black Stepped Pixel Accents for White Mobile Section bottom
+const BlackSteppedLeft = () => (
+  <svg width='60' height='40' viewBox='0 0 60 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <rect x='0' y='0' width='20' height='20' fill='#101611' />
+    <rect x='0' y='20' width='40' height='20' fill='#101611' />
+    <rect x='40' y='20' width='20' height='20' fill='#101611' />
+  </svg>
+);
 
-  const [showNav, setShowNav] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [showModal] = useState<number | null>(null);
-  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(window.innerWidth <= 768);
-  const handleScroll = () => {
-    const currentScrollPos = window.scrollY;
-    setShowNav(currentScrollPos > 0);
-  };
-  const handleResize = () => {
-    setIsSmallScreen(window.innerWidth <= 500);
-  };
+const BlackSteppedRight = () => (
+  <svg width='60' height='40' viewBox='0 0 60 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <rect x='40' y='0' width='20' height='20' fill='#101611' />
+    <rect x='20' y='20' width='40' height='20' fill='#101611' />
+    <rect x='0' y='20' width='20' height='20' fill='#101611' />
+  </svg>
+);
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+// Play Store Icon
+const PlayStoreIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
+  <svg className={className} viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M3.609 1.814L13.792 12 3.61 22.186a2.22 2.22 0 0 1-.61-.924V2.738c.175-.36.386-.677.61-.924zm11.24 11.242l2.366-2.366-2.366-2.367-1.057 1.057 1.057 3.676zm1.472-4.108L18.4 10.15c.8.46.8 1.237 0 1.698l-2.079 1.202-1.745-1.745 1.745-2.357zM4.697 1.189l9.095 9.095-2.735 2.735-8.497-8.497c.46-.388 1.272-.751 2.137-3.333z' />
+  </svg>
+);
+
+// Apple Icon
+const AppleIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
+  <svg className={className} viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.98.6-2.62 1.35-.57.65-1.06 1.72-.93 2.74 1 .08 2-.49 2.62-1.24' />
+  </svg>
+);
+
+export default function Speakers() {
+  const tickerText = 'Nov 25, 2026 • June 12 Cultural Centre, Kuto, Abeokuta Ogun state //';
 
   return (
-    <div>
-      {/* Navigation and Hero Section */}
-      <div className='h-screen'>
-        <div
-          className={`bg-white w-full max-md:px-5 fixed ${showNav ? 'top-0' : '-top-20'} z-50
-          transition-all duration-200 ease-linear`}
-        >
-          <Nav />
-        </div>
-        <div
-          className={`${showNav ? 'scale-90' : 'scale-100'} transition-all duration-200 ease-linear`}
-        >
-          <div
-            className='w-full h-screen bg-red-50'
-            style={{
-              backgroundImage: `url(${HeroImg})`,
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover'
-            }}
-          ></div>
+    <div className='min-h-screen bg-[#FBF9F1] text-[#181818] flex flex-col font-sans selection:bg-[#00A651] selection:text-white'>
+      {/* Self-contained CSS for ticker animation */}
+      <style>{`
+        @keyframes odsMarquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .ods-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: odsMarquee 35s linear infinite;
+        }
+        .ods-marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
 
-          <div className='md:w-[55%] md:leading-[64px] absolute bottom-16 md:left-28'>
-            <h1 className='md:text-[60px] platypi-gf md:leading-[64px] text-white font-semibold text-4xl p-6'>
-              <span className='font-normal italic'></span> Speakers Lineup:
-            </h1>
-            <p className='text-[#B0C5D6] inter-gf text-base leading-6 pl-6'>
-              We're bringing together a remarkable group of bold innovators and doers from across
-              Africa, spanning industries such as entertainment, technology, agriculture, the
-              creative sector, finance, and policy-making.
-            </p>
-            <a href='/register/speakers'>
-              <button className='bg-[#178A2D] ml-6 mt-3 w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
-                <span className='text-sm font-semibold'>Apply to Speak</span>
-                <ArrowRight />
-              </button>
-            </a>
+      {/* ============================================================== */}
+      {/* 1. HERO SECTION                                                */}
+      {/* ============================================================== */}
+      <section className='relative w-full bg-[#0A100C] text-white overflow-hidden'>
+        {/* Stage photo background from public/img */}
+        <div
+          className='absolute inset-0 bg-cover bg-center bg-no-repeat opacity-45 transform scale-105'
+          style={{ backgroundImage: `url("${heroBg}")` }}
+        />
+
+        {/* Dark atmospheric gradient overlay */}
+        <div className='absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/90 pointer-events-none' />
+
+        {/* Global Navigation - Kept intact as requested */}
+        <div className='relative z-30 w-full'>
+          <div className='container max-w-[1120px] mx-auto px-4 pt-2'>
+            <Nav />
           </div>
         </div>
-      </div>
-      <section
-        ref={sectionRef}
-        // className={`py-10 sm:py-[160px] relative  ${showModal !== null ? 'bg-[#101611B2] opacity-7' : ''}`}
-        className={`   ${showModal !== null ? 'bg-[#101611B2] opacity-7' : ''}`}
-      >
-        <div
-          // className={` relative m-auto w-[90%] lg:w-[1280px] sm:grid md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 grid-rows-1  justify-between gap-[24px] md:flex-row  transition-all duration-300 translate-x-  ease-in-out ${showModal ? '' : ''}`}
-          className={` relative m-auto w-[90%] lg:w-[1280px] sm:grid md:grid-cols-3 lg:grid-cols-4    justify-between gap-[24px] md:flex-row  transition-all duration-300 translate-x-  ease-in-out ${showModal ? '' : ''}`}
-        >
-          {(isSmallScreen ? visibleItems.slice(0, 2) : visibleItems).map((item, index) => (
-            <div
-              key={index}
-              className={`relative rounded-2xl h-[360px] lg:max-w-[300px] w-auto overflow-hidden sm:mb-0 mb-[16px] cursor-pointer transition-transform transform ${showModal === index ? 'w-[475px] h-[456px] absolute z-30 bg-white pt-[56px] ' : 'h-[360px] w-[300px]'}`}
-              style={{
-                backgroundImage: showModal === index ? 'none' : `url(${item.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <div
-                className={`h-[200px] w-[447px] rounded-md mx-auto   ${showModal === index ? 'block' : 'hidden'}`}
-                style={{
-                  backgroundImage: `url(${item.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              ></div>
-              <div
-                className={`absolute bottom-0 w-full p-6 ${showModal === index ? ' ' : 'bg-[#101611]'} text-white transition-all duration-300 ease-in-out ${
-                  hoveredIndex === index
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-full'
-                }`}
-              >
-                <h1 className='font-semibold text-base text-[#F2F9FF] mb-2'>{item.title}</h1>
-                <p className='text-sm leading-6 text-[#B0C5D6]'>{item.position}</p>
-                <p
-                  className={`text-sm leading-6 text-[#B0C5D6] ${showModal === index ? 'block' : 'hidden'} `}
+
+        {/* Hero Main Content */}
+        <div className='relative z-20 max-w-[1000px] mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center flex flex-col items-center'>
+          {/* Badge */}
+          <div className='inline-block px-3 py-1 mb-6 rounded text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651]'>
+            [ SPEAKERS // OGUN DIGITAL SUMMIT 2026 ]
+          </div>
+
+          {/* Headline */}
+          <h1 className='platypi-gf italic font-normal text-white text-3xl sm:text-5xl md:text-6xl lg:text-[68px] leading-[1.12] tracking-tight max-w-[850px] mx-auto mb-8'>
+            The Voices Shaping <br className='hidden sm:inline' />
+            Africa’s Digital Future
+          </h1>
+
+          {/* CTA Button */}
+          <a
+            href='#meet-speakers'
+            className='inline-flex items-center justify-center px-7 py-3 rounded-full bg-white text-[#181818] text-sm md:text-base font-semibold hover:bg-neutral-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] cursor-pointer'
+          >
+            Meet our Speakers
+          </a>
+        </div>
+
+        {/* Marquee / Ticker Strip with green accents */}
+        <div className='relative z-20 w-full bg-[#080B09] border-t border-b border-white/10 py-3 overflow-hidden'>
+          {/* Corner Pixel Accents on sides */}
+          <div className='absolute left-2 top-0 bottom-0 z-30 flex items-center pointer-events-none opacity-80'>
+            <GreenPixelAccentsLeft />
+          </div>
+          <div className='absolute right-2 top-0 bottom-0 z-30 flex items-center pointer-events-none opacity-80'>
+            <GreenPixelAccentsRight />
+          </div>
+
+          <div className='flex items-center w-full overflow-hidden'>
+            <div className='ods-marquee-track'>
+              {Array.from({ length: 8 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className='flex items-center mx-4 text-xs md:text-sm font-normal text-white/90 tracking-wide whitespace-nowrap'
                 >
-                  {item.description}
-                </p>
-                {/* <span
-                  className={`flex items-center text-[12px] leading-6 text-[#ACFAAC]  ${showModal === index ? "hidden" : "block"}`}
-                  onClick={() => setShowModal(index)}
-                >
-                  Read More
-                  <ArrowRightGreen />
-                </span> */}
-              </div>
+                  <span>{tickerText}</span>
+                </div>
+              ))}
             </div>
-          ))}
-          <div className='absolute top-0 left-0 w-full h-full bg-[#000000] backdrop-blur-lg bg-opacity-60  sm:rounded-xl '>
-            <div className=' h-2/10 sm:max-w-[458px] m-auto flex flex-col justify-center absolute top-[40%]  lg:left-1/3'>
-              <h1 className='font-semibold text-[40px] leading-10 platypi-gf text-[#FFFFFF] text-center '>
-                Coming soon...
-              </h1>
-              <p className='text-[16px] leading-6 font-normal text-[#FFFFFF] mt-4 text-center inter-gf'>
-                Exciting news! Stay tuned as we unveil the incredible speakers for the Ogun Digital
-                Summit 2026.
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 2. MEET OUR SPEAKERS SECTION                                   */}
+      {/* ============================================================== */}
+      <section
+        id='meet-speakers'
+        className='relative w-full bg-[#FAF8EE] pt-16 pb-24 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8'
+      >
+        <div className='max-w-[1200px] mx-auto'>
+          {/* Header */}
+          <div className='text-center max-w-2xl mx-auto mb-12 md:mb-16'>
+            <p className='text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651] mb-2'>
+              [ ODS 2024 SPEAKERS LINEUP ]
+            </p>
+            <h2 className='platypi-gf font-normal text-3xl sm:text-4xl md:text-5xl text-[#181818] tracking-tight'>
+              Meet our Speakers
+            </h2>
+            <p className='text-sm md:text-base text-[#595959] mt-3 font-normal'>
+              We're bringing together a remarkable group of bold innovators and doers from across
+              Africa.
+            </p>
+          </div>
+
+          {/* Speakers Grid (2 rows x 5 cards) */}
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5'>
+            {speakersLineup.map((speaker, index) => (
+              <div
+                key={index}
+                className='group relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 bg-[#090b14] flex flex-col'
+              >
+                {/* Speaker Card Image */}
+                <div className='relative w-full aspect-[240/290] overflow-hidden bg-[#090B14]'>
+                  <img
+                    src={speaker.image}
+                    alt={speaker.name}
+                    className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                    loading='lazy'
+                  />
+
+                  {/* Clean overlay for Debo Richards to ensure correct name matching */}
+                  {speaker.isOverlayNeeded && (
+                    <div className='absolute inset-x-0 bottom-0 pt-8 pb-3 px-3.5 bg-gradient-to-t from-[#060714] via-[#060714] to-transparent pointer-events-none'>
+                      <p className='text-white font-bold text-sm leading-tight tracking-tight'>
+                        {speaker.name}
+                      </p>
+                      <p className='text-gray-300 text-[11px] mt-0.5 leading-tight'>
+                        {speaker.role}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 3. PAST SPEAKERS SECTION                                       */}
+      {/* ============================================================== */}
+      <section className='relative w-full bg-[#101611] text-white pt-20 pb-24 md:pt-24 md:pb-28 px-4 sm:px-6 lg:px-8 border-t border-white/5'>
+        <div className='max-w-[1200px] mx-auto'>
+          {/* Section Heading & Intro */}
+          <div className='flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-12 mb-12 md:mb-16'>
+            <div>
+              <p className='text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651] mb-2'>
+                [ SPEAKERS IN THE LAST 4 YEARS ]
+              </p>
+              <h2 className='platypi-gf font-normal text-3xl sm:text-4xl md:text-5xl text-white tracking-tight'>
+                Past Speakers
+              </h2>
+            </div>
+            <div className='max-w-md'>
+              <p className='text-sm md:text-base text-[#9CA3AF] leading-relaxed'>
+                It all started with a dream in 2019 to bring together startup entrepreneurs,
+                talents, creatives and founders with a strong focus to promote youth empowerment,
+                tech entrepreneurship and social innovation.
               </p>
             </div>
           </div>
-        </div>
 
-        {/* <div className='flex justify-center items-center gap-6 mt-10  sm:mt-[64px]'>
-          <span
-            className={`rounded-full flex justify-center items-center bg-[#CDD5DC] h-[56px] w-[56px] transform -translate-y-1/2 cursor-pointer${
-              currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            onClick={handlePrev}
-          >
-            <ArrowLeft fill='#2B4155' />
-          </span>
-          <span
-            className={`rounded-full bg-[#CDD5DC] flex justify-center items-center h-[56px] w-[56px] transform -translate-y-1/2 cursor-pointer ${
-              currentIndex + itemsPerPage >= whatToLookForwardItems.length
-                ? 'opacity-50 cursor-not-allowed'
-                : ''
-            }`}
-            onClick={handleNext}
-          >
-            <ArrowRight fill='#2B4155' />
-          </span>
-        </div> */}
-      </section>
-      <section className='md:flex md:flex-row-reverse gap-20  justify-center items-center mb-8 md:mb-0 md:py-[100px] m-auto lg:ml-[160px]'>
-        <div className='xl:w-[505px] xl:mx-0  mx-auto w-[90%]  md:mb-[80px] mb-[40px]'>
-          <h1 className=' md:w-[358px] text-[34px] platypi-gf leading-10 font-semibold text-[#23323F] md:text-4xl platypi-gf'>
-            Our speakers in the last 6 years.
-          </h1>
-          <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
-            It all started with a dream in 2020 to bring together startup entrepreneurs, talents,
-            creatives and founders with a strong focus to promote youth empowerment, tech
-            entrepreneurship and social innovation.
-          </p>
-          <a href='/past-speaker'>
-            <button className='bg-[#178A2D] font-semibold h-10 min-w-[190px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#23323F]'>
-              <span className='text-sm text-[#ffff] font-semibold'>View past Speakers</span>
-              <ArrowRight fill='#ffff ' />
-            </button>
-          </a>
-        </div>
-        <div>
-          <div className=' '>
-            <div className='xl:w-[535px] xl:m-0 w-[95%] sm:block hidden mx-auto'>
-              <img src={Guest} alt='one' />
-            </div>
-            <div className='flex flex-col justify-center sm:hidden items-center gap-[19px] w-[90%] mx-auto'>
-              <div className='w-auto'>
-                <img src={Guest1} alt='one' />
+          {/* Past Speakers Grid */}
+          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5 md:gap-6'>
+            {pastSpeakers.map((speaker, index) => (
+              <div key={index} className='group flex flex-col'>
+                <div className='relative w-full aspect-square rounded-lg overflow-hidden bg-[#182019] mb-3 border border-white/5 shadow-sm'>
+                  <img
+                    src={speaker.image}
+                    alt={speaker.name}
+                    className='w-full h-full object-cover grayscale transition-transform duration-300 group-hover:scale-105'
+                    loading='lazy'
+                  />
+                </div>
+                <h3 className='text-white font-semibold text-sm md:text-[15px] leading-snug'>
+                  {speaker.name}
+                </h3>
+                <p className='text-[#8B949E] text-xs md:text-[13px] mt-1 leading-snug'>
+                  {speaker.role}
+                </p>
               </div>
-              <div className='w-auto'>
-                <img src={Guest2} alt='one' />
-              </div>
-              <div className='w-auto'>
-                <img src={Guest3} alt='one' />
-              </div>
-              <div className='w-auto'>
-                <img src={Guest4} alt='one' />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
-      {/* <section className={``}>
-        <div className=' mx-auto flex flex-col gap-4 w-full max-w-[335px] md:max-w-[558px] md:mb-[80px] mb-[40px] '>
-          <h3 className='platypi-gf text-center text-[#23323F] font-semibold text-2xl leading-[34px] tracking-[-0.5px] md:text-[40px] md:leading-[48px] md:tracking-[-1px]  changeFont-wh213o '>
-            Masterclass Trainers
-          </h3>
-          <p className='text-center text-[#627587] text-sm leading-[22px] tracking-[0.2px] font-normal md:text-base  '>
-            Meet our masterclass trainers who will help us train young individuals at ODS. It’s free
-            and we don’t charge anyone for this.
+
+      {/* ============================================================== */}
+      {/* 4. MINT GREEN DIAGONAL STRIPED DIVIDER                         */}
+      {/* ============================================================== */}
+      <div
+        className='w-full h-8 md:h-10'
+        style={{
+          backgroundColor: '#86EFAC',
+          backgroundImage:
+            'repeating-linear-gradient(45deg, #86EFAC, #86EFAC 14px, #BBF7D0 14px, #BBF7D0 28px)'
+        }}
+      />
+
+      {/* ============================================================== */}
+      {/* 5. MOBILE APP SECTION                                          */}
+      {/* ============================================================== */}
+      <section className='relative w-full bg-white text-[#111827] pt-16 md:pt-24 pb-0 overflow-hidden'>
+        <div className='max-w-[900px] mx-auto px-4 text-center'>
+          <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111827]'>
+            Experience, connect without boudaries
+          </h2>
+          <p className='text-sm md:text-base text-[#4B5563] mt-3 max-w-lg mx-auto leading-relaxed'>
+            Mobile App is your all-in-one tool for an immersive tech experience at your fingertip.
+            Connect with like minds like never before
           </p>
-        </div>
-        <div
-          className={`md:flex flex-row justify-center  items-center gap-[19px] md:w-[80%] w-{90%} mx-auto`}
-        >
-          {Master.map((item, index) => (
-            <div
-              key={index}
-              className={`relative rounded-2xl h-[360px] md:w-[300px] w-[90%] md:m-0 mb-[16px] mx-auto  overflow-hidden cursor-pointer transition-transform transform ${showModal === index ? 'w-[475px] h-[456px] absolute z-30 bg-white pt-[56px] ' : 'h-[360px] w-[300px]'}`}
-              style={{
-                backgroundImage: showModal === index ? 'none' : `url(${item.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+
+          {/* Store Buttons */}
+          <div className='flex justify-center mt-6'>
+            <a
+              href='https://tix.africa/discover/ods2026'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full border border-black bg-white text-black hover:bg-black hover:text-white transition-all duration-300 text-sm font-semibold shadow-sm group'
             >
-              <div
-                className={`h-[200px] w-[447px] rounded-md mx-auto ${showModal === index ? 'block' : 'hidden'}`}
-                style={{
-                  backgroundImage: `url(${item.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              ></div>
-              <div
-                className={`absolute bottom-0 w-full p-6 ${showModal === index ? ' ' : 'bg-[#101611]'} text-white transition-all duration-300 ease-in-out ${
-                  hoveredIndex === index
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-full'
-                }`}
-              >
-                <h1 className='font-semibold text-base text-[#F2F9FF] mb-2'>{item.title}</h1>
-                <p className='text-sm leading-6 text-[#B0C5D6]'>{item.position}</p>
-                <p
-                  className={`text-sm leading-6 text-[#B0C5D6] ${showModal === index ? 'block' : 'hidden'} `}
-                >
-                  {item.description}
-                </p>
-                
-              </div>
-            </div>
-          ))}
+              <PlayStoreIcon className='w-4 h-4' />
+              <AppleIcon className='w-4 h-4' />
+              <span>Get the ODS App</span>
+              <span className='transition-transform duration-300 group-hover:translate-x-1'>
+                &rarr;
+              </span>
+            </a>
+          </div>
+
+          {/* iPhone 16 Pro Mockup Protruding into dark footer */}
+          <div className='mt-10 -mb-6 md:-mb-10 flex justify-center'>
+            <img
+              src='/img/iPhone 16 Pro - 1.png'
+              alt='ODS Mobile App on iPhone 16 Pro'
+              className='w-full max-w-[320px] sm:max-w-[360px] md:max-w-[420px] drop-shadow-2xl relative z-10'
+              loading='lazy'
+            />
+          </div>
         </div>
-      </section> */}
-      <MobileApp />
+
+        {/* Stepped Pixel Graphic Transition to Footer */}
+        <div className='relative w-full h-10 md:h-12 bg-transparent flex justify-between items-end pointer-events-none'>
+          <BlackSteppedLeft />
+          <div className='flex-1' />
+          <BlackSteppedRight />
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 6. FOOTER - Kept intact as requested                           */}
+      {/* ============================================================== */}
       <Footer />
     </div>
   );
-};
-
-export default Speakers;
+}

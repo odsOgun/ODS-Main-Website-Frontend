@@ -51,6 +51,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
+    path: '/speakers',
+    element: <Speakers />,
+    errorElement: <ErrorPage />
+  },
+  {
     path: '/past-speaker',
     element: <PastSpeakers />,
     errorElement: <ErrorPage />
