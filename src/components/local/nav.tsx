@@ -41,8 +41,7 @@ function Nav() {
     // { label: 'Store', link: 'https://selar.co/m/ods2024' },
     // { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
-    // { label: 'Startup', link: '/register/startup' },
-    // { label: 'Speakers', link: '/register/speakers' },
+    { label: 'Speakers', link: '/speakers' },
     { label: 'Hackathon', link: '/hackathon' },
     { label: 'Impact Report', link: '/reports' }
   ];
