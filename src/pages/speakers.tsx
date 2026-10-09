@@ -9,7 +9,7 @@ const speakersLineup = [
   {
     name: 'Samson Ogbole',
     role: 'Director, Soilless Farm Lab',
-    image: '/img/Frame 2147239201.png',
+    image: '/img/Samson.png',
     badge: null,
     isOverlayNeeded: false
   },
@@ -35,11 +35,11 @@ const speakersLineup = [
     isOverlayNeeded: false
   },
   {
-    name: 'Debo Richards',
+    name: 'Dafe Richards',
     role: 'Content Creator',
-    image: '/img/Frame 2147239201.png',
+    image: '/img/Dafe.png',
     badge: null,
-    isOverlayNeeded: true // Cleanly displays Debo Richards over base avatar
+    isOverlayNeeded: true // Cleanly displays Dafe Richards over base avatar
   },
   {
     name: 'Adebayo Adewole',
@@ -158,7 +158,7 @@ const AppleIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
 );
 
 export default function Speakers() {
-  const tickerText = 'Nov 25, 2026 • June 12 Cultural Centre, Kuto, Abeokuta Ogun state //';
+  const tickerText = 'Nov 25, 2026 • June 12 Cultural Centre, Kuto, Abeokuta Ogun state ';
 
   return (
     <div className='min-h-screen bg-[#FBF9F1] text-[#181818] flex flex-col font-sans selection:bg-[#00A651] selection:text-white'>
@@ -201,9 +201,9 @@ export default function Speakers() {
         {/* Hero Main Content */}
         <div className='relative z-20 max-w-[1000px] mx-auto px-4 pt-16 pb-20 md:pt-24 md:pb-28 text-center flex flex-col items-center'>
           {/* Badge */}
-          <div className='inline-block px-3 py-1 mb-6 rounded text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651]'>
+          {/* <div className='inline-block px-3 py-1 mb-6 rounded text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651]'>
             [ SPEAKERS // OGUN DIGITAL SUMMIT 2026 ]
-          </div>
+          </div> */}
 
           {/* Headline */}
           <h1 className='platypi-gf italic font-normal text-white text-3xl sm:text-5xl md:text-6xl lg:text-[68px] leading-[1.12] tracking-tight max-w-[850px] mx-auto mb-8'>
@@ -256,7 +256,7 @@ export default function Speakers() {
           {/* Header */}
           <div className='text-center max-w-2xl mx-auto mb-12 md:mb-16'>
             <p className='text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651] mb-2'>
-              [ ODS 2024 SPEAKERS LINEUP ]
+              ODS 2026 SPEAKERS LINEUP
             </p>
             <h2 className='platypi-gf font-normal text-3xl sm:text-4xl md:text-5xl text-[#181818] tracking-tight'>
               Meet our Speakers
@@ -345,6 +345,14 @@ export default function Speakers() {
                 </p>
               </div>
             ))}
+          </div>
+          <div className='mt-10 flex justify-center'>
+            <a
+              href='/past-speaker'
+              className='flex items-center justify-center  px-7 py-3 rounded-full bg-white text-[#181818] text-sm md:text-base font-semibold hover:bg-neutral-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] cursor-pointer'
+            >
+              See All Past Speakers
+            </a>
           </div>
         </div>
       </section>
