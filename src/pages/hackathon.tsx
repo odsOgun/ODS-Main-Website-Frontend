@@ -183,7 +183,7 @@ export default function Hackathon() {
                 <div className='inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3F4F6] text-[#344054] text-[12.5px] font-normal border border-[#E5E7EB] mb-5 shadow-2xs'>
                   <img src={RocketSvg} alt='Rocket' className='w-4 h-4' />
                   <span className='italic font-medium'>
-                    Technology Progress in Motion &amp; Innovation
+                    Technology, Innovation and Progress in motion
                   </span>
                 </div>
 

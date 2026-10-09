@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiService, type ApiError } from '@/api/apiService';
 import SuccessModal from '@/components/shared/SuccessModal';
 import ErrorModal from '@/components/shared/ErrorModal';
+import SpeakerModal from '@/components/speakerModal';
 
 interface FormData {
   firstName: string;
@@ -61,6 +62,7 @@ const MasterClass: React.FC = () => {
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [showSpeakerModal, setShowSpeakerModal] = useState<boolean>(true);
 
   const validateNigerianPhoneNumber = (phone: string): boolean => {
     const cleanPhone = phone.replace(/[\s\-()]/g, '');
@@ -182,6 +184,18 @@ const MasterClass: React.FC = () => {
 
   return (
     <RegisterLayout>
+      {showSpeakerModal && (
+        <SpeakerModal
+          title='Speakers Application is now closed'
+          message='Thank you for your interest in speaking at Ogun Digital Summit 2026. The speakers application form is now closed.'
+          closeLabel='Close'
+          isOpen={showSpeakerModal}
+          onClose={() => {
+            setShowSpeakerModal(false);
+            navigate('/');
+          }}
+        />
+      )}
       <div className='max-w-[600px] mx-auto p-6 pt-20'>
         <h1 className='text-3xl font-bold text-gray-800 mb-4'>Master Class details</h1>
         <p className='text-sm text-gray-500 mb-10'>All fields are required</p>
