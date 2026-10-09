@@ -448,11 +448,30 @@ export default function Hackathon() {
                   <h3 className='platypi-gf text-xl font-semibold text-[#101828] mb-2.5'>
                     How to Apply
                   </h3>
-                  <p className='text-[#344054] text-sm sm:text-base leading-relaxed'>
-                    <span className='font-semibold text-[#101828]'>How:</span> Complete official
-                    registration before the deadline. Shortlisted teams will be invited for build
-                    activities and the live showcase.
-                  </p>
+                  <ul className='list-disc pl-5 space-y-3 text-[#344054] text-sm sm:text-base leading-relaxed marker:text-[#009E49]'>
+                    <li>
+                      <span className='font-semibold text-[#101828]'>Form Your Team:</span> Put
+                      together a team of 2–5 members, appoint one member as your team lead, and
+                      choose a team name.
+                    </li>
+                    <li>
+                      <span className='font-semibold text-[#101828]'>Register Your Team:</span>{' '}
+                      Complete the official registration form with your team details and the
+                      requested information about your proposed solution.
+                    </li>
+                    <li>
+                      <span className='font-semibold text-[#101828]'>
+                        Tell Us What You're Building:
+                      </span>{' '}
+                      Describe the problem you're solving, who it affects, and how your solution
+                      will address it.
+                    </li>
+                    <li>
+                      <span className='font-semibold text-[#101828]'>Submit Your Application:</span>{' '}
+                      Review your details and submit your application. Shortlisted teams will
+                      receive further instructions on the next steps.
+                    </li>
+                  </ul>
                 </div>
               </div>
 

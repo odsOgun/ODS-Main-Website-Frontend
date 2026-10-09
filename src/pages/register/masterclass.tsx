@@ -186,8 +186,8 @@ const MasterClass: React.FC = () => {
     <RegisterLayout>
       {showSpeakerModal && (
         <SpeakerModal
-          title='Speakers Application is now closed'
-          message='Thank you for your interest in speaking at Ogun Digital Summit 2026. The speakers application form is now closed.'
+          title='Masterclass Trainer Application is now closed. '
+          message='Thank you for your interest in being a Masterclass Trainer at Ogun Digital Sunmit 2026. The masterclass trainer form is now closed'
           closeLabel='Close'
           isOpen={showSpeakerModal}
           onClose={() => {
