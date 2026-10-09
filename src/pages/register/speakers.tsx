@@ -275,6 +275,10 @@ const Speakers: React.FC = () => {
     <RegisterLayout>
       {showSpeakerModal && (
         <SpeakerModal
+          title='Speakers Application is now closed'
+          message='Thank you for your interest in speaking at Ogun Digital Summit 2026. The speakers application form is now closed.'
+          closeLabel='Close'
+          isOpen={showSpeakerModal}
           onClose={() => {
             setShowSpeakerModal(false);
             navigate('/');

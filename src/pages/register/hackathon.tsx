@@ -778,15 +778,15 @@ export default function HackathonRegistration({ onBack }: HackathonRegistrationP
 
           <div className='grid grid-cols-3 gap-6 text-center lg:text-left border-t border-white/10 pt-6'>
             <div>
-              <div className='text-3xl sm:text-4xl font-extrabold text-white'>+9k</div>
+              <div className='text-3xl sm:text-4xl font-extrabold text-white'>9k+</div>
               <div className='text-xs text-[#98A2B3] mt-1'>Attendees</div>
             </div>
             <div>
-              <div className='text-3xl sm:text-4xl font-extrabold text-white'>+65</div>
+              <div className='text-3xl sm:text-4xl font-extrabold text-white'>65+</div>
               <div className='text-xs text-[#98A2B3] mt-1'>Speakers</div>
             </div>
             <div>
-              <div className='text-3xl sm:text-4xl font-extrabold text-white'>+30</div>
+              <div className='text-3xl sm:text-4xl font-extrabold text-white'>30+</div>
               <div className='text-xs text-[#98A2B3] mt-1'>Sessions</div>
             </div>
           </div>
