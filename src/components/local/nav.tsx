@@ -35,6 +35,7 @@ function Nav() {
 
   const navItems: NavItemProps[] = [
     { label: 'Home', link: '/' },
+    { label: 'Speakers', link: '/speakers' },
     { label: 'About', link: '/about' },
     // { label: 'Sponsor', link: '/register/sponsors' },
     // { label: 'Sponsor', link: openSponsorModal },

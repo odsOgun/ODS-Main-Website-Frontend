@@ -25,6 +25,8 @@ import NewsPage from './pages/news/index.tsx';
 import NewsPostPage from './pages/news/[slug].tsx';
 import Hackathon from './pages/hackathon.tsx';
 import HackathonRegistration from './pages/register/hackathon.tsx';
+import SpeakersNew from './pages/speakers-new.tsx';
+import SpeakersPastNew from './pages/speakers-past-new.tsx';
 import { lazy, Suspense } from 'react';
 
 const StudioPage = lazy(() => import('./pages/studio.tsx'));
@@ -109,6 +111,16 @@ const router = createBrowserRouter([
   {
     path: '/news/:slug',
     element: <NewsPostPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/speakers',
+    element: <SpeakersNew />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/speakers/past',
+    element: <SpeakersPastNew />,
     errorElement: <ErrorPage />
   },
   {
