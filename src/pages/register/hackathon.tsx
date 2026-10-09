@@ -520,7 +520,6 @@ export default function HackathonRegistration({ onBack }: HackathonRegistrationP
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [stepDirection, setStepDirection] = useState<'forward' | 'backward'>('forward');
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
-  const [registrationId, setRegistrationId] = useState<string | null>(null);
   const [formData, setFormData] = useState<HackathonRegistrationData>(createInitialFormData);
 
   // Client errors are recomputed on Next/Submit; server errors persist until the field is edited
@@ -676,8 +675,7 @@ export default function HackathonRegistration({ onBack }: HackathonRegistrationP
     setIsSubmitting(true);
 
     try {
-      const response = await apiService.hackathon.register(buildPayload(formData));
-      setRegistrationId(response.data?.registrationId ?? null);
+      await apiService.hackathon.register(buildPayload(formData));
       setFormData(createInitialFormData());
       setClientErrors({});
       setStepDirection('backward');
@@ -1416,9 +1414,7 @@ export default function HackathonRegistration({ onBack }: HackathonRegistrationP
           }
         }}
         title='Registration Submitted!'
-        message={`Thank you for registering your team for the Ogun Digital Summit 2026 Hackathon. We have received your submission and will be in touch shortly.${
-          registrationId ? ` Your registration ID is ${registrationId}.` : ''
-        }`}
+        message={`Thank you for registering your team for the Ogun Digital Summit 2026 Hackathon. We have received your submission and will be in touch shortly.`}
       />
     </div>
   );
