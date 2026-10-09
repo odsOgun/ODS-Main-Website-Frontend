@@ -41,6 +41,9 @@ const Footer = () => {
           <li className='cursor-pointer'>
             <a href='/register/sponsors'>Sponsors</a>
           </li>
+          <li className='cursor-pointer'>
+            <a href='/speakers'>Speakers</a>
+          </li>
           {/* <li>
             <a href='https://selar.co/m/ods2024' target='_blank' rel='noopener noreferrer'>
               Store

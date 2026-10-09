@@ -4,7 +4,7 @@ import Footer from '@/components/local/footer';
 import RocketSvg from '@/assets/svgs/rocket.svg';
 import ArtBg from '@/assets/img/readme/artBg.png';
 import HackathonRegistration from './register/hackathon';
-import { Check, Network } from 'lucide-react';
+import { Network } from 'lucide-react';
 
 const SparkleStar = ({ className = 'w-4 h-4 text-[#FF7B72]' }: { className?: string }) => (
   <svg viewBox='0 0 24 24' fill='currentColor' className={className} aria-hidden='true'>
@@ -151,9 +151,7 @@ export default function Hackathon() {
   return (
     <div className='min-h-screen bg-white text-[#101828] flex flex-col font-sans selection:bg-[#B9FBC0] selection:text-[#101828]'>
       {/* Existing Navbar - unchanged */}
-      <header className='w-full border-b border-[#F2F4F7] sticky top-0 z-40 bg-white/95 backdrop-blur-sm'>
-        <Nav />
-      </header>
+      <Nav />
 
       <main className='flex-1'>
         {/* ================= HERO SECTION ================= */}
@@ -191,10 +189,10 @@ export default function Hackathon() {
 
                 {/* Main Heading */}
                 <h1 className='platypi-gf italic text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-bold leading-[1.14] tracking-tight mb-4'>
-                  <span className='text-[#101828]'>One weekend. </span>
-                  <span className='text-[#00A651]'>One hackathon.</span>
+                  <span className='text-[#101828]'>Build </span>
+                  <span className='text-[#00A651]'>real-world solutions</span>
                   <br />
-                  <span className='text-[#101828]'>The future of Ogun State.</span>
+                  <span className='text-[#101828]'>for Ogun State and beyond.</span>
                 </h1>
 
                 {/* Subtitle */}
@@ -218,7 +216,7 @@ export default function Hackathon() {
                 </div>
 
                 {/* Stats Card (Coral Red with subtle pattern) */}
-                <div className='relative w-full max-w-xl lg:max-w-none lg:w-[122%] xl:w-[128%] bg-[#DF554B] text-white rounded-2xl shadow-xl p-5 sm:p-6 sm:py-6 sm:px-7 overflow-hidden z-20'>
+                <div className='relative w-full max-w-xl lg:max-w-none lg:w-[122%] xl:w-[128%] bg-[#DF554B] text-white rounded-2xl shadow-xl p-5 sm:p-6 sm:py-6 sm:px-7 overflow-hidden z-20 sm:z-0'>
                   {/* Subtle pattern texture inside stats card */}
                   <div
                     className='pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-overlay'
@@ -229,40 +227,40 @@ export default function Hackathon() {
                     }}
                   />
 
-                  <div className='relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/25'>
+                  <div className='relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/25 '>
                     <div className='pt-2 sm:pt-0 sm:pr-4 lg:pr-5'>
-                      <div className='text-xl sm:text-[23px] lg:text-[25px] font-bold tracking-tight leading-tight'>
-                        &#8358;5,000,000
+                      <div className='text-base sm:text-[17px] lg:text-[18px] font-bold tracking-tight leading-tight'>
+                        Ogun Tech Hub, Kobape
                       </div>
                       <div className='text-[12px] sm:text-[12.5px] text-white/90 mt-1 leading-snug'>
-                        Total prize pool
+                        November 25, 2026
                       </div>
                     </div>
 
                     <div className='pt-2 sm:pt-0 sm:px-4 lg:px-5'>
                       <div className='text-xl sm:text-[23px] lg:text-[25px] font-bold tracking-tight leading-tight'>
-                        Nov 25
+                        &#8358;2,500,000
                       </div>
                       <div className='text-[12px] sm:text-[12.5px] text-white/90 mt-1 leading-snug'>
-                        Final showcase, Wed.
+                        First Place Prize
                       </div>
                     </div>
 
                     <div className='pt-2 sm:pt-0 sm:px-4 lg:px-5'>
                       <div className='text-xl sm:text-[23px] lg:text-[25px] font-bold tracking-tight leading-tight'>
-                        2 – 5
+                        &#8358;1,500,000
                       </div>
                       <div className='text-[12px] sm:text-[12.5px] text-white/90 mt-1 leading-snug'>
-                        People per team
+                        Second Place Prize
                       </div>
                     </div>
 
                     <div className='pt-2 sm:pt-0 sm:pl-4 lg:pl-5'>
                       <div className='text-xl sm:text-[23px] lg:text-[25px] font-bold tracking-tight leading-tight'>
-                        Kobape
+                        &#8358;1,000,000
                       </div>
                       <div className='text-[12px] sm:text-[12.5px] text-white/90 mt-1 leading-snug'>
-                        Ogun Tech Hub, Abeokuta
+                        Third Place Prize
                       </div>
                     </div>
                   </div>
@@ -371,32 +369,38 @@ export default function Hackathon() {
             {/* List */}
             <div className='max-w-2xl mx-auto flex flex-col items-center space-y-4'>
               {/* Item 1 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>
                   A clearly defined problem, supported by evidence or credible user insight.
                 </span>
               </div>
 
               {/* Item 2 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>An original and practical approach that fits the local context.</span>
               </div>
 
               {/* Item 3 (Prominent green pill) */}
               <div className='w-full sm:w-auto my-2'>
-                <div className='bg-[#009E49] text-white py-3 px-6 sm:px-8 rounded-full shadow-lg flex items-center justify-center gap-2.5 mx-auto text-center'>
-                  <Check className='w-4 h-4 stroke-[3] text-white flex-shrink-0' />
-                  <span className='font-semibold text-xs sm:text-sm'>
-                    A working prototype that demonstrates the core experience.
+                <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                  <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                    ✓
                   </span>
+                  <span>A working prototype that demonstrates the core experience.</span>
                 </div>
               </div>
 
               {/* Item 4 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>
                   A solution with believable impact, adoption potential and a path to
                   sustainability.
@@ -404,8 +408,10 @@ export default function Hackathon() {
               </div>
 
               {/* Item 5 */}
-              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2'>
-                <span className='text-white/60 font-medium'>✓</span>
+              <div className='text-[#D0D5DD] text-xs sm:text-sm text-center flex items-center justify-center gap-2 px-4 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:bg-[#009E49] hover:text-white cursor-pointer'>
+                <span className='text-white/60 font-medium hover:text-white transition-colors'>
+                  ✓
+                </span>
                 <span>
                   A team that can explain its choices, limitations and next steps clearly.
                 </span>
@@ -418,7 +424,7 @@ export default function Hackathon() {
         <section className='py-16 md:py-24 bg-[#FAF6ED]'>
           <div className='max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8'>
             <div className='grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start'>
-              {/* Left Column: Who can enter */}
+              {/* Left Column: Who can enter & How to apply */}
               <div className='lg:col-span-7'>
                 <h2 className='platypi-gf text-2xl sm:text-3xl md:text-4xl font-semibold text-[#101828] mb-8'>
                   Who can enter ?
@@ -426,16 +432,27 @@ export default function Hackathon() {
 
                 <div className='space-y-5'>
                   {[
-                    'Students of universities, polytechnics and colleges of education',
-                    'Early-career and experienced technology professionals',
-                    'Founders and entrepreneurs working on early-stage ideas',
-                    'Developers, designers, product managers, data professionals, researchers and domain experts'
+                    'Students of universities, polytechnics, and colleges of education.',
+                    'Early-career and experienced technology professionals.',
+                    'Founders and entrepreneurs working on early-stage ideas.',
+                    'Developers, designers, product managers, data pros, and domain experts.'
                   ].map((item, idx) => (
                     <div key={idx} className='flex items-start gap-3.5'>
                       <span className='w-2.5 h-2.5 rounded-full bg-[#009E49] mt-2 flex-shrink-0' />
                       <p className='text-[#344054] text-sm sm:text-base leading-relaxed'>{item}</p>
                     </div>
                   ))}
+                </div>
+
+                <div className='mt-8 pt-6 border-t border-[#E4E7EC]'>
+                  <h3 className='platypi-gf text-xl font-semibold text-[#101828] mb-2.5'>
+                    How to Apply
+                  </h3>
+                  <p className='text-[#344054] text-sm sm:text-base leading-relaxed'>
+                    <span className='font-semibold text-[#101828]'>How:</span> Complete official
+                    registration before the deadline. Shortlisted teams will be invited for build
+                    activities and the live showcase.
+                  </p>
                 </div>
               </div>
 
@@ -452,24 +469,24 @@ export default function Hackathon() {
 
                   <div className='space-y-4 text-xs sm:text-sm'>
                     <div className='flex justify-between items-center py-2 border-b border-white/10'>
-                      <span className='text-[#B6A4CC]'>Team size</span>
+                      <span className='text-[#B6A4CC]'>Team Size</span>
                       <span className='text-white font-medium'>2 to 5 members</span>
                     </div>
 
                     <div className='flex justify-between items-center py-2 border-b border-white/10'>
                       <span className='text-[#B6A4CC]'>Membership</span>
-                      <span className='text-white font-medium'>One team per participant</span>
+                      <span className='text-white font-medium'>1 team per participant</span>
                     </div>
 
                     <div className='flex justify-between items-center py-2 border-b border-white/10'>
                       <span className='text-[#B6A4CC]'>Structure</span>
-                      <span className='text-white font-medium'>One team name, one team lead</span>
+                      <span className='text-white font-medium'>1 team name, 1 team lead</span>
                     </div>
 
                     <div className='flex justify-between items-center py-2'>
                       <span className='text-[#B6A4CC]'>Composition</span>
                       <span className='text-white font-medium text-right'>
-                        Cross-functional teams encouraged
+                        Cross-functional built
                       </span>
                     </div>
                   </div>
@@ -498,24 +515,24 @@ export default function Hackathon() {
                 {/* Banner Main Body */}
                 <div className='bg-[#009E49] text-white px-8 py-10 sm:px-12 sm:py-14 lg:px-16 lg:py-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-12'>
                   <div>
-                    <h3 className='platypi-gf font-bold text-2xl sm:text-3xl lg:text-[40px] leading-[1.18] text-white tracking-tight'>
-                      Register before the deadline
+                    <h3 className='platypi-gf font-bold text-2xl sm:text-3xl lg:text-[40px] leading-[1.18] text-white tracking-tight max-w-[580px]'>
+                      Register your team before
                       <br />
-                      to secure your team&apos;s spot.
+                      the deadline to compete.
                     </h3>
 
                     <button
                       onClick={handleRegisterClick}
                       className='mt-7 inline-block bg-[#111813] hover:bg-black text-white text-sm font-medium px-7 py-3 rounded-full transition-all shadow-md cursor-pointer'
                     >
-                      Register your team
+                      Register Your Team
                     </button>
                   </div>
 
-                  <div className='max-w-[400px]'>
+                  <div className='max-w-[440px]'>
                     <p className='text-white text-sm sm:text-[15px] leading-relaxed font-normal'>
-                      Shortlisted teams take part in required briefings, build activities and the
-                      final showcase at Ogun Tech Hub, Kobape, Abeokuta.
+                      Shortlisted teams will participate in build activities, mentorship, and the
+                      physical showcase on Nov 25 at Ogun Tech Hub, Kobape, Abeokuta.
                     </p>
                   </div>
                 </div>

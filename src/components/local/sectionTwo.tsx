@@ -51,11 +51,12 @@ const events = [
   {
     day: 'Wednesday',
     date: ' Nov 25th, 2026.',
-    title: 'Startup Pitch Competition',
+    title: 'Startup competition/Hackathon',
     items: [
-      'Strictly by Invitation',
-      'Only for selected Startups',
-      'Details Later...'
+      'Startups converge to showcase what they are building and compete with other innovative ideas..',
+      'Startup Competition',
+      'Hackathon'
+      // 'Only for selected Startups',
       // 'Judges Deliberation'
     ],
     filter: Tabs.OffConference
@@ -79,24 +80,24 @@ const events = [
     date: 'Nov 26th, 2026.',
     title: 'Main conference Day',
     items: [
-      'Details later...'
-      // 'Funding for Business/Startup',
-      // 'Technology and Mental Health',
-      // 'Blockchain Opportunity for Africa',
-      // 'Think Local: Go Global',
-      // 'Free Masterclass Sessions',
-      // 'Announcement of Winners for Startup Competition',
-      // 'Demos from Partners'
+      'Panel Sessions',
+      'Keynote Sessions',
+      'Fireside Chats',
+      'Exhibitions',
+      'Award announcement',
+      'Scholarship Opportunities'
     ],
     filter: Tabs.Conference
+  },
+  {
+    day: 'Friday',
+    date: 'Nov 27th, 2026.',
+    title: 'Exclusive Banquet Dinner ',
+    items: [
+      'An exclusive evening bringing together founders, industry leaders, and dignitaries for connections, and celebration. '
+    ],
+    filter: Tabs.OffConference
   }
-  // {
-  //   day: 'Friday',
-  //   date: '1st November',
-  //   title: 'Founders Mixers',
-  //   items: ['Networking and Dinner', 'For founders, entrepreneurs and talents.'],
-  //   filter: Tabs.OffConference
-  // }
 ];
 
 const sponsorCardItems = [
