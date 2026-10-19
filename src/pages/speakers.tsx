@@ -11,7 +11,7 @@ const speakersLineup = [
     role: 'Director, Soilless Farm Lab',
     image: '/img/Samson.png',
     badge: null,
-    isOverlayNeeded: false
+    isOverlayNeeded: true
   },
   {
     name: 'Ayodeji Awosika',
