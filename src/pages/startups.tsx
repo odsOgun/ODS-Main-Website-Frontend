@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- the apply form below is temporarily commented out; remove this when it's restored */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
 import '@/styles/startups.css';
@@ -11,66 +10,12 @@ import FinalCtaImg from '@/assets/img/startups/final-cta.jpg';
 
 /* ===== Config: the only values that need editing ===== */
 const CONFIG = {
-  FORM_ENDPOINT: '', // POST URL (multipart/form-data). Empty = demo mode.
+  APPLY_URL: 'https://bit.ly/Ods26', // External application form used by every apply button.
   DEADLINE: '2026-10-30T23:59:00+01:00', // WAT
-  PRIZE_AMOUNT: '', // e.g. "₦5,000,000". Empty = "Revealing soon".
-  MAX_DECK_MB: 10
+  PRIZE_AMOUNT: '' // e.g. "₦5,000,000". Empty = "Revealing soon".
 };
 
 const DEADLINE_MS = new Date(CONFIG.DEADLINE).getTime();
-
-const STATES = [
-  'Abia',
-  'Adamawa',
-  'Akwa Ibom',
-  'Anambra',
-  'Bauchi',
-  'Bayelsa',
-  'Benue',
-  'Borno',
-  'Cross River',
-  'Delta',
-  'Ebonyi',
-  'Edo',
-  'Ekiti',
-  'Enugu',
-  'FCT (Abuja)',
-  'Gombe',
-  'Imo',
-  'Jigawa',
-  'Kaduna',
-  'Kano',
-  'Katsina',
-  'Kebbi',
-  'Kogi',
-  'Kwara',
-  'Lagos',
-  'Nasarawa',
-  'Niger',
-  'Ogun',
-  'Ondo',
-  'Osun',
-  'Oyo',
-  'Plateau',
-  'Rivers',
-  'Sokoto',
-  'Taraba',
-  'Yobe',
-  'Zamfara',
-  'Outside Nigeria'
-];
-const SECTORS = [
-  'Fintech',
-  'Agritech',
-  'Edtech',
-  'Healthtech',
-  'E-commerce',
-  'Creative',
-  'AI',
-  'Other'
-];
-const STAGES = ['Idea', 'Prototype', 'Launched without revenue', 'Earning revenue'];
-const FUNDING = ['None', 'Under ₦5m', '₦5m to ₦50m', 'Over ₦50m'];
 
 const FAQS = [
   [
@@ -98,75 +43,6 @@ const FAQS = [
   ['When is the deadline?', 'October 30, 2026 at 11:59 PM West Africa Time.']
 ];
 
-type FieldName =
-  | 'founder_name'
-  | 'email'
-  | 'phone'
-  | 'startup_name'
-  | 'website'
-  | 'state'
-  | 'sector'
-  | 'stage'
-  | 'booth_attendees'
-  | 'description'
-  | 'problem'
-  | 'traction'
-  | 'funding'
-  | 'cofounders'
-  | 'pitch_deck'
-  | 'pitch_video';
-
-type FieldKind = 'text' | 'email' | 'tel' | 'url' | 'number' | 'file';
-
-interface FieldRule {
-  kind: FieldKind;
-  required: boolean;
-  comp?: boolean; // only validated when entering the competition
-  min?: number;
-  max?: number;
-}
-
-const RULES: Record<FieldName, FieldRule> = {
-  founder_name: { kind: 'text', required: true },
-  email: { kind: 'email', required: true },
-  phone: { kind: 'tel', required: true },
-  startup_name: { kind: 'text', required: true },
-  website: { kind: 'url', required: false },
-  state: { kind: 'text', required: true },
-  sector: { kind: 'text', required: true },
-  stage: { kind: 'text', required: true },
-  booth_attendees: { kind: 'number', required: true, min: 1, max: 3 },
-  description: { kind: 'text', required: true },
-  problem: { kind: 'text', required: true, comp: true },
-  traction: { kind: 'text', required: true, comp: true },
-  funding: { kind: 'text', required: true, comp: true },
-  cofounders: { kind: 'number', required: true, comp: true, min: 1, max: 10 },
-  pitch_deck: { kind: 'file', required: true, comp: true },
-  pitch_video: { kind: 'url', required: false, comp: true }
-};
-
-const FIELD_ORDER = Object.keys(RULES) as FieldName[];
-
-type Values = Record<Exclude<FieldName, 'pitch_deck'>, string>;
-
-const INITIAL_VALUES: Values = {
-  founder_name: '',
-  email: '',
-  phone: '',
-  startup_name: '',
-  website: '',
-  state: '',
-  sector: '',
-  stage: '',
-  booth_attendees: '1',
-  description: '',
-  problem: '',
-  traction: '',
-  funding: '',
-  cofounders: '',
-  pitch_video: ''
-};
-
 /* Analytics → dataLayer (GTM/GA4) */
 declare global {
   interface Window {
@@ -176,29 +52,6 @@ declare global {
 function track(event: string, params: Record<string, unknown> = {}) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
-}
-
-function validateField(name: FieldName, value: string, file: File | null): string {
-  const rule = RULES[name];
-  if (rule.kind === 'file') {
-    if (rule.required && !file) return 'Upload your pitch deck as a PDF.';
-    if (file && !/\.pdf$/i.test(file.name)) return 'Pitch deck must be a PDF file.';
-    if (file && file.size > CONFIG.MAX_DECK_MB * 1048576)
-      return `Pitch deck must be ${CONFIG.MAX_DECK_MB} MB or smaller.`;
-    return '';
-  }
-  const v = value.trim();
-  if (rule.required && !v) return 'This field is required.';
-  if (!v) return '';
-  if (rule.kind === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
-    return 'Enter a valid email address.';
-  if (rule.kind === 'tel' && !/^(\+?234|0)[789][01]\d{8}$/.test(v.replace(/[\s()-]/g, '')))
-    return 'Enter a valid Nigerian phone number, e.g. 0803 000 0000 or +234 803 000 0000.';
-  if (rule.kind === 'url' && !/^https?:\/\/\S+\.\S+/.test(v))
-    return 'Enter a full link starting with https://';
-  if (rule.kind === 'number' && (!Number.isInteger(+v) || +v < rule.min! || +v > rule.max!))
-    return `Enter a whole number from ${rule.min} to ${rule.max}.`;
-  return '';
 }
 
 function useCountdown() {
@@ -311,155 +164,14 @@ const BENEFITS: {
 
 export default function Startups() {
   const countdown = useCountdown();
-  const [values, setValues] = useState<Values>(INITIAL_VALUES);
-  const [deck, setDeck] = useState<File | null>(null);
-  const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
-  const [competition, setCompetition] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const formStarted = useRef(false);
-  const successRef = useRef<HTMLDivElement>(null);
 
   const prizeRevealed = Boolean(CONFIG.PRIZE_AMOUNT);
   const prizeText = CONFIG.PRIZE_AMOUNT || '₦0,000,000';
-  const showEligNotice =
-    !!values.state &&
-    !!values.stage &&
-    (values.state !== 'Ogun' || values.stage !== 'Earning revenue');
 
-  useEffect(() => {
-    if (submitted) successRef.current?.focus();
-  }, [submitted]);
-
-  const isActive = (name: FieldName) => !RULES[name].comp || competition;
-
-  const runValidation = (name: FieldName, value?: string) => {
-    const msg = isActive(name)
-      ? validateField(name, value ?? (name === 'pitch_deck' ? '' : values[name]), deck)
-      : '';
-    setErrors((prev) => ({ ...prev, [name]: msg }));
-    return msg;
-  };
-
-  const handleChange = (name: Exclude<FieldName, 'pitch_deck'>, value: string) => {
-    setValues((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) runValidation(name, value);
-  };
-
-  const toggleCompetition = (on: boolean, via?: string) => {
-    setCompetition(on);
-    if (!on) {
-      setErrors((prev) => {
-        const next = { ...prev };
-        FIELD_ORDER.filter((n) => RULES[n].comp).forEach((n) => delete next[n]);
-        return next;
-      });
-    } else {
-      track('competition_checkbox_selected', via ? { via } : {});
-    }
-  };
-
-  const handleCta = (cta: 'showcase' | 'competition', loc: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (cta === 'competition') toggleCompetition(true, 'cta');
+  const handleCta = (cta: 'showcase' | 'competition', loc: string) => () => {
     track('cta_click', { cta, location: loc });
-    document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (countdown.closed) return;
-
-    const nextErrors: Partial<Record<FieldName, string>> = {};
-    FIELD_ORDER.filter(isActive).forEach((name) => {
-      const msg = validateField(name, name === 'pitch_deck' ? '' : values[name], deck);
-      if (msg) nextErrors[name] = msg;
-    });
-    setErrors(nextErrors);
-    const firstBad = FIELD_ORDER.find((n) => nextErrors[n]);
-    if (firstBad) {
-      const el = document.getElementsByName(firstBad)[0] as HTMLElement | undefined;
-      el?.scrollIntoView({ block: 'center' });
-      el?.focus({ preventScroll: true });
-      return;
-    }
-
-    const showcaseEligible = values.state === 'Ogun' && values.stage === 'Earning revenue';
-    const data = new FormData();
-    FIELD_ORDER.filter(isActive).forEach((name) => {
-      if (name === 'pitch_deck') {
-        if (deck) data.append(name, deck);
-      } else {
-        data.append(name, values[name]);
-      }
-    });
-    data.set('competition_entrant', competition ? 'true' : 'false');
-    data.set('showcase_eligible', showcaseEligible ? 'true' : 'false');
-    // Server must recompute these flags, re-check the deck and enforce the deadline.
-
-    setSubmitting(true);
-    setSubmitError('');
-    try {
-      if (CONFIG.FORM_ENDPOINT) {
-        const res = await fetch(CONFIG.FORM_ENDPOINT, { method: 'POST', body: data });
-        if (!res.ok) throw new Error(String(res.status));
-      } else {
-        await new Promise((r) => setTimeout(r, 600)); // demo mode
-      }
-      track('application_submitted', {
-        competition_entrant: competition,
-        showcase_eligible: showcaseEligible
-      });
-      setSubmitted(true);
-    } catch {
-      setSubmitError(
-        "Your application didn't send. Your answers are still here, so check your connection and select Submit application again."
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const fieldProps = (name: Exclude<FieldName, 'pitch_deck'>) => ({
-    id: name,
-    name,
-    value: values[name],
-    required: RULES[name].required && isActive(name),
-    'aria-invalid': errors[name] ? true : undefined,
-    onBlur: () => runValidation(name),
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-      handleChange(name, e.target.value)
-  });
-
-  const renderField = ({
-    name,
-    label,
-    full,
-    hint,
-    counter,
-    children
-  }: {
-    name: FieldName;
-    label: React.ReactNode;
-    full?: boolean;
-    hint?: string;
-    counter?: number;
-    children: React.ReactNode;
-  }) => (
-    <div className={`field${full ? ' full' : ''}${errors[name] ? ' invalid' : ''}`}>
-      <label htmlFor={name}>{label}</label>
-      {children}
-      {counter !== undefined && name !== 'pitch_deck' && (
-        <span className='counter'>
-          {values[name].length}/{counter}
-        </span>
-      )}
-      {hint && <span className='hint'>{hint}</span>}
-      <span className='err'>{errors[name]}</span>
-    </div>
-  );
 
   return (
     <div>
@@ -482,12 +194,14 @@ export default function Startups() {
                   <div className='hero-ctas'>
                     <a
                       className='btn btn-green'
-                      href='#apply'
+                      href={CONFIG.APPLY_URL}
+                      target='_blank'
+                      rel='noopener noreferrer'
                       onClick={handleCta('showcase', 'hero')}
                     >
                       Apply to showcase
                     </a>
-                    {/* <a className='btn btn-ghost' href='#apply' onClick={handleCta('competition', 'hero')}>
+                    {/* <a className='btn btn-ghost' href={CONFIG.APPLY_URL} target='_blank' rel='noopener noreferrer' onClick={handleCta('competition', 'hero')}>
                       Enter the competition
                     </a> */}
                   </div>
@@ -586,7 +300,9 @@ export default function Startups() {
                   {!countdown.closed && (
                     <a
                       className='btn btn-green'
-                      href='#apply'
+                      href={CONFIG.APPLY_URL}
+                      target='_blank'
+                      rel='noopener noreferrer'
                       onClick={handleCta('showcase', 'cards')}
                     >
                       Apply to showcase
@@ -619,7 +335,9 @@ export default function Startups() {
                   {!countdown.closed && (
                     <a
                       className='btn btn-coral'
-                      href='#apply'
+                      href={CONFIG.APPLY_URL}
+                      target='_blank'
+                      rel='noopener noreferrer'
                       onClick={handleCta('competition', 'cards')}
                     >
                       Enter the competition
@@ -756,205 +474,6 @@ export default function Startups() {
           </div>
         </section>
 
-        {/* Apply */}
-        <section className='apply' id='apply' aria-labelledby='apply-title'>
-          {/* <div className='wrap apply-grid'>
-            <aside className='side'>
-              <h2 id='apply-title' className='display'>
-                Apply <em>now</em>
-              </h2>
-              <p className='lead'>
-                One form for both. It takes about 5 minutes; have a PDF pitch deck ready if you're
-                entering the competition.
-              </p>
-              <div className='elig'>
-                <h3>Startup Showcase</h3>
-                <ul className='ticks'>
-                  <li>Based in Ogun State</li>
-                  <li>Already earning revenue</li>
-                  <li>Can staff a booth on November 26</li>
-                </ul>
-              </div>
-              <div className='elig'>
-                <h3>Startup Competition</h3>
-                <ul className='ticks'>
-                  <li>Based anywhere</li>
-                  <li>Any stage, from idea to revenue</li>
-                  <li>Can pitch in person on November 25 if shortlisted</li>
-                </ul>
-              </div>
-            </aside>
-
-            <div className='form-card'>
-              {countdown.closed ? (
-                <div className='state-msg'>
-                  <h3>Applications are closed</h3>
-                  <p>
-                    Applications for the ODS 2026 Startup Showcase and Startup Competition closed on
-                    October 30, 2026. See you at the summit.
-                  </p>
-                </div>
-              ) : submitted ? (
-                <div className='state-msg' ref={successRef} tabIndex={-1}>
-                  <h3>Application received</h3>
-                  <p>
-                    Thanks for applying to ODS 2026. We've sent a confirmation to your email and will
-                    contact you if you're selected.
-                  </p>
-                </div>
-              ) : (
-                <form
-                  noValidate
-                  onSubmit={handleSubmit}
-                  onFocus={() => {
-                    if (!formStarted.current) {
-                      formStarted.current = true;
-                      track('form_start');
-                    }
-                  }}
-                >
-                  <fieldset>
-                    <legend>About you</legend>
-                    <div className='grid2'>
-                      {renderField({ name: 'founder_name', label: 'Founder full name', children: <input {...fieldProps('founder_name')} autoComplete='name' /> })}
-                      {renderField({ name: 'email', label: 'Email', children: <input {...fieldProps('email')} type='email' autoComplete='email' /> })}
-                      {renderField({ name: 'phone', label: 'WhatsApp phone', full: true, children: <input {...fieldProps('phone')} type='tel' autoComplete='tel' placeholder='0803 000 0000' /> })}
-                    </div>
-                  </fieldset>
-
-                  <fieldset>
-                    <legend>About your startup</legend>
-                    <div className='grid2'>
-                      {renderField({ name: 'startup_name', label: 'Startup name', children: <input {...fieldProps('startup_name')} /> })}
-                      {renderField({
-                        name: 'website',
-                        label: <>Website or social link <span className='opt'>(optional)</span></>,
-                        children: <input {...fieldProps('website')} type='url' placeholder='https://' />
-                      })}
-                      {renderField({
-                        name: 'state',
-                        label: 'Startup location',
-                        children: (
-                          <select {...fieldProps('state')}>
-                            <option value=''>Select a state</option>
-                            {STATES.map(s => <option key={s}>{s}</option>)}
-                          </select>
-                        )
-                      })}
-                      {renderField({
-                        name: 'sector',
-                        label: 'Sector',
-                        children: (
-                          <select {...fieldProps('sector')}>
-                            <option value=''>Select a sector</option>
-                            {SECTORS.map(s => <option key={s}>{s}</option>)}
-                          </select>
-                        )
-                      })}
-                      {renderField({
-                        name: 'stage',
-                        label: 'Stage',
-                        children: (
-                          <select {...fieldProps('stage')}>
-                            <option value=''>Select a stage</option>
-                            {STAGES.map(s => <option key={s}>{s}</option>)}
-                          </select>
-                        )
-                      })}
-                      {renderField({
-                        name: 'booth_attendees',
-                        label: 'Booth attendees',
-                        hint: 'Up to 3 people, if selected for the showcase',
-                        children: <input {...fieldProps('booth_attendees')} type='number' min={1} max={3} />
-                      })}
-                      {showEligNotice && (
-                        <p className='notice' role='status'>
-                          The showcase is for Ogun-based startups earning revenue. You can still enter the
-                          Startup Competition below.
-                        </p>
-                      )}
-                      {renderField({
-                        name: 'description',
-                        label: 'Startup description',
-                        full: true,
-                        counter: 140,
-                        children: <input {...fieldProps('description')} maxLength={140} placeholder='What does your startup do, and for whom?' />
-                      })}
-                    </div>
-                  </fieldset>
-
-                  <fieldset>
-                    <legend>Startup Competition</legend>
-                    <label className='toggle' htmlFor='competition_entrant'>
-                      <input
-                        type='checkbox'
-                        id='competition_entrant'
-                        checked={competition}
-                        onChange={e => toggleCompetition(e.target.checked)}
-                      />
-                      <span>
-                        <strong>I also want to enter the Startup Competition</strong>
-                        <span className='hint'>
-                          Pitch to judges for a grant. Open to startups from anywhere, at any stage.
-                        </span>
-                      </span>
-                    </label>
-                    {competition && (
-                      <div className='comp grid2'>
-                        {renderField({ name: 'problem', label: 'Problem being solved', full: true, counter: 500, children: <textarea {...fieldProps('problem')} maxLength={500} /> })}
-                        {renderField({ name: 'traction', label: 'Traction', full: true, counter: 500, children: <textarea {...fieldProps('traction')} maxLength={500} placeholder='Users, revenue, pilots, partnerships' /> })}
-                        {renderField({
-                          name: 'funding',
-                          label: 'Funding raised',
-                          children: (
-                            <select {...fieldProps('funding')}>
-                              <option value=''>Select</option>
-                              {FUNDING.map(f => <option key={f}>{f}</option>)}
-                            </select>
-                          )
-                        })}
-                        {renderField({ name: 'cofounders', label: 'Number of co-founders', children: <input {...fieldProps('cofounders')} type='number' min={1} max={10} /> })}
-                        {renderField({
-                          name: 'pitch_deck',
-                          label: `Pitch deck (PDF, max ${CONFIG.MAX_DECK_MB} MB)`,
-                          children: (
-                            <input
-                              id='pitch_deck'
-                              name='pitch_deck'
-                              type='file'
-                              accept='application/pdf,.pdf'
-                              aria-invalid={errors.pitch_deck ? true : undefined}
-                              onChange={e => {
-                                const file = e.target.files?.[0] ?? null;
-                                setDeck(file);
-                                setErrors(prev => ({ ...prev, pitch_deck: validateField('pitch_deck', '', file) }));
-                              }}
-                            />
-                          )
-                        })}
-                        {renderField({
-                          name: 'pitch_video',
-                          label: <>Pitch video <span className='opt'>(optional link)</span></>,
-                          children: <input {...fieldProps('pitch_video')} type='url' placeholder='https://' />
-                        })}
-                      </div>
-                    )}
-                  </fieldset>
-
-                  <div className='form-actions'>
-                    <button className='btn btn-green' type='submit' disabled={submitting}>
-                      {submitting ? 'Submitting…' : 'Submit application'}
-                    </button>
-                    <span className='form-status' role='alert'>
-                      {submitError}
-                    </span>
-                  </div>
-                </form>
-              )}
-            </div>
-          </div> */}
-        </section>
-
         {/* FAQ */}
         <section aria-labelledby='faq-title'>
           <div className='wrap faq-grid'>
@@ -993,14 +512,13 @@ export default function Startups() {
                   <div className='btns'>
                     <a
                       className='btn btn-white'
-                      href='#apply'
+                      href={CONFIG.APPLY_URL}
+                      target='_blank'
+                      rel='noopener noreferrer'
                       onClick={handleCta('showcase', 'final')}
                     >
                       Apply to showcase
                     </a>
-                    {/* <a className='btn btn-line-white' href='#apply' onClick={handleCta('competition', 'final')}>
-                      Enter the competition
-                    </a> */}
                   </div>
                 )}
               </div>

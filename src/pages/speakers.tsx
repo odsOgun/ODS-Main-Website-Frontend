@@ -10,8 +10,8 @@ const speakersLineup = [
     name: 'Samson Ogbole',
     role: 'Director, Soilless Farm Lab',
     image: '/img/Samson.png',
-    badge: null,
-    isOverlayNeeded: false
+    badge: null
+    // isOverlayNeeded: false
   },
   {
     name: 'Ayodeji Awosika',
