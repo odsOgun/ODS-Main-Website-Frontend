@@ -60,9 +60,9 @@ interface HackathonRegistrationProps {
 // Dropdown values must match the backend exactly
 const PREFERRED_CONTACT_OPTIONS = ['WhatsApp', 'Email', 'Phone call'];
 
-const MEMBER_COUNT_OPTIONS = ['2', '3', '4', '5'];
-const MIN_MEMBERS = 2;
-const MAX_MEMBERS = 5;
+const MEMBER_COUNT_OPTIONS = ['1', '2', '3', '4'];
+const MIN_MEMBERS = 1;
+const MAX_MEMBERS = 4;
 
 const ROLE_OPTIONS = [
   'Frontend Developer',
