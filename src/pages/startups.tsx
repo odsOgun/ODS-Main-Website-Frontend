@@ -10,7 +10,7 @@ import FinalCtaImg from '@/assets/img/startups/final-cta.jpg';
 
 /* ===== Config: the only values that need editing ===== */
 const CONFIG = {
-  APPLY_URL: 'https://bit.ly/Ods26', // External application form used by every apply button.
+  APPLY_URL: '/register/startup', // Internal startup registration form used by every apply button.
   DEADLINE: '2026-10-30T23:59:00+01:00', // WAT
   PRIZE_AMOUNT: '' // e.g. "₦5,000,000". Empty = "Revealing soon".
 };
