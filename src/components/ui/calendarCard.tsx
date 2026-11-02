@@ -21,7 +21,7 @@ function CalenderCard({ day, date, title, items, showConditions }: CalendarCardP
 
   return (
     <div
-      className='w-full bg-[#F2F3F4] rounded-2xl p-4 h-fit'
+      className='w-full bg-[#F2F3F4] rounded-2xl p-4 min-h-[150px]'
       style={{
         display: showItem ? 'inline-block' : 'none'
       }}

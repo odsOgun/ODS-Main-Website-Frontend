@@ -1,39 +1,5 @@
 import { ArrowRight, ArrowRightGreen } from '@/assets/icons';
-import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
-import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
-import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
-import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
-import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
 import CountDown from './countdown';
-import Sitelinks from '@/mock/sitelinks.json';
-import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
-// mobile
-import GrazacLogoMobile from '/img/mobile/grazac.svg';
-import AfexLogoMobile from '/img/mobile/afex.svg';
-import OgunGovMobile from '/img/mobile/ogunGov.svg';
-import TechEconomyMobile from '/img/mobile/techeconomy.svg';
-import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
-
-function SponsorLogos() {
-  const isBelow = useIsScreenWidthBelow(768);
-
-  const sponsors = [
-    { label: 'Grazac', icon: isBelow ? GrazacLogoMobile : GrazacLogo },
-    { label: 'Afex', icon: isBelow ? AfexLogoMobile : AfexLogo },
-    { label: 'Ogun Gov', icon: isBelow ? OgunGovMobile : OgunGov },
-    { label: 'Tech Economy', icon: isBelow ? TechEconomyMobile : TechEconomy },
-    { label: 'Ogun Daily', icon: isBelow ? OgunDailyMobile : OgunDaily }
-  ];
-  return (
-    <div className='max-md:gap-3 flex items-center justify-between md:px-6 mt-2 h-[62px] md:h-[72px] md:mt-5'>
-      {sponsors.map(({ label, icon }) => (
-        <div key={label}>
-          <img src={icon} alt={label} />
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function Hero() {
   return (
@@ -42,42 +8,54 @@ function Hero() {
         <div className='max-w-[713px] mx-auto'>
           <div className='flex flex-col gap-6 md:gap-8'>
             <div className='text-[34px] md:text-6xl leading-[40px] md:leading-[64px] text-left md:text-center tracking-[0.5px] md:tracking-[-1px] text-[#23323F] max-md:max-w-[332px]'>
-              <h2 className='italic font-normal platypi-gf'>
-                Innovation:{' '}
-                <span className='font-semibold tracking-[0.5px] md:tracking-[-1px] not-italic'>
-                  Pathway to our nation's prosperity
-                </span>
-              </h2>
+              <h2 className='italic font-normal platypi-gf'>The Next Move</h2>
             </div>
             <p className='text-sm md:text-base leading-[22px] md:leading-[22px] font-normal tracking-[0.2px] text-[#627587]  md:text-center'>
-              Ogun Digital Summit 2024 is focused on improving collaborations, paving the way for
-              new innovations and igniting conversation towards technology advancements and
-              prosperity for Nigeria's digital technology ecosystem.
+              Ogun Digital Summit is focused on showcasing new innovations in Ogun Tech Ecosystem
+              and bringing together 2,000+ founders, talents, policymakers, creators, and investors
+              for bold conversations, real connections, and decisions that move Nigeria's tech
+              ecosystem forward.
             </p>
 
+            <div className='flex flex-wrap items-center md:justify-center gap-[8px] lg:gap-[16px]'>
+              <div className='flex items-center gap-[8px]'>
+                {/* <img src='/img/tech-brain.png' alt='tech-brain' /> */}
+                <p className='font-medium md:font-normal text-[12px]  md:text-[18px] text-[#2D3936]'>
+                  Technology, Innovation and Progress in Motion{' '}
+                </p>
+                {/* <p className=' md:ml-[16px] ml-[8px] h-[12px] md:h-[18px] border-r border-[#BCC1C1]'></p> */}
+              </div>
+
+              {/* <div className='flex items-center gap-[8px]'>
+                <img src='/img/motion.png' alt='motion' />
+                <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>
+                  Progress in Motion
+                </p>
+                <p className=' md:ml-[16px] ml-[8px] h-[12px] md:h-[18px] border-r border-[#BCC1C1]'></p>
+              </div>
+              <div className='flex items-center gap-[8px]'>
+                <img src='/img/innovation.png' alt='innovation' />
+                <p className='font-medium text-[12px]  md:text-[18px] text-[#2D3936]'>Innovation</p>
+              </div> */}
+            </div>
+
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
-              <a href={Sitelinks.register} target='_blank'>
-                <button className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
-                  <span className='text-sm font-semibold'>Register</span>
-                  <ArrowRight />
-                </button>
+              <a
+                href='https://tix.africa/discover/ods2026'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+              >
+                <span className='text-sm font-semibold'>Register</span>
+                <ArrowRight />
               </a>
-              <a href={Sitelinks.becomeAsponsor} target='_blank'>
+              <a href='/register/sponsors'>
                 <button className='min-w-[161px] h-6 rounded-[2px] bg-white flex justify-center items-center gap-2'>
                   <span className='text-[#178A2D] text-sm font-semibold'>Become a sponsor</span>
                   <ArrowRightGreen />
                 </button>
               </a>
             </div>
-          </div>
-        </div>
-
-        <div className='max-w-[713px] mx-auto mt-20 md:mt-[100px]'>
-          <div className='flex flex-col justify-center w-full'>
-            <p className='text-xs md:text-base font-semibold leading-5 md:leading-5 uppercase text-[#627587] tracking-[3px] md:text-center'>
-              Proudly supported by
-            </p>
-            <SponsorLogos />
           </div>
         </div>
       </div>

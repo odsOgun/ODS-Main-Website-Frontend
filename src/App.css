@@ -17,7 +17,9 @@ html {
   font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  overflow-x: hidden; /* temp fix for cal section */
+  /* Prevent horizontal bleed without creating a scroll container that breaks
+     position: sticky on sections such as the Impact Report chapter stack. */
+  overflow-x: clip;
 }
 .inter-gf {
   font-family: 'Inter', sans-serif;
@@ -127,4 +129,33 @@ iframe {
   justify-content: center;
   width: 100%;
   height: 100vh;
+}::-webkit-scrollbar {
+  width: 4px; /* Width of the vertical scrollbar */
+  
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the thumb */
+  border-radius: 10px; /* Rounded corners for the thumb */
+  
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Background of the scrollbar track */
+}
+
+.react-tel-input .form-control {
+  height: 48px !important;
+  width: 100% !important;
+  border: 1px solid#D9DCE1 !important;
+  color: #26272B !important;
+  outline: none !important;
+  /* font-family: var(--font-inter); */
+  font-size: 16px !important;
+  margin-bottom: 24px !important;
+  border-radius: 5px !important;
+  color: #26272B !important;
+
 }

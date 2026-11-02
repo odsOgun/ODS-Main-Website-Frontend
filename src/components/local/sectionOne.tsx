@@ -6,7 +6,7 @@ import RocketIcon from '@/assets/svgs/rocket.svg';
 import One from '@/assets/img/one.png';
 import Two from '@/assets/img/two.png';
 import Three from '@/assets/img/three.png';
-import Sitelinks from '@/mock/sitelinks.json';
+import ContectTrack from './contectTrack';
 
 const cardItems = [
   {
@@ -41,19 +41,28 @@ function SectionOne() {
       <div className='max-w-[1120px] w-full px-8 mx-auto py-20 xl:box-content'>
         <div className='max-w-[420px]'>
           <h1 className='text-2xl font-semibold text-white md:text-4xl platypi-gf'>
-            Our numbers in the last 4 years.
+            Our numbers in the last 6 years.
           </h1>
           <p className='text-base font-normal tracking-[0.2px] text-[#B0C5D6] my-5'>
             It all started with a dream in 2019 to bring together startup entrepreneurs, talents,
             creatives and founders with a strong focus to promote youth empowerment, tech
             entrepreneurship and social innovation.
           </p>
-          <a href={Sitelinks.becomeAsponsor} target='_blank'>
-            <button className='bg-[#ACFAAC] font-semibold h-10 min-w-[171px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#23323F]'>
+          <div className='flex gap-[10px]'>
+            <a
+              href='/register/sponsors'
+              className='bg-[#ACFAAC] font-semibold h-10 min-w-[171px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#23323F]'
+            >
               <span className='text-sm font-semibold'>Become a Sponsor</span>
               <ArrowRight fill='#23323F' />
-            </button>
-          </a>
+            </a>
+            {/* <a href='/statistics'>
+              <button className='bg-inherit font-semibold h-10 min-w-[171px] rounded-[2px] flex justify-center items-center tracking-[0.2px] text-[#ACFAAC]'>
+                <span className='text-sm font-semibold'>View Our Statistics</span>
+                <ArrowRight fill='#ACFAAC' />
+              </button>
+            </a> */}
+          </div>
         </div>
 
         <div className='flex flex-col items-end w-full gap-8 py-20 md:flex-row'>
@@ -70,24 +79,27 @@ function SectionOne() {
 
         <div className='flex justify-between w-full bg-[#0E140F] p-6 overflow-hidden'>
           <h2 className='flex items-center gap-4 font-semibold text-white md:text-5xl'>
-            7200+<span className='text-sm tracking-[3px]'>ATTENDEES</span>
+            10,000+<span className='text-sm tracking-[3px]'>ATTENDEES</span>
           </h2>
           <h2 className='flex items-center gap-4 font-semibold text-white md:text-5xl'>
-            50+<span className='text-sm tracking-[3px]'>SPEAKERS</span>
+            65+<span className='text-sm tracking-[3px]'>SPEAKERS</span>
           </h2>
           <h2 className='flex items-center gap-4 font-semibold text-white md:text-5xl'>
             30+<span className='text-sm tracking-[3px]'>SESSIONS</span>
           </h2>
         </div>
-
+      </div>
+      <ContectTrack />
+      <div className='max-w-[1120px] w-full px-8 mx-auto py-20 xl:box-content'>
         <div className='py-20'>
           <div className='md:w-1/2 md:mx-auto'>
             <h2 className='text-2xl font-semibold text-center text-white md:text-4xl platypi-gf'>
               We've made a real impact in people's lives.
             </h2>
             <p className='text-base font-normal tracking-[0.2px] text-[#B0C5D6] my-5 text-center'>
-              Watch a glimpse of how we improved the lives of pupils in the local community and gave
-              them access to ICT.
+              Watch a glimpse of how we brought over 2,000 policy makers, founders, talents,
+              creators and investors in one room, showcasing startups in Ogun Ecosystem and having
+              conversations that move the needle.
             </p>
           </div>
 
@@ -96,35 +108,35 @@ function SectionOne() {
               frameBorder='0'
               width='100%'
               height='100%'
-              src='https://www.youtube.com/embed/E5Y0KjFYG2Q?si=QKgVbHYpcPqsoGtk&amp;controls=0'
+              src='https://www.youtube.com/embed/BMIEBFkjpEA?controls=0'
               title='YouTube video player'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
               referrerPolicy='strict-origin-when-cross-origin'
               allowFullScreen
             ></iframe>
           </div>
-        </div>
 
-        <div>
-          <div className='max-w-[670px]'>
-            <h1 className='text-2xl font-semibold text-white md:text-4xl platypi-gf'>
-              Why thousands of young individuals attend Ogun Digital Summit annually.
-            </h1>
-            <p className='text-base font-normal tracking-[0.2px] text-[#B0C5D6] my-5'>
-              Ogun Digital Summit is the global tech ecosystem - where visionaries, tech talents,
-              entrepreneurs, investors and enterprise tech leaders come together in the right
-              balance to accelerate the infinite cycle of tech innovation.
-            </p>
-          </div>
+          <div>
+            <div className='max-w-[670px] md:mt-[100px] mt-[80px]'>
+              <h1 className='text-2xl font-semibold text-white md:text-4xl platypi-gf'>
+                Why thousands of young individuals attend Ogun Digital Summit annually.
+              </h1>
+              <p className='text-base font-normal tracking-[0.2px] text-[#B0C5D6] my-5'>
+                Ogun Digital Summit is the global tech ecosystem - where visionaries, tech talents,
+                entrepreneurs, investors and enterprise tech leaders come together in the right
+                balance to accelerate the infinite cycle of tech innovation.
+              </p>
+            </div>
 
-          <div className='flex flex-col gap-8 py-20 md:flex-row'>
-            {cardItems.map(({ icon, title, description }, index) => (
-              <div key={index} className=''>
-                <img src={icon} alt={title} />
-                <h3 className='mt-2 mb-4 text-base font-semibold text-white'>{title}</h3>
-                <p className='text-[#B0C5D6] text-sm'>{description}</p>
-              </div>
-            ))}
+            <div className='grid gap-8 py-20 grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
+              {cardItems.map(({ icon, title, description }, index) => (
+                <div key={index} className=''>
+                  <img src={icon} alt={title} />
+                  <h3 className='mt-2 mb-4 text-base font-semibold text-white'>{title}</h3>
+                  <p className='text-[#B0C5D6] text-sm'>{description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -1,13 +1,35 @@
+import './App.css';
+import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './error-page.tsx';
 import About from './pages/about.tsx';
 import Home from './pages/home.tsx';
 import Sponsor from './pages/sponsor.tsx';
-import Exhibitor from './pages/exhibitor.tsx';
+// import Exhibitor from './pages/exhibitor.tsx';
+import Speakers from './pages/speakers.tsx';
+import PastSpeakers from './pages/past-speaker.tsx';
+import Statistics from './pages/statistics.tsx';
+import Exhibitors from './pages/register/exhibitors.tsx';
+import Sponsors from './pages/register/sponsors.tsx';
+import SpeakerRegistration from './pages/register/speakers.tsx';
+import MasterClass from './pages/register/masterclass.tsx';
+import Startup from './pages/register/startup.tsx';
+import ImpactReport from './pages/reports.tsx';
+import Applicants from './pages/applicants.tsx';
+import { NuqsAdapter } from 'nuqs/adapters/react';
+import Register from './pages/register/index.tsx';
+import DownloadReportProvider from './components/downloadReportProvider';
+import NewsPage from './pages/news/index.tsx';
+import NewsPostPage from './pages/news/[slug].tsx';
+import Hackathon from './pages/hackathon.tsx';
+import HackathonRegistration from './pages/register/hackathon.tsx';
+import Startups from './pages/startups.tsx';
+import { lazy, Suspense } from 'react';
+
+const StudioPage = lazy(() => import('./pages/studio.tsx'));
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -24,26 +46,108 @@ const router = createBrowserRouter([
     element: <Sponsor />,
     errorElement: <ErrorPage />
   },
-  // {
-  //   path: '/store',
-  //   element: <Store />,
-  //   errorElement: <ErrorPage />
-  // },
   {
-    path: '/exhibitors',
-    element: <Exhibitor />,
+    path: '/speaker',
+    element: <Speakers />,
     errorElement: <ErrorPage />
   },
   {
-    path: '/about',
-    element: <About />,
+    path: '/speakers',
+    element: <Speakers />,
     errorElement: <ErrorPage />
+  },
+  {
+    path: '/past-speaker',
+    element: <PastSpeakers />,
+    errorElement: <ErrorPage />
+  },
+
+  {
+    path: '/statistics',
+    element: <Statistics />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/PAN4BiB92wD5tRezRzr9UlpCknElsOpSf3Zf5CtPnpE/applicants',
+    element: <Applicants />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/exhibitors',
+    element: <Exhibitors />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/',
+    element: <Register />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/sponsors',
+    element: <Sponsors />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/speakers',
+    element: <SpeakerRegistration />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/masterclass',
+    element: <MasterClass />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/startup',
+    element: <Startup />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/reports',
+    element: <ImpactReport />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/news',
+    element: <NewsPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/news/:slug',
+    element: <NewsPostPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/hackathon',
+    element: <Hackathon />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/startups',
+    element: <Startups />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/register/hackathon',
+    element: <HackathonRegistration />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/studio',
+    element: (
+      <Suspense fallback={<div style={{ background: '#101611', minHeight: '100vh' }} />}>
+        <StudioPage />
+      </Suspense>
+    )
   }
 ]);
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App>
-      <RouterProvider router={router} />
-    </App>
+    <NuqsAdapter>
+      <DownloadReportProvider>
+        <RouterProvider router={router} />
+      </DownloadReportProvider>
+    </NuqsAdapter>
   </StrictMode>
 );

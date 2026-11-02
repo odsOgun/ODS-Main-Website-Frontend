@@ -5,7 +5,41 @@ import CalendarCard from '../ui/calendarCard';
 import SponsorCard, { SponsorCardProps } from '../ui/sponsorCard';
 import SectionTwoImg from '@/assets/img/section-two-image.png';
 import SectionTwoImg2 from '@/assets/img/section-two-image2.png';
-import Sitelinks from '@/mock/sitelinks.json';
+import SectionTwoImg3 from '@/assets/img/speakers.png';
+
+// import GrazacLogo from '@/assets/svgs/sponsors/grazac.svg';
+// import AfexLogo from '@/assets/svgs/sponsors/afex.svg';
+// import OgunGov from '@/assets/svgs/sponsors/ogunGov.svg';
+// import TechEconomy from '@/assets/svgs/sponsors/techeconomy.svg';
+// import OgunDaily from '@/assets/svgs/sponsors/ogunDaily.svg';
+// import useIsScreenWidthBelow from '@/hooks/useIsScreenWidthBelow';
+// // mobile
+// import GrazacLogoMobile from '/img/mobile/grazac.svg';
+// import AfexLogoMobile from '/img/mobile/afex.svg';
+// import OgunGovMobile from '/img/mobile/ogunGov.svg';
+// import TechEconomyMobile from '/img/mobile/techeconomy.svg';
+// import OgunDailyMobile from '/img/mobile/ogunDaily.svg';
+
+// function SponsorLogos() {
+//   const isBelow = useIsScreenWidthBelow(768);
+
+//   const sponsors = [
+//     { label: 'Grazac', icon: isBelow ? GrazacLogoMobile : GrazacLogo },
+//     { label: 'Afex', icon: isBelow ? AfexLogoMobile : AfexLogo },
+//     { label: 'Ogun Gov', icon: isBelow ? OgunGovMobile : OgunGov },
+//     { label: 'Tech Economy', icon: isBelow ? TechEconomyMobile : TechEconomy },
+//     { label: 'Ogun Daily', icon: isBelow ? OgunDailyMobile : OgunDaily }
+//   ];
+//   return (
+//     <div className='max-md:gap-3 flex items-center justify-between md:px-6 mt-2 h-[62px] md:h-[72px] md:mt-5'>
+//       {sponsors.map(({ label, icon }) => (
+//         <div key={label}>
+//           <img src={icon} alt={label} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
 
 enum Tabs {
   Conference,
@@ -15,51 +49,53 @@ enum Tabs {
 
 const events = [
   {
-    day: 'Tuesday',
-    date: '29th October',
-    title: 'Startup Pitch Competition',
+    day: 'Wednesday',
+    date: ' Nov 25th, 2026.',
+    title: 'Startup competition/Hackathon',
     items: [
-      'Strictly by Invitation',
-      'Introduction of Startups in the ecosystem',
-      'Startups Pitch',
-      'Judges Deliberation'
+      'Startups converge to showcase what they are building and compete with other innovative ideas..',
+      'Startup Competition',
+      'Hackathon'
+      // 'Only for selected Startups',
+      // 'Judges Deliberation'
     ],
     filter: Tabs.OffConference
   },
-  {
-    day: 'Wednesday',
-    date: '30th October',
-    title: 'Conference Day 1',
-    items: [
-      'Art and Culture',
-      'Entertainment Industry',
-      'Creative Economy',
-      'Cultural and Art Exhibition',
-      'Outdoor Party',
-      'Demos'
-    ],
-    filter: Tabs.Conference
-  },
+  // {
+  //   day: 'Wednesday',
+  //   date: '30th October',
+  //   title: 'Conference Day 1',
+  //   items: [
+  //     'Art and Culture',
+  //     'Entertainment Industry',
+  //     'Creative Economy',
+  //     'Cultural and Art Exhibition',
+  //     'Outdoor Party',
+  //     'Demos'
+  //   ],
+  //   filter: Tabs.Conference
+  // },
   {
     day: 'Thursday',
-    date: '31th October',
-    title: 'Conference Day 2',
+    date: 'Nov 26th, 2026.',
+    title: 'Main conference Day',
     items: [
-      'Funding for Business/Startup',
-      'Technology and Mental Health',
-      'Blockchain Opportunity for Africa',
-      'Think Local: Go Global',
-      'Free Masterclass Sessions',
-      'Announcement of Winners for Startup Competition',
-      'Demos from Partners'
+      'Panel Sessions',
+      'Keynote Sessions',
+      'Fireside Chats',
+      'Exhibitions',
+      'Award announcement',
+      'Scholarship Opportunities'
     ],
     filter: Tabs.Conference
   },
   {
     day: 'Friday',
-    date: '1st November',
-    title: 'Founders Mixers',
-    items: ['Networking and Dinner', 'For founders, entrepreneurs and talents.'],
+    date: 'Nov 27th, 2026.',
+    title: 'Exclusive Banquet Dinner ',
+    items: [
+      'An exclusive evening bringing together founders, industry leaders, and dignitaries for connections, and celebration. '
+    ],
     filter: Tabs.OffConference
   }
 ];
@@ -102,7 +138,7 @@ const whatToLookForwardItems = [
   {
     title: 'Fresh Insights',
     description:
-      'We will feature leading founders, government ministers, enterprise tech leaders and high profile entrepreneurs recognised locally and globally.',
+      'Gain practical insights into emerging technologies, industry trends, innovation strategies, and opportunities that will shape the future of work and business.',
     image: '/img/fresh-insight.png'
   },
   {
@@ -118,14 +154,64 @@ const whatToLookForwardItems = [
     image: '/img/exploring.png'
   }
 ];
+// interface SectionTwoProps {
+//   onOpenSponsorModal: () => void;
+//   onOpenComingModal: () => void;
+//   onOpenExhibitorModal: () => void;
+// }
 
 function SectionTwo() {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Conference);
-
   return (
     <div className='bg-white' id='exhibitors'>
       <div className='max-w-[1120px] w-full px-8 mx-auto pt-20 xl:box-content'>
         <div className='w-full mb-20 md:flex md:justify-between md:mb-40'>
+          <div className='mb-6 md:basis-1/3 md:mb-0'>
+            <img src={SectionTwoImg3} alt='SectionTwo' />
+          </div>
+          <div className='md:basis-1/2'>
+            <h1 className='text-[#23323F] text-2xl md:text-4xl platypi-gf font-semibold'>
+              We are constantly looking out for speakers to grace Ogun Digital Summit 2026.
+            </h1>
+            <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
+              Join us to make a real impact and contribute to conversations to build Nigeria’s
+              Digital Future.
+            </p>
+            {/* <a href={Sitelinks.becomeAnExhibitor} target='_blank'> */}
+            <a
+              href='/register/speakers'
+              className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+            >
+              <span className='text-sm font-semibold'>Apply to Speak</span>
+              <ArrowRight />
+            </a>
+            {/* </a> */}
+          </div>
+        </div>
+
+        <div className='w-full mb-20 md:flex md:justify-between md:mb-40'>
+          <div className='md:basis-1/2'>
+            <h1 className='text-[#23323F] text-2xl md:text-4xl platypi-gf font-semibold'>
+              Take a Masterclass session during Ogun Digital Summit 2026 and make a real impact.
+            </h1>
+            <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
+              Join our masterclass trainers to help us train young individuals at ODS. It's free and
+              we don't charge anyone for this.
+            </p>
+            <a href='/register/masterclass'>
+              <button className='bg-[#178A2D] font-semibold h-10 w-full max-w-[260px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
+                <span className='text-sm font-semibold'>Apply to conduct a masterclass</span>
+                <ArrowRight />
+              </button>
+            </a>
+          </div>
+
+          <div className='mt-6 md:basis-1/3 md:mb-0'>
+            <img src={SectionTwoImg2} />
+          </div>
+        </div>
+
+        <div className='w-full md:flex md:justify-between'>
           <div className='mb-6 md:basis-1/3 md:mb-0'>
             <img src={SectionTwoImg} alt='SectionTwo' />
           </div>
@@ -136,34 +222,15 @@ function SectionTwo() {
             <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
               Increase your start visibility and reach by booking a boot with us today
             </p>
-            <a href={Sitelinks.becomeAnExhibitor} target='_blank'>
-              <button className='bg-[#178A2D] font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
-                <span className='text-sm font-semibold'>Become an exhibitor</span>
-                <ArrowRight />
-              </button>
+            {/* <a href={Sitelinks.becomeAnExhibitor} target='_blank'> */}
+            <a
+              href='/register/exhibitors'
+              className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white'
+            >
+              <span className='text-sm font-semibold'>Become an exhibitor</span>
+              <ArrowRight />
             </a>
-          </div>
-        </div>
-
-        <div className='w-full md:flex md:justify-between'>
-          <div className='md:basis-1/2'>
-            <h1 className='text-[#23323F] text-2xl md:text-4xl platypi-gf font-semibold'>
-              Take a Masterclass session during Ogun Digital Summit 2024 and make a real impact.
-            </h1>
-            <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-5'>
-              Join our masterclass trainers to help us train young individuals at ODS. It's free and
-              we don't charge anyone for this.
-            </p>
-            <a href={Sitelinks.applyMasterclass} target='_blank'>
-              <button className='bg-[#178A2D] font-semibold h-10 w-full max-w-[260px] rounded flex justify-center items-center tracking-[0.2px] text-white'>
-                <span className='text-sm font-semibold'>Apply to conduct a masterclass</span>
-                <ArrowRight />
-              </button>
-            </a>
-          </div>
-
-          <div className='mt-6 md:basis-1/3 md:mb-0'>
-            <img src={SectionTwoImg2} />
+            {/* </a> */}
           </div>
         </div>
 
@@ -184,7 +251,8 @@ function SectionTwo() {
             />
 
             <div
-              className={`flex flex-col md:flex-row ${activeTab === Tabs.All ? 'gap-4' : 'gap-10'} my-10 w-full `}
+              // className={`flex flex-col md:flex-row ${activeTab === Tabs.All ? 'gap-4' : 'gap-10'} my-10 w-full `}
+              className={`flex flex-col md:flex-row ${activeTab === Tabs.All ? 'gap-4' : 'gap-4'} my-10 w-[100%] md:w-[70%] max-w-full`}
             >
               {events.map((item, index) => (
                 <CalendarCard
@@ -210,15 +278,18 @@ function SectionTwo() {
               Why join us as a Sponsor?
             </h2>
             <p className='text-base font-normal tracking-[0.2px] text-[#627587] my-4'>
-              With over 5,000 participants expected to grace Ogun Digital Summit 2024, we’ve got the
+              With over 5,000 participants expected to grace Ogun Digital Summit 2026, we’ve got the
               perfect audience for you.
             </p>
-            <a href={Sitelinks.becomeAsponsor} target='_blank'>
-              <button className='bg-[#178A2D] font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white mx-auto'>
-                <span className='text-sm font-semibold'>Become a sponsor</span>
-                <ArrowRight />
-              </button>
+            {/* <a href={Sitelinks.becomeAsponsor} target='_blank'> */}
+            <a
+              href='/register/sponsors'
+              className='bg-[#178A2D] w-fit font-semibold h-10 min-w-[190px] rounded flex justify-center items-center tracking-[0.2px] text-white mx-auto'
+            >
+              <span className='text-sm font-semibold'>Become a sponsor</span>
+              <ArrowRight />
             </a>
+            {/* </a> */}
           </div>
 
           <div className='my-20'>
@@ -246,8 +317,15 @@ function SectionTwo() {
                 starts here, wherever you sit in the ecosystem, you'll find the insights,
                 inspiration and connections that you need to thrive.
               </p>
-              <a href={Sitelinks.register} target='_blank'>
-                <button className='bg-[#178A2D] font-semibold h-10 min-w-[120px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'>
+              <a
+                href='https://tix.africa/discover/ods2026'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <button
+                  type='button'
+                  className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white leading-6'
+                >
                   <span className='text-sm font-semibold'>Register</span>
                   <ArrowRight />
                 </button>
@@ -255,7 +333,7 @@ function SectionTwo() {
             </div>
           </div>
 
-          <div className='flex flex-col justify-between gap-4 md:flex-row'>
+          <div className='grid grid-cols-1 gap-4 my-20 md:grid-cols-2 lg:grid-cols-4'>
             {whatToLookForwardItems.map((item, index) => (
               <div
                 key={index}
@@ -275,6 +353,14 @@ function SectionTwo() {
           </div>
         </div>
       </div>
+      {/* <div className='max-w-[713px] mx-auto mt-20 md:mt-[100px]'>
+        <div className='flex flex-col justify-center w-full'>
+          <p className='text-xs md:text-base font-semibold leading-5 md:leading-5 uppercase text-[#627587] tracking-[3px] md:text-center'>
+            Proudly supported by
+          </p>
+          <SponsorLogos />
+        </div>
+      </div> */}
     </div>
   );
 }

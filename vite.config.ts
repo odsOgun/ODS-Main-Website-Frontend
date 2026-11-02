@@ -8,6 +8,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-    },
+      // Stub react/compiler-runtime for Sanity packages targeting React 19
+      'react/compiler-runtime': path.resolve(__dirname, './src/stubs/compiler-runtime.ts')
+    }
   },
+  optimizeDeps: {
+    exclude: ['sanity']
+  }
 });

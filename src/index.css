@@ -5,7 +5,8 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* --foreground: 222.2 84% 4.9%; */
+    --foreground: 130, 16%, 7%, 1;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
@@ -66,4 +67,17 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.shadow-1 {
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+label {
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+* {
+  font-family: 'Inter', sans-serif;
 }

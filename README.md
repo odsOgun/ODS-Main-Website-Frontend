@@ -20,6 +20,21 @@ Open [http://localhost:5173/](http://localhost:5173/) with your browser to see t
 
 ![Hero Section](./src/assets/img/readme/heroShow.png 'the result at the moment')
 
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Flutterwave Configuration
+# Get your public key from https://dashboard.flutterwave.com/settings/apis
+VITE_FLUTTERWAVE_PUBLIC_KEY=FLWPUBK_TEST-**************************-X
+```
+
+**Note:** 
+- For production, make sure to use your live Flutterwave public key instead of the test key
+- Vite uses `VITE_` prefix for environment variables (not `REACT_APP_`)
+- Restart your development server after adding environment variables
+
 ## What is commitlint
 
 commitlint checks if your commit messages meet the [conventional commit format](https://conventionalcommits.org).
@@ -58,6 +73,7 @@ Common types according to [commitlint-config-conventional (based on the Angular 
 - style
 - test
 
+<<<<<<< HEAD
 
 What is commitlint
 commitlint checks if your commit messages meet the conventional commit format.
@@ -83,3 +99,5 @@ refactor
 revert
 style
 test
+=======
+>>>>>>> ed061e36c6a0ede729cbe142bb5aa70e5284a503
