@@ -19,7 +19,7 @@ import Startup from './pages/register/startup.tsx';
 import ImpactReport from './pages/reports.tsx';
 import Applicants from './pages/applicants.tsx';
 import { NuqsAdapter } from 'nuqs/adapters/react';
-import Register from './pages/register/index.tsx';
+import TicketCheckout from './pages/register/ticket-checkout.tsx';
 import DownloadReportProvider from './components/downloadReportProvider';
 import NewsPage from './pages/news/index.tsx';
 import NewsPostPage from './pages/news/[slug].tsx';
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/register/',
-    element: <Register />,
+    element: <TicketCheckout />,
     errorElement: <ErrorPage />
   },
   {

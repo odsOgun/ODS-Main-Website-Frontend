@@ -92,9 +92,7 @@ function Nav() {
         </div>
 
         <a
-          href='https://tix.africa/discover/ods2026'
-          target='_blank'
-          rel='noopener noreferrer'
+          href='/register'
           className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] max-lg:hidden'
         >
           <span className='text-sm font-semibold'>Register</span>
@@ -161,9 +159,7 @@ function Nav() {
           </div>
           <div className='flex flex-col items-center gap-6 mt-6'>
             <a
-              href='https://tix.africa/discover/ods2026'
-              target='_blank'
-              rel='noopener noreferrer'
+              href='/register'
               className='w-full rounded bg-[#178A2D] font-semibold h-10 text-white tracking-[0.2px] flex items-center justify-center gap-2'
             >
               <span className='text-sm font-semibold'>Register</span>
