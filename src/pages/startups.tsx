@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
+import SpeakerModal from '@/components/speakerModal';
 import '@/styles/startups.css';
 import HeroImg from '@/assets/img/startups/hero.jpg';
 import ShowcaseImg from '@/assets/img/startups/showcase.jpg';
@@ -165,12 +166,18 @@ const BENEFITS: {
 export default function Startups() {
   const countdown = useCountdown();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showClosedModal, setShowClosedModal] = useState(false);
 
   const prizeRevealed = Boolean(CONFIG.PRIZE_AMOUNT);
   const prizeText = CONFIG.PRIZE_AMOUNT || '₦0,000,000';
 
   const handleCta = (cta: 'showcase' | 'competition', loc: string) => () => {
     track('cta_click', { cta, location: loc });
+  };
+
+  const handleClosedCta = (cta: 'showcase' | 'competition', loc: string) => () => {
+    handleCta(cta, loc)();
+    setShowClosedModal(true);
   };
 
   return (
@@ -190,8 +197,16 @@ export default function Startups() {
                   Be one of 10 startups showcased to investors at Ogun Digital Summit 2026, or pitch
                   to a panel of judges in the Startup Competition and win a grant.
                 </p>
-                {!countdown.closed && (
-                  <div className='hero-ctas'>
+                <div className='hero-ctas'>
+                  {countdown.closed ? (
+                    <button
+                      type='button'
+                      className='btn btn-green'
+                      onClick={handleClosedCta('showcase', 'hero')}
+                    >
+                      Apply to showcase
+                    </button>
+                  ) : (
                     <a
                       className='btn btn-green'
                       href={CONFIG.APPLY_URL}
@@ -201,34 +216,30 @@ export default function Startups() {
                     >
                       Apply to showcase
                     </a>
-                    {/* <a className='btn btn-ghost' href={CONFIG.APPLY_URL} target='_blank' rel='noopener noreferrer' onClick={handleCta('competition', 'hero')}>
+                  )}
+                  {/* <a className='btn btn-ghost' href={CONFIG.APPLY_URL} target='_blank' rel='noopener noreferrer' onClick={handleCta('competition', 'hero')}>
                       Enter the competition
-                    </a> */}
+                  </a> */}
+                </div>
+                {!countdown.closed && (
+                  <div className='cd-inline' role='timer' aria-label='Time left to apply'>
+                    <span>Applications close in</span>
+                    <span className='cd'>
+                      <span>
+                        {countdown.days}
+                        <small>d</small>
+                      </span>
+                      <span>
+                        {countdown.hours}
+                        <small>h</small>
+                      </span>
+                      <span>
+                        {countdown.minutes}
+                        <small>m</small>
+                      </span>
+                    </span>
                   </div>
                 )}
-                <div className='cd-inline' role='timer' aria-label='Time left to apply'>
-                  {countdown.closed ? (
-                    <span>Applications are closed</span>
-                  ) : (
-                    <>
-                      <span>Applications close in</span>
-                      <span className='cd'>
-                        <span>
-                          {countdown.days}
-                          <small>d</small>
-                        </span>
-                        <span>
-                          {countdown.hours}
-                          <small>h</small>
-                        </span>
-                        <span>
-                          {countdown.minutes}
-                          <small>m</small>
-                        </span>
-                      </span>
-                    </>
-                  )}
-                </div>
               </div>
               <div className='burst' aria-hidden='true'>
                 <div className='s' />
@@ -297,7 +308,15 @@ export default function Startups() {
                     <b>Who it's for</b>Startups based in Ogun State that are already earning
                     revenue.
                   </p>
-                  {!countdown.closed && (
+                  {countdown.closed ? (
+                    <button
+                      type='button'
+                      className='btn btn-green'
+                      onClick={handleClosedCta('showcase', 'cards')}
+                    >
+                      Apply to showcase
+                    </button>
+                  ) : (
                     <a
                       className='btn btn-green'
                       href={CONFIG.APPLY_URL}
@@ -332,7 +351,15 @@ export default function Startups() {
                   <p className='for'>
                     <b>Who it's for</b>Startups from anywhere, at any stage, from idea to revenue.
                   </p>
-                  {!countdown.closed && (
+                  {countdown.closed ? (
+                    <button
+                      type='button'
+                      className='btn btn-coral'
+                      onClick={handleClosedCta('competition', 'cards')}
+                    >
+                      Enter the competition
+                    </button>
+                  ) : (
                     <a
                       className='btn btn-coral'
                       href={CONFIG.APPLY_URL}
@@ -508,7 +535,17 @@ export default function Startups() {
                   Ready to put your startup on the map?
                 </h2>
                 <p>Applications close October 30, 2026.</p>
-                {!countdown.closed && (
+                {countdown.closed ? (
+                  <div className='btns'>
+                    <button
+                      type='button'
+                      className='btn btn-white'
+                      onClick={handleClosedCta('showcase', 'final')}
+                    >
+                      Apply to showcase
+                    </button>
+                  </div>
+                ) : (
                   <div className='btns'>
                     <a
                       className='btn btn-white'
@@ -528,6 +565,12 @@ export default function Startups() {
       </main>
 
       <Footer />
+      <SpeakerModal
+        isOpen={showClosedModal}
+        onClose={() => setShowClosedModal(false)}
+        title='Startup registration is now closed'
+        message='Thank you for your interest in the Ogun Digital Summit 2026 Startup Showcase and Competition. Registration is now closed.'
+      />
     </div>
   );
 }

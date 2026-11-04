@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
+import SpeakerModal from '@/components/speakerModal';
 import RocketSvg from '@/assets/svgs/rocket.svg';
 import ArtBg from '@/assets/img/readme/artBg.png';
-import HackathonRegistration from './register/hackathon';
 import { Network } from 'lucide-react';
 
 const SparkleStar = ({ className = 'w-4 h-4 text-[#FF7B72]' }: { className?: string }) => (
@@ -13,20 +13,11 @@ const SparkleStar = ({ className = 'w-4 h-4 text-[#FF7B72]' }: { className?: str
 );
 
 export default function Hackathon() {
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [showClosedModal, setShowClosedModal] = useState(false);
 
   const handleRegisterClick = () => {
-    setIsRegistering(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setShowClosedModal(true);
   };
-
-  if (isRegistering) {
-    return (
-      <div className='animate-in fade-in duration-300 ease-out'>
-        <HackathonRegistration onBack={() => setIsRegistering(false)} />
-      </div>
-    );
-  }
 
   const tracks = [
     {
@@ -563,6 +554,12 @@ export default function Hackathon() {
 
       {/* Footer */}
       <Footer />
+      <SpeakerModal
+        isOpen={showClosedModal}
+        onClose={() => setShowClosedModal(false)}
+        title='Hackathon registration is now closed'
+        message='Thank you for your interest in the Ogun Digital Summit 2026 Hackathon. Registration for teams is now closed.'
+      />
     </div>
   );
 }

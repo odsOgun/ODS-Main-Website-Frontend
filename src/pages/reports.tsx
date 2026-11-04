@@ -3,7 +3,7 @@ import RequestReportModal from '@/components/form/downloadReport';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
 import '@/styles/reports.css';
-import aboutTwoImage from '@/assets/img/about-two.png';
+import aboutTwoImage from '@/assets/img/section-two-image2.png';
 
 const Reports = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -318,7 +318,7 @@ function SectionTwo() {
                 inspiration and connections that you need to thrive.
               </p>
               <a
-                href='https://tix.africa/discover/ods2026'
+                href='https://ods-registration.netlify.app/'
                 target='_blank'
                 rel='noopener noreferrer'
               >

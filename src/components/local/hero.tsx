@@ -41,7 +41,7 @@ function Hero() {
 
             <div className='flex flex-wrap items-center gap-4 mt-1 md:justify-center'>
               <a
-                href='https://tix.africa/discover/ods2026'
+                href='https://ods-registration.netlify.app/'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='bg-[#178A2D] font-semibold h-10 min-w-[161px] rounded flex justify-center items-center tracking-[0.2px] text-white'

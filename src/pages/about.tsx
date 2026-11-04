@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Nav from '@/components/local/nav';
 import { HeartIcon, PersonIcon, ConcentricCirclesIcon, StarIcon } from '@/assets/icons';
-import HeroImg from '@/assets/img/about-hero.png';
+import HeroImg from '@/assets/img/hero2.png';
 import MapImage from '@/assets/img/about-one.png';
-import Image2 from '@/assets/img/about-two.png';
+import Image2 from '@/assets/img/section-two-image2.png';
 // import Image3 from '@/assets/img/about-3.png';
 // import Image4 from '@/assets/img/about-4.png';
 // import Image5 from '@/assets/img/about-5.png';
