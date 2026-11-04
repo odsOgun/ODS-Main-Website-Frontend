@@ -12,7 +12,8 @@ const Sponsor = () => {
           <span className='italic font-normal'>Past Speakers:</span> Leading Digital Transformation
         </h1>
         <p className='text-[#B0C5D6] pt-[141px] ml-[60px] font-[inter] font-normal text-base leading-6 tracking-wide'>
-          Meet the speakers who discussed about diversities and culture in digital transformation{' '}
+          Meet the speakers who discussed about diversities and culture in digital
+          transformation{' '}
         </p>
       </div>
     </div>

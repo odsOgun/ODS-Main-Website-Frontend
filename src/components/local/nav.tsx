@@ -92,7 +92,8 @@ function Nav() {
         </div>
 
         <a
-          href='https://tix.africa/discover/ods2026'
+          // href='https://tix.africa/discover/ods2026'
+          href='https://ods-registration.netlify.app/'
           target='_blank'
           rel='noopener noreferrer'
           className='bg-[#178A2D] font-semibold h-10 min-w-[110px] rounded flex justify-center items-center text-white tracking-[0.2px] max-lg:hidden'
@@ -161,7 +162,8 @@ function Nav() {
           </div>
           <div className='flex flex-col items-center gap-6 mt-6'>
             <a
-              href='https://tix.africa/discover/ods2026'
+              // href='https://tix.africa/discover/ods2026'
+              href='https://ods-registration.netlify.app/'
               target='_blank'
               rel='noopener noreferrer'
               className='w-full rounded bg-[#178A2D] font-semibold h-10 text-white tracking-[0.2px] flex items-center justify-center gap-2'
