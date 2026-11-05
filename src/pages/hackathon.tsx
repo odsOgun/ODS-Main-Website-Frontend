@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
 import RocketSvg from '@/assets/svgs/rocket.svg';
 import ArtBg from '@/assets/img/readme/artBg.png';
-import HackathonRegistration from './register/hackathon';
-import { Network } from 'lucide-react';
+import { Network, X } from 'lucide-react';
 
 const SparkleStar = ({ className = 'w-4 h-4 text-[#FF7B72]' }: { className?: string }) => (
   <svg viewBox='0 0 24 24' fill='currentColor' className={className} aria-hidden='true'>
@@ -13,20 +12,25 @@ const SparkleStar = ({ className = 'w-4 h-4 text-[#FF7B72]' }: { className?: str
 );
 
 export default function Hackathon() {
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [isClosedModalOpen, setIsClosedModalOpen] = useState(false);
 
   const handleRegisterClick = () => {
-    setIsRegistering(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsClosedModalOpen(true);
   };
 
-  if (isRegistering) {
-    return (
-      <div className='animate-in fade-in duration-300 ease-out'>
-        <HackathonRegistration onBack={() => setIsRegistering(false)} />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!isClosedModalOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsClosedModalOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isClosedModalOpen]);
 
   const tracks = [
     {
@@ -563,6 +567,50 @@ export default function Hackathon() {
 
       {/* Footer */}
       <Footer />
+
+      {/* ================= APPLICATIONS CLOSED MODAL ================= */}
+      {isClosedModalOpen && (
+        <div
+          className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4 animate-in fade-in duration-200'
+          onClick={() => setIsClosedModalOpen(false)}
+        >
+          <div
+            role='dialog'
+            aria-modal='true'
+            aria-labelledby='hackathon-closed-title'
+            className='relative w-full max-w-md rounded-2xl bg-white p-4 text-center shadow-2xl'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type='button'
+              aria-label='Close'
+              onClick={() => setIsClosedModalOpen(false)}
+              className='absolute right-4 top-4 rounded-full p-1 text-[#667085] hover:bg-[#F2F4F7] hover:text-[#101828] transition-colors cursor-pointer'
+            >
+              <X className='w-5 h-5' />
+            </button>
+
+            <h2
+              id='hackathon-closed-title'
+              className='platypi-gf lg:text-[24px] sm:text-[16px] font-bold text-[#101828] mb-3 mt-8'
+            >
+              Hackathon Application Closed
+            </h2>
+            <p className='text-[#475467] text-sm sm:text-[15px] leading-relaxed'>
+              Thank you for your interest in Ogun Innovate Hackathon. Applications are officially
+              closed.
+            </p>
+
+            <button
+              type='button'
+              onClick={() => setIsClosedModalOpen(false)}
+              className='mt-6 inline-flex items-center justify-center bg-[#009E49] hover:bg-[#00873E] text-white font-medium text-sm px-6 py-2.5 rounded-full transition-all shadow-sm cursor-pointer'
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
