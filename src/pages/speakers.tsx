@@ -1,82 +1,10 @@
+import { useEffect, useId, useRef, useState } from 'react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
+import { speakersLineup, type Speaker } from '@/data/speakers2026';
 
 // Hero background image
 const heroBg = '/img/IMG_0919 1 (1).png';
-
-// 2024 / Main Speakers Lineup images from public/img
-const speakersLineup = [
-  {
-    name: 'Samson Ogbole',
-    role: 'Director, Soilless Farm Lab',
-    image: '/img/Samson.png',
-    badge: null,
-    isOverlayNeeded: true
-  },
-  {
-    name: 'Ayodeji Awosika',
-    role: 'Founder, Web3 Bridge',
-    image: '/img/Frame 2147239200.png',
-    badge: null,
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Seyi Ademeso',
-    role: 'Content Creator & Strategist | Co-Founder, Meshkiey',
-    image: '/img/Frame 2147239200 (1).png',
-    badge: 'MESHKIEY',
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Idris Olubisi',
-    role: 'Founder, Web3Afrika',
-    image: '/img/Frame 2147239200 (2).png',
-    badge: null,
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Dafe Richards',
-    role: 'Content Creator',
-    image: '/img/Dafe.png',
-    badge: null,
-    isOverlayNeeded: true // Cleanly displays Dafe Richards over base avatar
-  },
-  {
-    name: 'Adebayo Adewole',
-    role: 'Associate',
-    image: '/img/Frame 2147239200 (3).png',
-    badge: null,
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Joseph Onaolapo',
-    role: 'Media Personality and Founder, Jayonair',
-    image: '/img/Frame 2147239200 (4).png',
-    badge: 'JAYONAIR',
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Dára Sobaloju',
-    role: 'Founder of Pewbeam',
-    image: '/img/Frame 2147239200 (5).png',
-    badge: null,
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Fola Olatunji-David',
-    role: 'Founding Partner, Kickoff Africa',
-    image: '/img/Frame 2147239200 (6).png',
-    badge: null,
-    isOverlayNeeded: false
-  },
-  {
-    name: 'Sulaimon Adebayo',
-    role: 'Founder, Pooja Media and Communications',
-    image: '/img/Frame 2147239200 (7).png',
-    badge: 'POOJA',
-    isOverlayNeeded: false
-  }
-];
 
 // Past Speakers from public/img
 const pastSpeakers = [
@@ -159,6 +87,23 @@ const AppleIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
 
 export default function Speakers() {
   const tickerText = 'Nov 25, 2026 • June 12 Cultural Centre, Kuto, Abeokuta Ogun state ';
+  const speakersPerPage = 9;
+  const speakerPageCount = Math.ceil(speakersLineup.length / speakersPerPage);
+  const [activeSpeakerPage, setActiveSpeakerPage] = useState(0);
+  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
+  const bioDialogRef = useRef<HTMLDialogElement>(null);
+  const bioTitleId = useId();
+  const firstSpeakerIndex = activeSpeakerPage * speakersPerPage;
+  const visibleSpeakers = speakersLineup.slice(
+    firstSpeakerIndex,
+    firstSpeakerIndex + speakersPerPage
+  );
+
+  useEffect(() => {
+    if (selectedSpeaker) {
+      bioDialogRef.current?.showModal();
+    }
+  }, [selectedSpeaker]);
 
   return (
     <div className='min-h-screen bg-[#FBF9F1] text-[#181818] flex flex-col font-sans selection:bg-[#00A651] selection:text-white'>
@@ -250,55 +195,203 @@ export default function Speakers() {
       {/* ============================================================== */}
       <section
         id='meet-speakers'
-        className='relative w-full bg-[#FAF8EE] pt-16 pb-24 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8'
+        aria-labelledby='meet-speakers-heading'
+        className='relative w-full overflow-hidden bg-[#178A2D] px-4 py-16 text-white sm:px-6 md:py-20 lg:px-8'
+        style={{
+          backgroundImage: 'linear-gradient(to right, rgba(16, 22, 17, 0.12) 1px, transparent 1px)',
+          backgroundSize: '175px 100%'
+        }}
       >
-        <div className='max-w-[1200px] mx-auto'>
+        <div className='mx-auto max-w-[1200px]'>
           {/* Header */}
-          <div className='text-center max-w-2xl mx-auto mb-12 md:mb-16'>
-            <p className='text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-[#00A651] mb-2'>
+          <div className='mx-auto mb-10 max-w-2xl text-center md:mb-12'>
+            <p className='mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D8F3DC] md:text-sm'>
               ODS 2026 SPEAKERS LINEUP
             </p>
-            <h2 className='platypi-gf font-normal text-3xl sm:text-4xl md:text-5xl text-[#181818] tracking-tight'>
+            <h2
+              id='meet-speakers-heading'
+              className='platypi-gf text-3xl font-normal tracking-tight text-white sm:text-4xl md:text-5xl'
+            >
               Meet our Speakers
             </h2>
-            <p className='text-sm md:text-base text-[#595959] mt-3 font-normal'>
+            <p className='mt-3 text-sm font-normal text-white/85 md:text-base'>
               We're bringing together a remarkable group of bold innovators and doers from across
               Africa.
             </p>
           </div>
 
-          {/* Speakers Grid (2 rows x 5 cards) */}
-          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5'>
-            {speakersLineup.map((speaker, index) => (
-              <div
-                key={index}
-                className='group relative overflow-hidden rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 bg-[#090b14] flex flex-col'
-              >
-                {/* Speaker Card Image */}
-                <div className='relative w-full aspect-[240/290] overflow-hidden bg-[#090B14]'>
-                  <img
-                    src={speaker.image}
-                    alt={speaker.name}
-                    className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
-                    loading='lazy'
-                  />
+          <div>
+            <div
+              className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'
+              role='region'
+              aria-label={`ODS 2026 speakers, page ${activeSpeakerPage + 1} of ${speakerPageCount}`}
+            >
+              {visibleSpeakers.map((speaker, index) => (
+                <div
+                  key={speaker.name}
+                  className='group relative overflow-hidden border-[3px] border-[#101611] bg-[#101611] shadow-[6px_6px_0_#101611] transition-transform duration-300 hover:-translate-y-1'
+                  role='group'
+                  aria-label={`${firstSpeakerIndex + index + 1} of ${speakersLineup.length}: ${speaker.name}`}
+                >
+                  <div className='relative aspect-[240/290] w-full overflow-hidden bg-[#101611]'>
+                    <img
+                      src={speaker.image}
+                      alt={speaker.name}
+                      className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]'
+                      loading='lazy'
+                    />
 
-                  {/* Clean overlay for Debo Richards to ensure correct name matching */}
-                  {speaker.isOverlayNeeded && (
-                    <div className='absolute inset-x-0 bottom-0 pt-8 pb-3 px-3.5 bg-gradient-to-t from-[#060714] via-[#060714] to-transparent pointer-events-none'>
-                      <p className='text-white font-bold text-sm leading-tight tracking-tight'>
-                        {speaker.name}
-                      </p>
-                      <p className='text-gray-300 text-[11px] mt-0.5 leading-tight'>
-                        {speaker.role}
-                      </p>
-                    </div>
-                  )}
+                    {speaker.bio && (
+                      <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#060714]/95 via-[#060714]/70 to-transparent p-4 opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 sm:p-5'>
+                        <h3 className='text-lg font-bold leading-tight text-white'>
+                          {speaker.name}
+                        </h3>
+                        <p className='mt-2 line-clamp-3 text-sm leading-5 text-white/85'>
+                          {speaker.summary}
+                        </p>
+                        <button
+                          type='button'
+                          onClick={() => setSelectedSpeaker(speaker)}
+                          className='mt-4 w-fit border-2 border-white bg-white px-4 py-2 text-sm font-semibold text-[#101611] transition-colors hover:bg-[#D8F3DC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
+                        >
+                          View bio
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            <p className='mt-7 text-center text-xs font-medium uppercase tracking-[0.12em] text-white/80'>
+              Showing {firstSpeakerIndex + 1}–
+              {Math.min(firstSpeakerIndex + speakersPerPage, speakersLineup.length)} of{' '}
+              {speakersLineup.length} speakers
+            </p>
+
+            <div className='mt-4 flex flex-wrap items-center justify-center gap-2 sm:mt-6 sm:gap-5'>
+              <button
+                type='button'
+                onClick={() => setActiveSpeakerPage((page) => page - 1)}
+                disabled={activeSpeakerPage === 0}
+                aria-label='Previous speaker page'
+                className='flex h-10 w-10 items-center justify-center border-[3px] border-[#101611] bg-white text-[#101611] transition-colors hover:bg-[#D8F3DC] disabled:cursor-not-allowed disabled:opacity-40 sm:h-16 sm:w-16'
+              >
+                <svg
+                  aria-hidden='true'
+                  viewBox='0 0 24 24'
+                  className='h-5 w-5 sm:h-7 sm:w-7'
+                  fill='none'
+                >
+                  <path
+                    d='M19 12H5m0 0 7 7m-7-7 7-7'
+                    stroke='currentColor'
+                    strokeLinecap='square'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                  />
+                </svg>
+              </button>
+
+              <div
+                className='flex max-w-full flex-wrap justify-center gap-1 sm:gap-2'
+                role='group'
+                aria-label='Choose a speaker page'
+              >
+                {Array.from({ length: speakerPageCount }, (_, page) => (
+                  <button
+                    key={page}
+                    type='button'
+                    onClick={() => setActiveSpeakerPage(page)}
+                    aria-label={`Show speaker page ${page + 1}`}
+                    aria-current={activeSpeakerPage === page ? 'page' : undefined}
+                    className={`h-3 w-3 border-2 border-[#101611] transition-colors sm:h-4 sm:w-4 sm:border-[3px] ${
+                      activeSpeakerPage === page ? 'bg-[#F15A24]' : 'bg-white hover:bg-[#D8F3DC]'
+                    }`}
+                  />
+                ))}
               </div>
-            ))}
+
+              <button
+                type='button'
+                onClick={() => setActiveSpeakerPage((page) => page + 1)}
+                disabled={activeSpeakerPage === speakerPageCount - 1}
+                aria-label='Next speaker page'
+                className='flex h-10 w-10 items-center justify-center border-[3px] border-[#101611] bg-white text-[#101611] transition-colors hover:bg-[#D8F3DC] disabled:cursor-not-allowed disabled:opacity-40 sm:h-16 sm:w-16'
+              >
+                <svg
+                  aria-hidden='true'
+                  viewBox='0 0 24 24'
+                  className='h-5 w-5 sm:h-7 sm:w-7'
+                  fill='none'
+                >
+                  <path
+                    d='M5 12h14m0 0-7-7m7 7-7 7'
+                    stroke='currentColor'
+                    strokeLinecap='square'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
+
+        <dialog
+          ref={bioDialogRef}
+          aria-labelledby={selectedSpeaker ? bioTitleId : undefined}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              bioDialogRef.current?.close();
+            }
+          }}
+          onCancel={(event) => {
+            event.preventDefault();
+            bioDialogRef.current?.close();
+          }}
+          onClose={() => setSelectedSpeaker(null)}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              bioDialogRef.current?.close();
+            }
+          }}
+          className='m-auto max-h-[90vh] w-[95vw] max-w-[920px] overflow-hidden border-0 bg-transparent p-0 text-[#181818] backdrop:bg-black/75'
+        >
+          {selectedSpeaker && (
+            <div className='grid max-h-[90vh] overflow-hidden bg-[#FBF9F1] shadow-2xl md:grid-cols-2'>
+              <div className='relative h-52 bg-[#101611] md:h-auto md:min-h-[560px]'>
+                <img src={selectedSpeaker.image} alt='' className='h-full w-full object-cover' />
+              </div>
+              <div className='relative flex max-h-[90vh] min-h-0 flex-col'>
+                <button
+                  type='button'
+                  autoFocus
+                  onClick={() => bioDialogRef.current?.close()}
+                  aria-label='Close biography'
+                  className='absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center bg-[#101611] text-2xl text-white transition-colors hover:bg-[#178A2D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#178A2D]'
+                >
+                  &times;
+                </button>
+                <div className='min-h-0 overflow-y-auto p-6 pt-16 md:p-8 md:pt-16'>
+                  <p className='mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#178A2D]'>
+                    {selectedSpeaker.role}
+                  </p>
+                  <h2
+                    id={bioTitleId}
+                    className='platypi-gf text-2xl font-semibold leading-tight text-[#181818] md:text-3xl'
+                  >
+                    {selectedSpeaker.name}
+                  </h2>
+                  <p className='mt-5 whitespace-pre-line text-sm leading-7 text-[#46545E] md:text-base'>
+                    {selectedSpeaker.bio}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </dialog>
       </section>
 
       {/* ============================================================== */}

@@ -7,6 +7,13 @@ import { apiService, type ApiError } from '@/api/apiService';
 import SuccessModal from '@/components/shared/SuccessModal';
 import ErrorModal from '@/components/shared/ErrorModal';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 
 interface FormData {
   firstName: string;
@@ -95,12 +102,45 @@ const inputClass = (hasError: boolean) =>
       : 'border-[#D0D5DD] focus:border-[#009E49] focus:ring-2 focus:ring-[#009E49]/20'
   }`;
 
-const selectClass = (hasError: boolean) =>
-  `w-full px-4 py-3 rounded-xl border text-sm text-[#101828] focus:outline-none transition-all ${
-    hasError
-      ? 'border-red-400 focus:border-red-500 ring-2 ring-red-200'
-      : 'border-[#D0D5DD] focus:border-[#009E49] focus:ring-2 focus:ring-[#009E49]/20'
-  }`;
+function CustomDropdown({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+  error,
+  disabled,
+  placeholder
+}: {
+  id: string;
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (value: string) => void;
+  error?: boolean;
+  disabled?: boolean;
+  placeholder: string;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className='block text-xs font-medium text-[#344054] mb-1.5'>
+        {label}
+      </label>
+      <Select value={value} onValueChange={onChange} disabled={disabled}>
+        <SelectTrigger id={id} error={error} className='rounded-md border-[#D0D5DD]'>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option} value={option}>
+              {option}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
 
 const getApiFieldErrors = (data: unknown): Partial<FormErrors> => {
   if (!data || typeof data !== 'object' || !('errors' in data)) return {};
@@ -282,8 +322,7 @@ const Startup: React.FC = () => {
     }
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    const { name, value } = e.target;
+  const handleSelectChange = (name: keyof FormData, value: string): void => {
     setFormData((prev) => ({
       ...prev,
       [name]: value
@@ -594,54 +633,32 @@ const Startup: React.FC = () => {
                 </div>
 
                 <div hidden={currentSection !== 2}>
-                  <label
-                    htmlFor='canAttendPhysically'
-                    className='block text-xs font-medium text-[#344054] mb-1.5'
-                  >
-                    Are you able to attend ODS 2026 physically?
-                  </label>
-                  <select
+                  <CustomDropdown
                     id='canAttendPhysically'
-                    name='canAttendPhysically'
+                    label='Are you able to attend ODS 2026 physically?'
                     value={formData.canAttendPhysically}
-                    onChange={handleSelectChange}
-                    className={selectClass(Boolean(errors.canAttendPhysically))}
+                    onChange={(value) => handleSelectChange('canAttendPhysically', value)}
+                    options={YES_NO_OPTIONS}
+                    error={Boolean(errors.canAttendPhysically)}
                     disabled={loading}
-                  >
-                    <option value=''>Select an option</option>
-                    {YES_NO_OPTIONS.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder='Select an option'
+                  />
                   {errors.canAttendPhysically && (
                     <p className='text-red-500 text-xs mt-1'>{errors.canAttendPhysically}</p>
                   )}
                 </div>
 
                 <div hidden={currentSection !== 4}>
-                  <label
-                    htmlFor='startupSector'
-                    className='block text-xs font-medium text-[#344054] mb-1.5'
-                  >
-                    Tell us your Startup Sector?
-                  </label>
-                  <select
+                  <CustomDropdown
                     id='startupSector'
-                    name='startupSector'
+                    label='Tell us your Startup Sector?'
                     value={formData.startupSector}
-                    onChange={handleSelectChange}
-                    className={selectClass(Boolean(errors.startupSector))}
+                    onChange={(value) => handleSelectChange('startupSector', value)}
+                    options={SECTORS}
+                    error={Boolean(errors.startupSector)}
                     disabled={loading}
-                  >
-                    <option value=''>Select sector</option>
-                    {SECTORS.map((sector) => (
-                      <option key={sector} value={sector}>
-                        {sector}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder='Select sector'
+                  />
                   {errors.startupSector && (
                     <p className='text-red-500 text-xs mt-1'>{errors.startupSector}</p>
                   )}
@@ -689,54 +706,32 @@ const Startup: React.FC = () => {
                 </div>
 
                 <div hidden={currentSection !== 4}>
-                  <label
-                    htmlFor='startupStage'
-                    className='block text-xs font-medium text-[#344054] mb-1.5'
-                  >
-                    Tell us your Startup Stage of Fundraising?
-                  </label>
-                  <select
+                  <CustomDropdown
                     id='startupStage'
-                    name='startupStage'
+                    label='Tell us your Startup Stage of Fundraising?'
                     value={formData.startupStage}
-                    onChange={handleSelectChange}
-                    className={selectClass(Boolean(errors.startupStage))}
+                    onChange={(value) => handleSelectChange('startupStage', value)}
+                    options={STARTUP_STAGES}
+                    error={Boolean(errors.startupStage)}
                     disabled={loading}
-                  >
-                    <option value=''>Select startup stage</option>
-                    {STARTUP_STAGES.map((stage) => (
-                      <option key={stage} value={stage}>
-                        {stage}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder='Select startup stage'
+                  />
                   {errors.startupStage && (
                     <p className='text-red-500 text-xs mt-1'>{errors.startupStage}</p>
                   )}
                 </div>
 
                 <div hidden={currentSection !== 4}>
-                  <label
-                    htmlFor='wantsToPitch'
-                    className='block text-xs font-medium text-[#344054] mb-1.5'
-                  >
-                    Do you want to Pitch your Idea to win Monetary Prize?
-                  </label>
-                  <select
+                  <CustomDropdown
                     id='wantsToPitch'
-                    name='wantsToPitch'
+                    label='Do you want to Pitch your Idea to win Monetary Prize?'
                     value={formData.wantsToPitch}
-                    onChange={handleSelectChange}
-                    className={selectClass(Boolean(errors.wantsToPitch))}
+                    onChange={(value) => handleSelectChange('wantsToPitch', value)}
+                    options={YES_NO_OPTIONS}
+                    error={Boolean(errors.wantsToPitch)}
                     disabled={loading}
-                  >
-                    <option value=''>Select an option</option>
-                    {YES_NO_OPTIONS.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder='Select an option'
+                  />
                   {errors.wantsToPitch && (
                     <p className='text-red-500 text-xs mt-1'>{errors.wantsToPitch}</p>
                   )}

@@ -568,8 +568,8 @@ export default function Startups() {
       <SpeakerModal
         isOpen={showClosedModal}
         onClose={() => setShowClosedModal(false)}
-        title='Startup registration is now closed'
-        message='Thank you for your interest in the Ogun Digital Summit 2026 Startup Showcase and Competition. Registration is now closed.'
+        title='Startup Applications Closed'
+        message='Thank you for your interest in showcasing your startup at Ogun Digital Summit 2026. Applications for the Startup Showcase and Competition are officially closed.'
       />
     </div>
   );

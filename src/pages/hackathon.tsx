@@ -197,7 +197,7 @@ export default function Hackathon() {
                 <div className='mb-9'>
                   <button
                     onClick={handleRegisterClick}
-                    className='inline-flex items-center gap-2.5 bg-[#009E49] hover:bg-[#00873E] text-white font-medium text-sm px-6 py-2.5 rounded-full transition-all shadow-sm hover:shadow-md cursor-pointer group'
+                    className='inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-transparent bg-[#3E9B4B] px-8 py-[19px] text-base font-semibold text-white transition-colors hover:bg-[#2E7D32] cursor-pointer group'
                   >
                     <span>Register your team</span>
                     <span className='text-[11px] transition-transform group-hover:translate-y-0.5'>
@@ -533,7 +533,7 @@ export default function Hackathon() {
 
                     <button
                       onClick={handleRegisterClick}
-                      className='mt-7 inline-block bg-[#111813] hover:bg-black text-white text-sm font-medium px-7 py-3 rounded-full transition-all shadow-md cursor-pointer'
+                      className='mt-7 inline-flex items-center justify-center rounded-full border-2 border-transparent bg-white px-8 py-[19px] text-base font-semibold text-[#2E7D32] transition-colors hover:bg-[#EEF8EF] cursor-pointer'
                     >
                       Register Your Team
                     </button>
@@ -557,8 +557,8 @@ export default function Hackathon() {
       <SpeakerModal
         isOpen={showClosedModal}
         onClose={() => setShowClosedModal(false)}
-        title='Hackathon registration is now closed'
-        message='Thank you for your interest in the Ogun Digital Summit 2026 Hackathon. Registration for teams is now closed.'
+        title='Hackathon Application Closed'
+        message='Thank you for your interest in Ogun Innovate Hackathon. Applications are officially closed.'
       />
     </div>
   );
