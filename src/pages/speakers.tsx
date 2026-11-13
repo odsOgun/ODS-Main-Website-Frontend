@@ -1,10 +1,45 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
-import { speakersLineup, type Speaker } from '@/data/speakers2026';
+import { speakersLineup, type Speaker, type SpeakerSessionId } from '@/data/speakers2026';
 
 // Hero background image
 const heroBg = '/img/IMG_0919 1 (1).png';
+
+const speakerSections: { id: SpeakerSessionId; title: string; topic?: string }[] = [
+  { id: 'keynotes', title: 'Keynote Speakers' },
+  {
+    id: 'agritech',
+    title: 'Fireside Session: Agritech',
+    topic: 'Should Nigerians Go Back to Farming? What It Actually Takes to Start Without Capital'
+  },
+  {
+    id: 'creative-economy',
+    title: 'Panel Session: Creative Economy',
+    topic: 'Monetising Creativity: Turning Passion into Sustainable Income'
+  },
+  {
+    id: 'web3',
+    title: 'Panel Session: Emerging Tech (Blockchain & Web3)',
+    topic:
+      'Beyond the Hype: What Are the Real Opportunities Web3, Blockchain, Stablecoins, and Other Emerging Technologies Are Creating Across Industries?'
+  },
+  {
+    id: 'ai',
+    title: 'Panel Session: Emerging Tech (AI)',
+    topic: 'Building AI That Actually Works for Africa'
+  },
+  {
+    id: 'policy-governance',
+    title: 'Panel Session: Policy & Governance',
+    topic: 'Government, Policy and Regulations: Impact on the Growth of Our Digital Economy'
+  },
+  {
+    id: 'startup-investment',
+    title: 'Panel Session: Startup & Investment',
+    topic: 'Beyond Funding: What Investors Really Look for in African Founders'
+  }
+];
 
 // Past Speakers from public/img
 const pastSpeakers = [
@@ -87,17 +122,9 @@ const AppleIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
 
 export default function Speakers() {
   const tickerText = 'Nov 25, 2026 • June 12 Cultural Centre, Kuto, Abeokuta Ogun state ';
-  const speakersPerPage = 9;
-  const speakerPageCount = Math.ceil(speakersLineup.length / speakersPerPage);
-  const [activeSpeakerPage, setActiveSpeakerPage] = useState(0);
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
   const bioDialogRef = useRef<HTMLDialogElement>(null);
   const bioTitleId = useId();
-  const firstSpeakerIndex = activeSpeakerPage * speakersPerPage;
-  const visibleSpeakers = speakersLineup.slice(
-    firstSpeakerIndex,
-    firstSpeakerIndex + speakersPerPage
-  );
 
   useEffect(() => {
     if (selectedSpeaker) {
@@ -196,145 +223,106 @@ export default function Speakers() {
       <section
         id='meet-speakers'
         aria-labelledby='meet-speakers-heading'
-        className='relative w-full overflow-hidden bg-[#178A2D] px-4 py-16 text-white sm:px-6 md:py-20 lg:px-8'
+        className='relative w-full overflow-hidden bg-[#F7F9F2] px-4 py-16 text-[#181818] sm:px-6 md:py-20 lg:px-8'
         style={{
-          backgroundImage: 'linear-gradient(to right, rgba(16, 22, 17, 0.12) 1px, transparent 1px)',
-          backgroundSize: '175px 100%'
+          backgroundImage:
+            'radial-gradient(circle, rgba(23, 138, 45, 0.24) 1.5px, transparent 2px), repeating-linear-gradient(135deg, transparent 0 38px, rgba(23, 138, 45, 0.09) 38px 40px, transparent 40px 78px), linear-gradient(to right, rgba(23, 138, 45, 0.1) 1px, transparent 1px)',
+          backgroundSize: '22px 22px, 110px 110px, 160px 100%'
         }}
       >
-        <div className='mx-auto max-w-[1200px]'>
+        <div className='mx-auto max-w-[1100px]'>
           {/* Header */}
           <div className='mx-auto mb-10 max-w-2xl text-center md:mb-12'>
-            <p className='mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D8F3DC] md:text-sm'>
+            <p className='mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#178A2D] md:text-sm'>
               ODS 2026 SPEAKERS LINEUP
             </p>
             <h2
               id='meet-speakers-heading'
-              className='platypi-gf text-3xl font-normal tracking-tight text-white sm:text-4xl md:text-5xl'
+              className='platypi-gf text-3xl font-normal tracking-tight text-[#181818] sm:text-4xl md:text-5xl'
             >
               Meet our Speakers
             </h2>
-            <p className='mt-3 text-sm font-normal text-white/85 md:text-base'>
+            <p className='mt-3 text-sm font-normal text-[#627587] md:text-base'>
               We're bringing together a remarkable group of bold innovators and doers from across
               Africa.
             </p>
           </div>
 
-          <div>
-            <div
-              className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3'
-              role='region'
-              aria-label={`ODS 2026 speakers, page ${activeSpeakerPage + 1} of ${speakerPageCount}`}
-            >
-              {visibleSpeakers.map((speaker, index) => (
-                <div
-                  key={speaker.name}
-                  className='group relative overflow-hidden border-[3px] border-[#101611] bg-[#101611] shadow-[6px_6px_0_#101611] transition-transform duration-300 hover:-translate-y-1'
-                  role='group'
-                  aria-label={`${firstSpeakerIndex + index + 1} of ${speakersLineup.length}: ${speaker.name}`}
-                >
-                  <div className='relative aspect-[240/290] w-full overflow-hidden bg-[#101611]'>
-                    <img
-                      src={speaker.image}
-                      alt={speaker.name}
-                      className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]'
-                      loading='lazy'
-                    />
+          <div className='space-y-12 md:space-y-16'>
+            {speakerSections.map((section) => {
+              const sectionSpeakers = speakersLineup
+                .filter((speaker) => speaker.session === section.id)
+                .sort((a, b) => a.sessionOrder - b.sessionOrder);
 
-                    {speaker.bio && (
-                      <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#060714]/95 via-[#060714]/70 to-transparent p-4 opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 sm:p-5'>
-                        <h3 className='text-lg font-bold leading-tight text-white'>
-                          {speaker.name}
-                        </h3>
-                        <p className='mt-2 line-clamp-3 text-sm leading-5 text-white/85'>
-                          {speaker.summary}
-                        </p>
-                        <button
-                          type='button'
-                          onClick={() => setSelectedSpeaker(speaker)}
-                          className='mt-4 w-fit border-2 border-white bg-white px-4 py-2 text-sm font-semibold text-[#101611] transition-colors hover:bg-[#D8F3DC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
-                        >
-                          View bio
-                        </button>
-                      </div>
+              return (
+                <section key={section.id} aria-labelledby={`speaker-section-${section.id}`}>
+                  <header className='mx-auto mb-6 max-w-3xl text-center md:mb-8'>
+                    <h3
+                      id={`speaker-section-${section.id}`}
+                      className='platypi-gf text-2xl font-normal tracking-tight text-[#181818] sm:text-3xl md:text-4xl'
+                    >
+                      {section.title}
+                    </h3>
+                    {section.topic && (
+                      <p className='mt-3 text-sm font-medium leading-6 text-[#627587] md:text-base'>
+                        {section.topic}
+                      </p>
                     )}
+                  </header>
+
+                  <div className='grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5'>
+                    {sectionSpeakers.map((speaker) => (
+                      <article key={speaker.name} className='group'>
+                        <div className='relative aspect-[3/4] w-full overflow-hidden border-[3px] border-[#101611] bg-[#101611] shadow-[6px_6px_0_#101611] transition-transform duration-300 group-hover:-translate-y-1'>
+                          {speaker.image ? (
+                            <img
+                              src={speaker.image}
+                              alt={speaker.name}
+                              className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]'
+                              loading='lazy'
+                            />
+                          ) : (
+                            <div
+                              role='img'
+                              aria-label={`Photo not provided for ${speaker.name}`}
+                              className='flex h-full items-center justify-center bg-[#182019] text-5xl font-semibold text-white/70'
+                            >
+                              {speaker.name
+                                .split(/\s+/)
+                                .map((part) => part.charAt(0))
+                                .slice(0, 2)
+                                .join('')}
+                            </div>
+                          )}
+
+                          <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#060714]/95 via-[#060714]/70 to-transparent p-4 sm:p-5'>
+                            {speaker.bio && (
+                              <button
+                                type='button'
+                                onClick={() => setSelectedSpeaker(speaker)}
+                                className='mt-2 w-fit border-2 border-white bg-white px-3 py-1.5 text-xs font-semibold text-[#101611] transition-colors hover:bg-[#D8F3DC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:mt-3 sm:px-4 sm:py-2 sm:text-sm'
+                              >
+                                View bio
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <div className='pt-3 text-center'>
+                          <h4 className='text-sm font-bold leading-tight text-[#181818] sm:text-base'>
+                            {speaker.name}
+                          </h4>
+                          {speaker.role && (
+                            <p className='mt-1 line-clamp-2 text-xs leading-4 text-[#627587] sm:text-sm sm:leading-5'>
+                              {speaker.role}
+                            </p>
+                          )}
+                        </div>
+                      </article>
+                    ))}
                   </div>
-                </div>
-              ))}
-            </div>
-
-            <p className='mt-7 text-center text-xs font-medium uppercase tracking-[0.12em] text-white/80'>
-              Showing {firstSpeakerIndex + 1}–
-              {Math.min(firstSpeakerIndex + speakersPerPage, speakersLineup.length)} of{' '}
-              {speakersLineup.length} speakers
-            </p>
-
-            <div className='mt-4 flex flex-wrap items-center justify-center gap-2 sm:mt-6 sm:gap-5'>
-              <button
-                type='button'
-                onClick={() => setActiveSpeakerPage((page) => page - 1)}
-                disabled={activeSpeakerPage === 0}
-                aria-label='Previous speaker page'
-                className='flex h-10 w-10 items-center justify-center border-[3px] border-[#101611] bg-white text-[#101611] transition-colors hover:bg-[#D8F3DC] disabled:cursor-not-allowed disabled:opacity-40 sm:h-16 sm:w-16'
-              >
-                <svg
-                  aria-hidden='true'
-                  viewBox='0 0 24 24'
-                  className='h-5 w-5 sm:h-7 sm:w-7'
-                  fill='none'
-                >
-                  <path
-                    d='M19 12H5m0 0 7 7m-7-7 7-7'
-                    stroke='currentColor'
-                    strokeLinecap='square'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                  />
-                </svg>
-              </button>
-
-              <div
-                className='flex max-w-full flex-wrap justify-center gap-1 sm:gap-2'
-                role='group'
-                aria-label='Choose a speaker page'
-              >
-                {Array.from({ length: speakerPageCount }, (_, page) => (
-                  <button
-                    key={page}
-                    type='button'
-                    onClick={() => setActiveSpeakerPage(page)}
-                    aria-label={`Show speaker page ${page + 1}`}
-                    aria-current={activeSpeakerPage === page ? 'page' : undefined}
-                    className={`h-3 w-3 border-2 border-[#101611] transition-colors sm:h-4 sm:w-4 sm:border-[3px] ${
-                      activeSpeakerPage === page ? 'bg-[#F15A24]' : 'bg-white hover:bg-[#D8F3DC]'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                type='button'
-                onClick={() => setActiveSpeakerPage((page) => page + 1)}
-                disabled={activeSpeakerPage === speakerPageCount - 1}
-                aria-label='Next speaker page'
-                className='flex h-10 w-10 items-center justify-center border-[3px] border-[#101611] bg-white text-[#101611] transition-colors hover:bg-[#D8F3DC] disabled:cursor-not-allowed disabled:opacity-40 sm:h-16 sm:w-16'
-              >
-                <svg
-                  aria-hidden='true'
-                  viewBox='0 0 24 24'
-                  className='h-5 w-5 sm:h-7 sm:w-7'
-                  fill='none'
-                >
-                  <path
-                    d='M5 12h14m0 0-7-7m7 7-7 7'
-                    stroke='currentColor'
-                    strokeLinecap='square'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                  />
-                </svg>
-              </button>
-            </div>
+                </section>
+              );
+            })}
           </div>
         </div>
 

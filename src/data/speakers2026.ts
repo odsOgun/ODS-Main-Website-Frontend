@@ -1,7 +1,19 @@
+export type SpeakerSessionId =
+  | 'keynotes'
+  | 'agritech'
+  | 'creative-economy'
+  | 'web3'
+  | 'ai'
+  | 'policy-governance'
+  | 'startup-investment';
+
 export interface Speaker {
   name: string;
-  image: string;
+  image?: string;
   role?: string;
+  session: SpeakerSessionId;
+  sessionRole: 'Keynote Speaker' | 'Speaker' | 'Panelist' | 'Moderator';
+  sessionOrder: number;
   summary?: string;
   bio?: string;
 }
@@ -9,7 +21,10 @@ export interface Speaker {
 export const speakersLineup = [
   {
     name: 'Fola Olatunji-David',
-    role: 'Ecosystem Leader & Strategist',
+    role: 'Founding Partner, Kickoff Africa',
+    session: 'keynotes',
+    sessionRole: 'Keynote Speaker',
+    sessionOrder: 1,
     image: '/speakers26/Fola Olatunji-David_Headshot.jpeg',
     summary:
       'An ecosystem leader with nearly two decades of experience at the intersection of technology and business.',
@@ -21,7 +36,10 @@ Having supported executives, investors, and startups in over ten countries, he b
   },
   {
     name: 'Dr. Ademola Adenubi',
-    role: 'Director of ICT, Tai Solarin University of Education',
+    role: 'Ag. Director ICT & Founder, EduTAMS',
+    session: 'keynotes',
+    sessionRole: 'Keynote Speaker',
+    sessionOrder: 2,
     image: '/speakers26/Dr. Ademola ADENUBI.jpg',
     summary:
       'An ICT leader and EdTech innovator driving digital transformation, youth empowerment, and institutional excellence.',
@@ -36,6 +54,9 @@ Through his leadership and commitment to innovation, Dr. Adenubi continues to dr
   {
     name: 'Mr. Foluso Phillips',
     role: 'Founder & Chairman, Phillips Consulting Limited',
+    session: 'keynotes',
+    sessionRole: 'Keynote Speaker',
+    sessionOrder: 3,
     image: '/speakers26/Foluso Phillips.png',
     summary:
       'An industrial economist and business strategist with decades of experience in advisory and corporate performance.',
@@ -47,7 +68,10 @@ He also serves as Chairman of the Nigeria/South Africa Chamber of Commerce and i
   },
   {
     name: 'Samson Ogbole',
-    role: 'Founder, Soilless Farm Lab',
+    role: 'Director, Soilless Farm Lab',
+    session: 'agritech',
+    sessionRole: 'Speaker',
+    sessionOrder: 1,
     image: '/speakers26/samson ogbole.jpg',
     summary:
       'An agricultural innovator advancing sustainable food production through precision farming and AI-driven systems.',
@@ -61,7 +85,10 @@ Recognized by CNN, BBC, and TED, he continues to champion innovative farming sol
   },
   {
     name: 'Samuel Agunbiade',
-    role: 'Agricultural Sales & Market Development',
+    role: 'Agro Marketer',
+    session: 'agritech',
+    sessionRole: 'Moderator',
+    sessionOrder: 2,
     image: '/speakers26/Samuel Agunbiade.jpg',
     summary:
       'He has driven over ₦1 billion in vegetable sales, connecting harvests with local and export markets.',
@@ -69,7 +96,10 @@ Recognized by CNN, BBC, and TED, he continues to champion innovative farming sol
   },
   {
     name: 'Seyi Ademeso',
-    role: 'Digital Creator & Co-Founder, Udu Media',
+    role: 'Content Creator & Strategist | Co-Founder, Udu Media',
+    session: 'creative-economy',
+    sessionRole: 'Panelist',
+    sessionOrder: 1,
     image: '/speakers26/seyi ademeso.jpeg',
     summary:
       'A digital creator and entrepreneur working at the intersection of storytelling, media production, and business.',
@@ -85,7 +115,10 @@ Overall, he sits at the intersection of creative media production, digital story
   },
   {
     name: 'Joseph Onaolapo',
-    role: 'Media Personality & Founder, Work Culture Festival',
+    role: 'Media Personality and Founder, Work Culture',
+    session: 'creative-economy',
+    sessionRole: 'Panelist',
+    sessionOrder: 2,
     image: '/speakers26/Joseph Onaolapo.jpeg',
     summary:
       'A radio host and culture curator building conversations and communities around leadership and people development.',
@@ -100,6 +133,9 @@ Jay On Air continues to build communities and platforms that challenge old narra
   {
     name: 'Sulaimon Adebayo',
     role: 'Founder, Pooja Media & Communications',
+    session: 'creative-economy',
+    sessionRole: 'Panelist',
+    sessionOrder: 3,
     image: '/speakers26/Sulaimon Adebayo.png',
     summary:
       'The founder of Pooja, a digital media brand, and an accredited FIFA and CAF photojournalist.',
@@ -115,7 +151,10 @@ Pooja has also built a strong brand personality with presence on social media pl
   },
   {
     name: 'Dafe Richards',
-    role: 'Content Creator & Event Host',
+    role: 'Content Creator',
+    session: 'creative-economy',
+    sessionRole: 'Moderator',
+    sessionOrder: 4,
     image: '/speakers26/Dafe.JPEG',
     summary:
       'A content creator, speaker, and event host using storytelling, humour, and communication to connect with people.',
@@ -123,23 +162,32 @@ Pooja has also built a strong brand personality with presence on social media pl
   },
   {
     name: 'Idris Olubisi',
-    role: 'Developer Relations Engineer & Founder, Web3 Afrika',
+    role: 'Founder, Web3Afrika',
+    session: 'web3',
+    sessionRole: 'Panelist',
+    sessionOrder: 1,
     image: '/speakers26/idris olubisi.jpg',
     summary:
       'A software and AI engineer scaling developer adoption across AI and Web3 infrastructure.',
     bio: `Idris is an accomplished senior software and AI engineer and technical writer with expertise in open source, AI, blockchain, software products, and serverless technologies.`
   },
   {
-    name: 'Ayodeji Israel Awosika',
-    role: 'Founder, Web3Bridge',
+    name: 'Ayodeji Awosika',
+    role: 'Founder, Web3 Bridge',
+    session: 'web3',
+    sessionRole: 'Panelist',
+    sessionOrder: 2,
     image: '/speakers26/Awosika Israel Ayodeji.jpg',
     summary:
       'Founder of Web3Bridge, Africa’s blockchain engineering programme, and convener of Web3 Lagos Conference.',
     bio: `Ayodeji Israel Awosika, Founder of Web3Bridge, Africa's foremost blockchain engineering programme, which has trained more than 3,000 developers since 2019, with graduates now at Polygon, Interswitch, Nethermind, Nestcoin, and Nahmii. I convene the Web3 Lagos Conference, West Africa's largest Web3 gathering, and in 2025 was honoured as one of ten global torch bearers for Ethereum's 10th anniversary, a recognition of Web3Bridge's role in shaping Ethereum's community across Africa. A Kernel Fellow and postgraduate scholar at the University of Lagos, my work is anchored in a conviction that Africa's Web3 future will be defined by the calibre of its builders.`
   },
   {
-    name: 'Adewole Adebayo',
-    role: 'Director of Programs & Partnerships, ODS 2026',
+    name: 'Adebayo Adewole',
+    role: 'Founder, Ninelm Technologies (LRR) | CTO, CAPP Nigeria',
+    session: 'web3',
+    sessionRole: 'Moderator',
+    sessionOrder: 4,
     image: '/speakers26/Adebayo Adewole.png',
     summary:
       'A technology and operations leader connecting business, government, and emerging talent through digital innovation.',
@@ -149,7 +197,10 @@ He currently serves as the Director of Programs & Partnerships, Ogun Digital Sum
   },
   {
     name: 'Dára Sobaloju',
-    role: 'Founder, Pewbeam',
+    role: 'Founder of Pewbeam',
+    session: 'ai',
+    sessionRole: 'Panelist',
+    sessionOrder: 1,
     image: '/speakers26/Dára Sobaloju.jpg',
     summary:
       'An AI-native design engineer building Pewbeam, a real-time presentation agent for seamless church services.',
@@ -158,8 +209,11 @@ He currently serves as the Director of Programs & Partnerships, Ogun Digital Sum
 Dára is an AI-native Design Engineer and Product Designer whose work sits at the intersection of design, technology, and artificial intelligence. He explores how AI is changing the role of designers, shifting the advantage from simply executing faster to developing stronger taste, judgment, and problem-solving ability.`
   },
   {
-    name: 'Ibiniyi Obikoya',
-    role: 'Tech Lead, Kora Payments',
+    name: 'Ibiniyi Ibikoya',
+    role: 'Technical Lead, Kora (ex-Paystack)',
+    session: 'ai',
+    sessionRole: 'Moderator',
+    sessionOrder: 4,
     image: '/speakers26/Ibiniyi Ibikoya.PNG',
     summary:
       'A software engineer and technology leader focused on AI, mentorship, and building tools that solve real-world problems.',
@@ -168,8 +222,11 @@ Dára is an AI-native Design Engineer and Product Designer whose work sits at th
 Ibiniyi is passionate about artificial intelligence, particularly its applications, impact, potential misuse, and implications for the future of work. Through his content, he explores how individuals and organisations can navigate the evolving AI landscape and build sustainable careers in the age of AI. He is also passionate about mentoring aspiring engineers, building communities, and creating opportunities for Africans to thrive in technology.`
   },
   {
-    name: 'Dr. Ishola Adebayo',
-    role: 'Educational Technologist & Creative Director, OnlineHubNG',
+    name: 'Dr. Adebayo M. Ishola',
+    role: 'Digital Innovation Specialist',
+    session: 'policy-governance',
+    sessionRole: 'Panelist',
+    sessionOrder: 1,
     image: '/speakers26/Dr Ishola Adebayo 2.jpg',
     summary:
       'A digital skills trainer and mentor who has equipped over 10,000 young people across Africa.',
@@ -181,7 +238,10 @@ Recognized for his contributions to technology and community development, he rec
   },
   {
     name: 'Goke Olateju',
-    role: 'MD/CEO, Centrum Finance Company Limited',
+    role: 'Managing Director, Centrum Finance',
+    session: 'policy-governance',
+    sessionRole: 'Panelist',
+    sessionOrder: 2,
     image: '/speakers26/Goke Olateju Image.jpeg',
     summary:
       'A finance executive and strategic advisor with over 15 years of experience across financial services and fintech.',
@@ -193,7 +253,10 @@ An alumnus of Nile University of Nigeria, Lagos Business School, and Regenesys B
   },
   {
     name: 'Lateef Surakatu',
-    role: 'Partner & Head of Business Advisory, Andersen Nigeria',
+    role: 'Partner, Andersen',
+    session: 'policy-governance',
+    sessionRole: 'Panelist',
+    sessionOrder: 3,
     image: '/speakers26/Lateef Surakatu.jpeg',
     summary:
       'A business advisory professional with 17+ years of experience in financial strategy and institutional transformation.',
@@ -205,7 +268,10 @@ Lateef has led major financial transformation projects, helping organizations st
   },
   {
     name: 'Rahaman Abiola',
-    role: 'Editor-in-Chief, LEGIT.ng',
+    role: 'Editor-in-Chief, Legit.ng',
+    session: 'policy-governance',
+    sessionRole: 'Moderator',
+    sessionOrder: 5,
     image: '/speakers26/Rahaman Abiola.jpg',
     summary:
       'A Reuters-trained journalist and editor with over a decade of experience in traditional and digital media.',
@@ -221,7 +287,10 @@ He has trained hundreds of journalists and media professionals through direct me
   },
   {
     name: 'Ifeoluwa Wealth',
-    role: 'Founder & CEO, iMultiple Holdings',
+    role: 'CEO, iMultiple Holdings',
+    session: 'startup-investment',
+    sessionRole: 'Panelist',
+    sessionOrder: 2,
     image: '/speakers26/Ifeoluwa Wealth - PrHe.png',
     summary:
       'A business builder and enterprise strategist growing business groups across multiple sectors.',
@@ -231,22 +300,56 @@ With over a decade of experience in business operations and management, his entr
   },
   {
     name: 'Abiodun Adetona',
+    role: 'CEO, Decide AI',
+    session: 'ai',
+    sessionRole: 'Panelist',
+    sessionOrder: 3,
     image: '/speakers26/Abiodun Adetona.jpg'
   },
   {
     name: 'Ayo Adewuyi',
+    role: 'CEO, Pouchers',
+    session: 'web3',
+    sessionRole: 'Panelist',
+    sessionOrder: 3,
     image: '/speakers26/Ayo Adewuyi.webp'
   },
   {
     name: 'Dayo Abiodun',
+    role: 'SA to Governor, ICT',
+    session: 'policy-governance',
+    sessionRole: 'Panelist',
+    sessionOrder: 4,
     image: '/speakers26/Dayo Abiodun.jpeg'
   },
   {
     name: 'Dr. Adebola Ismail Akindele',
-    image: '/speakers26/Dr. Adebola Ismail Akindele.png'
+    role: 'Group Managing Director, Courteville Business Solutions Plc.',
+    session: 'keynotes',
+    sessionRole: 'Keynote Speaker',
+    sessionOrder: 4,
+    image: '/speakers26/Dr. Adebola Ismail Akindele.png',
+    summary:
+      'A technology and business leader who has expanded Courteville’s operations across 20 Nigerian states.',
+    bio: `Dr. Adebola Ismail Akindele is the Group Managing Director of Courteville Business Solutions Plc., a leading information technology consultancy and business process outsourcing company. Since becoming CEO in 2004, he has played a pivotal role in expanding the company’s operations across 20 Nigerian states and establishing over 200 franchises.
+
+With a distinguished career spanning banking, finance, technology, and entrepreneurship, Dr. Akindele has held key positions at the Central Bank of Nigeria, Oceanic Bank, and Fountain Trust Bank. He also serves as chairman of several companies and sits on the board of Synergy Capital and Advisory Limited.
+
+His contributions to technology and business development have earned him several recognitions, including the Technology Personality of the Year at the 2015 Nigeria Technology Awards and an Honorary Fellowship from Ravensbourne College, UK, for his impact on education in Africa.`
   },
   {
-    name: 'Olúwatóyìn Emmanuel-Olubake',
+    name: 'Olúwatóyìn (Toyin) Emmanuel-Olubake',
+    role: 'Chief Investment Officer, Catalyst Fund',
+    session: 'startup-investment',
+    sessionRole: 'Panelist',
+    sessionOrder: 1,
     image: '/speakers26/Olúwatóyìn Emmanuel-Olubake.jpg'
+  },
+  {
+    name: 'Temi Omotola',
+    role: 'Director, Lifemark Health Group',
+    session: 'ai',
+    sessionRole: 'Panelist',
+    sessionOrder: 2
   }
 ] satisfies Speaker[];
