@@ -1,0 +1,38 @@
+/* Hackathon portal styles. Everything the portal renders sits inside .hp-root
+   (the app root, plus modals/drawers portalled to <body>). */
+
+.hp-root {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  color: #101828;
+  -webkit-font-smoothing: antialiased;
+}
+.hp-root.hp-overlay {
+  min-height: 0;
+  background: transparent;
+}
+
+/* Undo the site-wide `label { margin-bottom }` rule from src/index.css. :where() keeps the
+   specificity at element level so Tailwind margin classes on labels still win.
+   (App.css's `a { all: unset }` already gives links inherited colour and no underline.) */
+:where(.hp-root) label {
+  margin-bottom: 0;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .hp-root {
+    background: #fff !important;
+  }
+}
+
+#qr-reader video {
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+#qr-reader img[alt='Info icon'],
+#qr-reader__dashboard_section_csr span:first-child {
+  display: none !important;
+}
