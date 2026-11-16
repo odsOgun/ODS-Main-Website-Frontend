@@ -41,9 +41,9 @@ function Nav() {
     // { label: 'Store', link: 'https://selar.co/m/ods2024' },
     // { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
-    // { label: 'Speakers', link: '/speakers' },
-    { label: 'Hackathon', link: '/hackathon' },
+    { label: 'Speakers', link: '/speakers' },
     { label: 'Startups', link: '/startups' },
+    { label: 'Hackathon', link: '/hackathon' },
     { label: 'Impact Report', link: '/reports' }
   ];
 
@@ -52,7 +52,7 @@ function Nav() {
   return (
     <nav className={` flex items-center justify-center w-full`}>
       <div
-        className={`flex items-center h-[54px] w-full py-2 max-w-[1120px] px-2 md:h-16 md:py-[10px] md:px-2 max-lg:justify-between `}
+        className={`flex items-center h-[54px] w-full py-2 max-w-[1120px] px-4 md:h-16 md:py-[10px] md:px-6 xl:px-2 max-lg:justify-between `}
       >
         <Link to='/'>
           <img src={ODSLogo} className='logo md:hidden' alt='ODS logo' />

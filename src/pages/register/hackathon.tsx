@@ -1414,7 +1414,7 @@ export default function HackathonRegistration({ onBack }: HackathonRegistrationP
           }
         }}
         title='Registration Submitted!'
-        message={`Thank you for registering your team for the Ogun Digital Summit 2026 Hackathon. We have received your submission and will be in touch shortly.`}
+        message={`Thank you for registering your team for the Ogun Digital Summit 2026 Hackathon. We have received your submission and will be in touch shortly.  `}
       />
     </div>
   );
