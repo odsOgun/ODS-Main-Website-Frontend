@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
-import heroImg from '@/assets/speakers/hero.webp';
 import starMint from '@/assets/speakers/starMint.webp';
 import ringPink from '@/assets/speakers/ringPink.webp';
 import styles from './speakers.module.css';
 import {
   GROUPS,
+  HERO_IMAGE,
   HERO_WORDS,
   PAST_SPEAKERS,
   PHOTOS,
@@ -52,10 +52,31 @@ function ArrowIcon() {
   );
 }
 
-function Portrait({ speaker }: { speaker: Speaker }) {
-  const src = PHOTOS[speaker.id];
-  return src ? (
-    <img className={styles.speakerPhoto} src={src} alt={speaker.name} loading='lazy' />
+/*
+ * `sizes` tells the browser how wide each image renders, so it downloads the smallest variant
+ * from the srcSet that still looks sharp (accounting for the screen's pixel density).
+ */
+const SIZES = {
+  // 2 columns up to 900px, then 4 columns inside a max 1240px container
+  card: '(max-width: 900px) 46vw, (max-width: 1410px) 22vw, 300px',
+  // full width on phones, ~40% of the modal on tablets, half of a 980px modal on desktop
+  modal: '(max-width: 560px) 100vw, (max-width: 900px) 40vw, 470px',
+  hero: '(max-width: 900px) 90vw, 42vw',
+  past: '(max-width: 900px) 46vw, 300px'
+};
+
+function Portrait({ speaker, sizes, eager }: { speaker: Speaker; sizes: string; eager?: boolean }) {
+  const photo = PHOTOS[speaker.id];
+  return photo ? (
+    <img
+      className={styles.speakerPhoto}
+      src={photo.src}
+      srcSet={photo.srcSet}
+      sizes={sizes}
+      alt={speaker.name}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding='async'
+    />
   ) : (
     <span className={styles.portraitInitials}>{initials(speaker.name)}</span>
   );
@@ -67,7 +88,7 @@ function SpeakerCard({ speaker, onOpen }: { speaker: Speaker; onOpen: (s: Speake
   return (
     <button type='button' className={styles.speakerCard} onClick={() => onOpen(speaker)}>
       <div className={styles.portrait} style={portraitStyle(speaker.color)}>
-        <Portrait speaker={speaker} />
+        <Portrait speaker={speaker} sizes={SIZES.card} />
         <span className={styles.viewSpeaker}>
           View profile <ArrowIcon />
         </span>
@@ -110,11 +131,11 @@ function SpeakerDialog({ speaker, onClose }: { speaker: Speaker | null; onClose:
           </button>
           <div>
             <div className={styles.drawerPortrait} style={portraitStyle(speaker.color)}>
-              <Portrait speaker={speaker} />
+              <Portrait speaker={speaker} sizes={SIZES.modal} eager />
             </div>
           </div>
           <div className={styles.modalContent}>
-            <span className={styles.modalEyebrow}>{speaker.type} · ODS 2026</span>
+            {/* <span className={styles.modalEyebrow}>{speaker.type} · ODS 2026</span> */}
             <h2>{speaker.name}</h2>
             <p className={styles.drawerRole}>{speaker.role}</p>
             <div className={styles.bio}>
@@ -125,7 +146,7 @@ function SpeakerDialog({ speaker, onClose }: { speaker: Speaker | null; onClose:
               <div className={styles.sessionPills}>
                 <span>{topicLabel(speaker.topic)}</span>
                 <span>{speaker.type}</span>
-                <span>{speaker.time}</span>
+                {/* <span>{speaker.time}</span> */}
               </div>
               <h3>{speaker.session}</h3>
             </div>
@@ -197,7 +218,12 @@ function Speakers() {
                     <a className={clsx(styles.pill, styles.solid)} href='#lineup'>
                       Meet the speakers <span aria-hidden='true'>↓</span>
                     </a>
-                    <a className={styles.pill} href='#register'>
+                    <a
+                      className={styles.pill}
+                      href='https://tix.africa/discover/ods2026'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
                       Reserve your seat
                     </a>
                   </div>
@@ -215,7 +241,16 @@ function Speakers() {
                 </div>
               </div>
               <div className={styles.heroVisual} aria-hidden='true'>
-                <img className={styles.heroImage} src={heroImg} alt='' />
+                <img
+                  className={styles.heroImage}
+                  src={HERO_IMAGE.src}
+                  srcSet={HERO_IMAGE.srcSet}
+                  sizes={SIZES.hero}
+                  alt=''
+                  decoding='async'
+                  // Largest image above the fold: fetch it ahead of the lazy speaker photos.
+                  {...{ fetchpriority: 'high' }}
+                />
                 <img
                   className={clsx(styles.heroShape, styles.heroShapeMint)}
                   src={starMint}
@@ -229,7 +264,7 @@ function Speakers() {
                 <div className={clsx(styles.hStat, styles.hSpeakers)}>
                   <div className={styles.hFaces}>
                     {HERO_FACES.map((id) => (
-                      <img key={id} src={PHOTOS[id]} alt='' />
+                      <img key={id} src={PHOTOS[id]?.thumb} alt='' />
                     ))}
                   </div>
                   <div>
@@ -299,7 +334,14 @@ function Speakers() {
                 {PAST_SPEAKERS.map((p) => (
                   <article key={p.name} className={styles.pastCard}>
                     <div className={styles.pastPortrait}>
-                      <img src={p.image} alt={p.name} loading='lazy' />
+                      <img
+                        src={p.image.src}
+                        srcSet={p.image.srcSet}
+                        sizes={SIZES.past}
+                        alt={p.name}
+                        loading='lazy'
+                        decoding='async'
+                      />
                     </div>
                     <h3>{p.name}</h3>
                     <p>{p.role}</p>

@@ -1,8 +1,3 @@
-import pastImg0e5d8 from '@/assets/speakers/past/0e5d8.webp';
-import pastImg2552d from '@/assets/speakers/past/2552d.webp';
-import pastImg6cedb from '@/assets/speakers/past/6cedb.webp';
-import pastImgB027e from '@/assets/speakers/past/b027e.webp';
-
 export type TopicKey = 'emerging' | 'policy' | 'startups' | 'creative' | 'agritech' | 'work';
 export type FilterKey = 'all' | 'keynote' | TopicKey;
 export type SpeakerType = 'Keynote' | 'Fireside chat' | 'Panellist' | 'Moderator';
@@ -23,7 +18,43 @@ export interface Speaker {
 export interface PastSpeaker {
   name: string;
   role: string;
-  image: string;
+  image: ResponsiveImage;
+}
+
+/**
+ * One image in several widths. Each source file is stored as `<name>-<width>.webp`
+ * (e.g. `fola-300.webp`, `fola-600.webp`) so the browser can download only the size it needs.
+ */
+export interface ResponsiveImage {
+  /** Fallback src: the variant closest to 600px wide. */
+  src: string;
+  /** Smallest variant, for tiny thumbnails. */
+  thumb: string;
+  srcSet: string;
+}
+
+/** Groups `<name>-<width>.webp` modules from import.meta.glob into one ResponsiveImage per name. */
+function toResponsiveImages(modules: Record<string, string>): Record<string, ResponsiveImage> {
+  const byName: Record<string, { width: number; url: string }[]> = {};
+  for (const [file, url] of Object.entries(modules)) {
+    const match = /([^/]+)-(\d+)\.webp$/.exec(file);
+    if (!match) continue;
+    (byName[match[1]] ??= []).push({ width: Number(match[2]), url });
+  }
+  return Object.fromEntries(
+    Object.entries(byName).map(([name, variants]) => {
+      variants.sort((a, b) => a.width - b.width);
+      const fallback = variants.find((v) => v.width >= 600) ?? variants[variants.length - 1];
+      return [
+        name,
+        {
+          src: fallback.url,
+          thumb: variants[0].url,
+          srcSet: variants.map((v) => `${v.url} ${v.width}w`).join(', ')
+        }
+      ];
+    })
+  );
 }
 
 export interface SpeakerGroup {
@@ -33,17 +64,21 @@ export interface SpeakerGroup {
   matches: (speaker: Speaker) => boolean;
 }
 
-/** Headshots keyed by speaker id. Speakers without a photo fall back to initials. */
-const photoModules = import.meta.glob<string>('@/assets/speakers/photos/*.webp', {
-  eager: true,
-  import: 'default'
-});
-export const PHOTOS: Record<string, string> = Object.fromEntries(
-  Object.entries(photoModules).map(([file, url]) => [
-    file.split('/').pop()!.replace('.webp', ''),
-    url
-  ])
+/**
+ * Headshots keyed by speaker id. Speakers without a photo fall back to initials.
+ * To add one, save it as `photos/<id>-<width>.webp` (ideally 300, 600, 900 and 1400 wide).
+ */
+export const PHOTOS = toResponsiveImages(
+  import.meta.glob<string>('@/assets/speakers/photos/*.webp', { eager: true, import: 'default' })
 );
+
+const PAST_PHOTOS = toResponsiveImages(
+  import.meta.glob<string>('@/assets/speakers/past/*.webp', { eager: true, import: 'default' })
+);
+
+export const HERO_IMAGE = toResponsiveImages(
+  import.meta.glob<string>('@/assets/speakers/hero/*.webp', { eager: true, import: 'default' })
+).hero;
 
 export const TOPICS: [FilterKey, string][] = [
   ['all', 'All'],
@@ -71,7 +106,7 @@ export const SPEAKERS: Speaker[] = [
   {
     id: 'ademola',
     name: 'Dr. Ademola Adenubi',
-    role: 'Ag. Director ICT & Founder, EduTAMS',
+    role: 'Director ICT & Founder, EduTAMS',
     topic: 'work',
     type: 'Keynote',
     time: '11:45 AM',
@@ -360,22 +395,22 @@ export const PAST_SPEAKERS: PastSpeaker[] = [
   {
     name: 'Odunayo Eweniyi',
     role: 'Co-founder, PiggyVest',
-    image: pastImg0e5d8
+    image: PAST_PHOTOS['0e5d8']
+  },
+  {
+    name: 'Salem King',
+    role: 'Content Creator/Storyteller',
+    image: PAST_PHOTOS['2552d']
+  },
+  {
+    name: 'Kashifu Inuwa',
+    role: 'DG, NITDA',
+    image: PAST_PHOTOS['6cedb']
   },
   {
     name: 'Joshua Chibueze',
     role: 'Co-founder, PiggyVest',
-    image: pastImg2552d
-  },
-  {
-    name: 'Olubunmi Fabanwo',
-    role: 'Program Manager, Afriex',
-    image: pastImg6cedb
-  },
-  {
-    name: 'Harrison Obiefule',
-    role: 'Co-host, Somewhere in Gbagada',
-    image: pastImgB027e
+    image: PAST_PHOTOS['joshua']
   }
 ];
 
