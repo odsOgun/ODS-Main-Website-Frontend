@@ -42,8 +42,8 @@ function Nav() {
     // { label: 'Exhibitors', link: '/register/exhibitors' },
     // { label: 'Exhibitors', link: openExhibitorModal },
     { label: 'Speakers', link: '/speakers' },
-    { label: 'Hackathon', link: '/hackathon' },
     { label: 'Startups', link: '/startups' },
+    { label: 'Hackathon', link: '/hackathon' },
     { label: 'Impact Report', link: '/reports' }
   ];
 

@@ -25,7 +25,7 @@ import NewsPage from './pages/news/index.tsx';
 import NewsPostPage from './pages/news/[slug].tsx';
 import Hackathon from './pages/hackathon.tsx';
 import HackathonRegistration from './pages/register/hackathon.tsx';
-import Startups from './pages/startups.tsx';
+import StartupLanding from './pages/startup.tsx';
 import { lazy, Suspense } from 'react';
 
 const StudioPage = lazy(() => import('./pages/studio.tsx'));
@@ -106,6 +106,16 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
+    path: '/startup',
+    element: <StartupLanding />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/startups',
+    element: <StartupLanding />,
+    errorElement: <ErrorPage />
+  },
+  {
     path: '/register/startup',
     element: <Startup />,
     errorElement: <ErrorPage />
@@ -128,11 +138,6 @@ const router = createBrowserRouter([
   {
     path: '/hackathon',
     element: <Hackathon />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: '/startups',
-    element: <Startups />,
     errorElement: <ErrorPage />
   },
   {
