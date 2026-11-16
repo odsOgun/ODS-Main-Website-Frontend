@@ -398,19 +398,19 @@ export const PAST_SPEAKERS: PastSpeaker[] = [
     image: PAST_PHOTOS['0e5d8']
   },
   {
-    name: 'Joshua Chibueze',
-    role: 'Co-founder, PiggyVest',
+    name: 'Salem King',
+    role: 'Content Creator/Storyteller',
     image: PAST_PHOTOS['2552d']
   },
   {
-    name: 'Olubunmi Fabanwo',
-    role: 'Program Manager, Afriex',
+    name: 'Kashifu Inuwa',
+    role: 'DG, NITDA',
     image: PAST_PHOTOS['6cedb']
   },
   {
-    name: 'Harrison Obiefule',
-    role: 'Co-host, Somewhere in Gbagada',
-    image: PAST_PHOTOS['b027e']
+    name: 'Joshua Chibueze',
+    role: 'Co-founder, PiggyVest',
+    image: PAST_PHOTOS['joshua']
   }
 ];
 
