@@ -3,7 +3,8 @@ import type { Json } from '../../lib/types';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, MapPin, Users, CheckCircle2, XCircle, Clock, AlertTriangle, Ban, Loader2, MessageCircle, Mail } from 'lucide-react';
-import { api, errMsg } from '../../lib/api';
+import { api, errMsg, PUBLIC_TIMEOUT } from '../../lib/api';
+import { useSlow } from '../../lib/hooks';
 import { fmtDate, fmtDateTime } from '../../lib/format';
 import { Button, type IconType } from '../../components/ui';
 import PublicShell from './PublicShell';
@@ -27,31 +28,51 @@ export default function RsvpPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [justResponded, setJustResponded] = useState<{ already: boolean; status: string } | null>(null);
-  const q = useQuery<Json, Json>({ queryKey: ['public-rsvp', token], queryFn: () => api.get(`/public/rsvp/${token}`).then((r) => r.data), retry: (n, e) => n < 2 && !e?.response });
+  const q = useQuery<Json, Json>({ queryKey: ['public-rsvp', token], queryFn: () => api.get(`/public/rsvp/${token}`, { timeout: PUBLIC_TIMEOUT }).then((r) => r.data), retry: (n, e) => n < 2 && !e?.response });
+  const slowLoad = useSlow(q.isLoading);
+  const slowSubmit = useSlow(submitting);
 
   async function respond(response: 'YES' | 'NO') {
     setSubmitting(true);
     setSubmitError('');
     try {
-      const { data } = await api.post(`/public/rsvp/${token}/respond`, { response });
+      const { data } = await api.post(`/public/rsvp/${token}/respond`, { response }, { timeout: PUBLIC_TIMEOUT });
       setJustResponded({ already: data.alreadyResponded, status: data.status });
       q.refetch();
     } catch (err) {
-      setSubmitError(errMsg(err, 'Could not save your response. Please try again.'));
+      // On a timeout / dropped connection the server may still have saved the response — check before showing an error.
+      if (!(err as { response?: unknown })?.response) {
+        const fresh = await q.refetch();
+        const saved = fresh.data?.rsvp?.status;
+        if (saved && saved !== 'PENDING') {
+          setJustResponded({ already: false, status: saved });
+          return;
+        }
+      }
+      const status = (err as { response?: { status?: number } })?.response?.status;
+      setSubmitError(status === 404 ? 'This invitation link is invalid or has been replaced.' : errMsg(err, 'Could not save your response. Please try again.'));
     } finally {
       setSubmitting(false);
       setConfirming(null);
     }
   }
 
-  if (q.isLoading) return <PublicShell><div className="flex items-center justify-center gap-2 rounded-3xl bg-white p-10 text-[#667085] shadow-xl"><Loader2 className="size-5 animate-spin" /> Loading your invitation…</div></PublicShell>;
+  if (q.isLoading)
+    return (
+      <PublicShell>
+        <div className="rounded-3xl bg-white p-10 text-center text-[#667085] shadow-xl">
+          <p className="flex items-center justify-center gap-2"><Loader2 className="size-5 animate-spin" /> Loading your invitation…</p>
+          {slowLoad && <p className="mt-3 text-sm">This can take up to a minute the first time. Please keep this page open.</p>}
+        </div>
+      </PublicShell>
+    );
   if (q.isError) {
     const notFound = q.error?.response?.status === 404;
     return (
       <PublicShell>
         <div className="rounded-3xl bg-white p-6 shadow-xl">
-          <StateCard icon={notFound ? Ban : AlertTriangle} tone="red" title={notFound ? 'Invalid RSVP link' : 'Something went wrong'}>
-            <p>{errMsg(q.error)}</p>
+          <StateCard icon={notFound ? Ban : AlertTriangle} tone="red" title={notFound ? 'Invalid invitation link' : 'Something went wrong'}>
+            <p>{notFound ? 'This invitation link is invalid or has been replaced. Please use the most recent invitation email, or contact the organisers.' : errMsg(q.error)}</p>
             {!notFound && <Button variant="secondary" onClick={() => q.refetch()}>Try again</Button>}
           </StateCard>
         </div>
@@ -68,9 +89,8 @@ export default function RsvpPage() {
     <PublicShell eventName={event.shortName || event.name}>
       <div className="overflow-hidden rounded-3xl border border-[#EAECF0] bg-white shadow-xl">
         <div className="border-b border-[#EAECF0] px-6 py-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#009E49]">Personal RSVP</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#009E49]">Personal invitation</p>
           <h1 className="platypi-gf mt-1 text-2xl font-bold text-[#0B4822]">Hello, {participant.fullName}</h1>
-          <p className="mt-1 text-sm text-[#667085]">{event.name}</p>
         </div>
         <div className="p-6">
           <ul className="space-y-3 text-sm">
@@ -95,10 +115,11 @@ export default function RsvpPage() {
                   <Button variant="secondary" size="lg" onClick={() => setConfirming(null)} disabled={submitting}>Back</Button>
                   <Button variant={confirming === 'YES' ? 'primary' : 'danger'} size="lg" loading={submitting} onClick={() => respond(confirming)}>Yes, confirm</Button>
                 </div>
+                {slowSubmit && <p className="mt-3 text-center text-xs text-[#667085]">Still saving — this can take up to a minute. Please don't close this page.</p>}
               </div>
             ) : (
               <div className="mt-6 space-y-3">
-                <p className="text-sm text-[#475467]">Every team member must RSVP individually. Will you attend?</p>
+                <p className="text-sm text-[#475467]">Every team member must confirm individually. Will you attend?</p>
                 <button type="button" onClick={() => setConfirming('YES')} className="flex w-full items-center justify-center gap-2 rounded-full bg-[#009E49] px-6 py-4 text-base font-bold text-white shadow-md transition hover:bg-[#00873E] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#99DBB9]">
                   <CheckCircle2 className="size-5" /> YES, I WILL ATTEND
                 </button>
@@ -115,12 +136,12 @@ export default function RsvpPage() {
             </StateCard>
           ) : status === 'DECLINED' ? (
             <StateCard icon={XCircle} tone="red" title={justResponded && !justResponded.already ? 'Thanks for letting us know' : 'You have declined this invitation'}>
-              <p>We've recorded that you cannot attend. If your plans change, please reply to your invitation email and the organisers can reopen your RSVP.</p>
+              <p>We've recorded that you cannot attend. If your plans change, please reply to your invitation email and the organisers can reopen your invitation.</p>
               {rsvp.responseDate && <p className="text-xs text-[#667085]">Responded on {fmtDateTime(rsvp.responseDate, tz)}</p>}
             </StateCard>
           ) : status === 'EXPIRED' ? (
-            <StateCard icon={Clock} tone="amber" title="This RSVP link has expired">
-              <p>The RSVP deadline ({fmtDate(rsvp.expiresAt, tz)}) has passed. Please reply to your invitation email if you still wish to attend.</p>
+            <StateCard icon={Clock} tone="amber" title="This invitation link has expired">
+              <p>The deadline to respond ({fmtDate(rsvp.expiresAt, tz)}) has passed. Please reply to your invitation email if you still wish to attend.</p>
             </StateCard>
           ) : null}
 

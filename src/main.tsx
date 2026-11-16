@@ -32,8 +32,8 @@ const StudioPage = lazy(() => import('./pages/studio.tsx'));
 const HackathonPortal = lazy(() => import('./hackathon-portal/App.tsx'));
 
 // Emailed RSVP / ticket links are built from the backend's HACKATHON_PORTAL_URL. If that is set to the bare
-// site domain, they arrive as /rsvp/... and /ticket/...; forward them into the portal.
-function PortalLinkRedirect({ kind }: { kind: 'rsvp' | 'ticket' }) {
+// site domain, they arrive as /confirm/... (older emails: /rsvp/...) and /ticket/...; forward them into the portal.
+function PortalLinkRedirect({ kind }: { kind: 'confirm' | 'ticket' }) {
   const { id = '' } = useParams();
   return <Navigate to={`/hackathon-portal/${kind}/${encodeURIComponent(id)}`} replace />;
 }
@@ -140,7 +140,8 @@ const router = createBrowserRouter([
     element: <HackathonRegistration />,
     errorElement: <ErrorPage />
   },
-  { path: '/rsvp/:id', element: <PortalLinkRedirect kind='rsvp' /> },
+  { path: '/confirm/:id', element: <PortalLinkRedirect kind='confirm' /> },
+  { path: '/rsvp/:id', element: <PortalLinkRedirect kind='confirm' /> },
   { path: '/ticket/:id', element: <PortalLinkRedirect kind='ticket' /> },
   {
     // Hackathon RSVP, QR ticketing & check-in portal (admin, officer and public RSVP/ticket pages)

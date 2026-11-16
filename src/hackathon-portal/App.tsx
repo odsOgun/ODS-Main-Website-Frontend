@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -52,12 +52,20 @@ function Home() {
   return <Navigate to={p(isAdmin ? '/dashboard' : '/officer')} replace />;
 }
 
+/** Old emailed links used /rsvp/<token>; send them to /confirm/<token>. */
+function LegacyConfirmRedirect() {
+  const { token = '' } = useParams();
+  return <Navigate to={p(`/confirm/${encodeURIComponent(token)}`)} replace />;
+}
+
 function PortalRoutes() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path='login' element={<Login />} />
-        <Route path='rsvp/:token' element={<RsvpPage />} />
+        <Route path='confirm/:token' element={<RsvpPage />} />
+        {/* Links in invitation emails sent before the rename */}
+        <Route path='rsvp/:token' element={<LegacyConfirmRedirect />} />
         <Route path='ticket/:credential' element={<TicketPage />} />
         <Route index element={<Home />} />
         <Route

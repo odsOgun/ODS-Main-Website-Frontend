@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, MapPin, Users, Download, Printer, Ban, Loader2, AlertTriangle } from 'lucide-react';
-import { api, errMsg } from '../../lib/api';
+import { api, errMsg, PUBLIC_TIMEOUT } from '../../lib/api';
+import { useSlow } from '../../lib/hooks';
 import { fmtDate } from '../../lib/format';
 import { Button } from '../../components/ui';
 import PublicShell from './PublicShell';
@@ -10,20 +11,21 @@ import type { Json } from '../../lib/types';
 
 export default function TicketPage() {
   const { credential } = useParams();
-  const q = useQuery<Json, Json>({ queryKey: ['public-ticket', credential], queryFn: () => api.get(`/public/ticket/${credential}`).then((r) => r.data), retry: (n, e) => n < 2 && !e?.response });
+  const q = useQuery<Json, Json>({ queryKey: ['public-ticket', credential], queryFn: () => api.get(`/public/ticket/${credential}`, { timeout: PUBLIC_TIMEOUT }).then((r) => r.data), retry: (n, e) => n < 2 && !e?.response });
   const [qr, setQr] = useState<string | null>(null);
   const valid = q.data?.ticket.status === 'VALID';
+  const slowLoad = useSlow(q.isLoading);
 
   useEffect(() => {
     if (!valid) return undefined;
     let url: string | undefined;
-    api.get(`/public/ticket/${credential}/qr.png`, { responseType: 'blob' }).then((r) => { url = URL.createObjectURL(r.data); setQr(url); }).catch(() => setQr(null));
+    api.get(`/public/ticket/${credential}/qr.png`, { responseType: 'blob', timeout: PUBLIC_TIMEOUT }).then((r) => { url = URL.createObjectURL(r.data); setQr(url); }).catch(() => setQr(null));
     return () => {
       if (url) URL.revokeObjectURL(url);
     };
   }, [valid, credential]);
 
-  if (q.isLoading) return <PublicShell><div className="flex items-center justify-center gap-2 rounded-2xl bg-white p-10 text-[#667085] shadow-xl"><Loader2 className="size-5 animate-spin" /> Loading ticket…</div></PublicShell>;
+  if (q.isLoading) return <PublicShell><div className="rounded-2xl bg-white p-10 text-center text-[#667085] shadow-xl"><p className="flex items-center justify-center gap-2"><Loader2 className="size-5 animate-spin" /> Loading ticket…</p>{slowLoad && <p className="mt-3 text-sm">This can take up to a minute the first time. Please keep this page open.</p>}</div></PublicShell>;
   if (q.isError) return (
     <PublicShell>
       <div className="rounded-3xl bg-white p-8 text-center shadow-xl">
@@ -41,7 +43,6 @@ export default function TicketPage() {
       <div className="overflow-hidden rounded-3xl border border-[#EAECF0] bg-white shadow-xl print:shadow-none">
         <div className="border-b border-dashed border-[#D0D5DD] px-6 py-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#009E49]">Official ticket</p>
-          <h1 className="platypi-gf mt-1 text-xl font-bold text-[#0B4822]">{event.name}</h1>
         </div>
         <div className="p-6">
           {valid ? (

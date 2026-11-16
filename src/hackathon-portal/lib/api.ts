@@ -49,6 +49,12 @@ export const storage = {
 
 export const api = axios.create({ baseURL: API_BASE, timeout: 30000 });
 
+/**
+ * Timeout for participant-facing (RSVP / ticket) requests. The API host sleeps when idle and
+ * the first request after that can take ~60s while it wakes, so don't give up at 30s.
+ */
+export const PUBLIC_TIMEOUT = 120_000;
+
 api.interceptors.request.use((config) => {
   const t = storage.token;
   if (t) config.headers.Authorization = `Bearer ${t}`;

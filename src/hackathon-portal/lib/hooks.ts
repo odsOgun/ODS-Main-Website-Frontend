@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { get, errMsg } from './api';
@@ -82,4 +83,18 @@ export function useSessionOptions() {
     label: s.name
   }));
   return { ...q, options };
+}
+
+/** True once `active` has stayed true for `ms` — used to explain slow loads (e.g. API cold start). */
+export function useSlow(active: boolean, ms = 6000) {
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    if (!active) {
+      setSlow(false);
+      return undefined;
+    }
+    const t = setTimeout(() => setSlow(true), ms);
+    return () => clearTimeout(t);
+  }, [active, ms]);
+  return slow;
 }
