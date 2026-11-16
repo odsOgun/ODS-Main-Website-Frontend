@@ -23,7 +23,7 @@
 
   background: #fff;
   color: var(--text);
-  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.65;
 }

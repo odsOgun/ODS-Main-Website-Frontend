@@ -97,7 +97,7 @@ module.exports = {
         reveal: 'reveal-in 0.7s ease forwards'
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
+        sans: ['"Mona Sans Variable"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['var(--font-geist-mono)']
       },
       transitionDuration: {
