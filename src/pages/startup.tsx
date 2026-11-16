@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Brain, Calendar, Check, Diamond, Sparkles, Store, Trophy } from 'lucide-react';
 import Nav from '@/components/local/nav';
 import Footer from '@/components/local/footer';
+import Modal from '@/components/modal';
 
 // Sparkling 4-point star SVG icon
 const SparkleStar = ({
@@ -72,6 +72,15 @@ const PixelChecker = ({
 export default function StartupLanding() {
   const [openFaqs, setOpenFaqs] = useState<number[]>([]);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [showClosedModal, setShowClosedModal] = useState(false);
+
+  // Let Escape close the "registration closed" modal.
+  useEffect(() => {
+    if (!showClosedModal) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setShowClosedModal(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showClosedModal]);
 
   const toggleFaq = (idx: number) => {
     setOpenFaqs((prev) => (prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]));
@@ -338,19 +347,21 @@ export default function StartupLanding() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className='flex flex-wrap items-center justify-center gap-4 mt-8'
           >
-            <Link
-              to='/register/startup'
+            <button
+              type='button'
+              onClick={() => setShowClosedModal(true)}
               className='bg-[#008736] hover:bg-[#006e2c] text-white rounded-full font-semibold px-8 py-3.5 text-sm sm:text-base shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2 group'
             >
               <span>Apply to Showcase</span>
               <ArrowRight className='w-4 h-4 transition-transform group-hover:translate-x-1' />
-            </Link>
-            <Link
-              to='/register/startup'
+            </button>
+            <button
+              type='button'
+              onClick={() => setShowClosedModal(true)}
               className='bg-[#FAF7F0] border-2 border-[#101611] text-[#101611] hover:bg-[#101611] hover:text-white rounded-full font-semibold px-8 py-3.5 text-sm sm:text-base transition-all duration-200 flex items-center gap-2'
             >
               <span>Enter Competition</span>
-            </Link>
+            </button>
           </motion.div>
 
           {/* 5 Hero Photo Cards Arched Arrangement */}
@@ -1296,6 +1307,46 @@ export default function StartupLanding() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Shown by "Apply to Showcase" / "Enter Competition" now that registration has closed */}
+      <Modal show={showClosedModal} onClose={() => setShowClosedModal(false)}>
+        <div
+          role='dialog'
+          aria-modal='true'
+          aria-labelledby='registration-closed-title'
+          className='relative w-full max-w-[440px] rounded-3xl bg-[#FAF7F0] px-6 pt-10 pb-7 sm:px-9 text-center shadow-2xl'
+        >
+          <button
+            type='button'
+            onClick={() => setShowClosedModal(false)}
+            aria-label='Close'
+            className='absolute top-4 right-4 grid h-9 w-9 place-items-center rounded-full text-2xl leading-none text-[#101611]/60 transition-colors hover:bg-[#101611]/5 hover:text-[#101611]'
+          >
+            ×
+          </button>
+          <div className='mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-[#008736]/10'>
+            <Calendar className='h-6 w-6 text-[#008736]' />
+          </div>
+          <h2
+            id='registration-closed-title'
+            className='text-2xl font-bold tracking-tight text-[#101611]'
+          >
+            Registration closed
+          </h2>
+          <p className='mt-3 text-sm leading-relaxed text-[#101611]/70 sm:text-base'>
+            Thank you for your interest in the Ogun Digital Summit 2026 Startup Showcase and
+            Competition. Registration is now closed.
+          </p>
+          <button
+            type='button'
+            autoFocus
+            onClick={() => setShowClosedModal(false)}
+            className='mt-7 w-full rounded-full bg-[#008736] px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#006e2c] sm:text-base'
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
