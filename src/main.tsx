@@ -2,7 +2,7 @@ import './App.css';
 import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider, useParams } from 'react-router-dom';
 import ErrorPage from './error-page.tsx';
 import About from './pages/about.tsx';
 import Home from './pages/home.tsx';
@@ -29,6 +29,14 @@ import Startups from './pages/startups.tsx';
 import { lazy, Suspense } from 'react';
 
 const StudioPage = lazy(() => import('./pages/studio.tsx'));
+const HackathonPortal = lazy(() => import('./hackathon-portal/App.tsx'));
+
+// Emailed RSVP / ticket links are built from the backend's HACKATHON_PORTAL_URL. If that is set to the bare
+// site domain, they arrive as /confirm/... (older emails: /rsvp/...) and /ticket/...; forward them into the portal.
+function PortalLinkRedirect({ kind }: { kind: 'confirm' | 'ticket' }) {
+  const { id = '' } = useParams();
+  return <Navigate to={`/hackathon-portal/${kind}/${encodeURIComponent(id)}`} replace />;
+}
 
 const router = createBrowserRouter([
   {
@@ -130,6 +138,19 @@ const router = createBrowserRouter([
   {
     path: '/register/hackathon',
     element: <HackathonRegistration />,
+    errorElement: <ErrorPage />
+  },
+  { path: '/confirm/:id', element: <PortalLinkRedirect kind='confirm' /> },
+  { path: '/rsvp/:id', element: <PortalLinkRedirect kind='confirm' /> },
+  { path: '/ticket/:id', element: <PortalLinkRedirect kind='ticket' /> },
+  {
+    // Hackathon RSVP, QR ticketing & check-in portal (admin, officer and public RSVP/ticket pages)
+    path: '/hackathon-portal/*',
+    element: (
+      <Suspense fallback={<div style={{ background: '#f8fafc', minHeight: '100vh' }} />}>
+        <HackathonPortal />
+      </Suspense>
+    ),
     errorElement: <ErrorPage />
   },
   {
