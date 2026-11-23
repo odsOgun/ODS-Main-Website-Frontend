@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Plus, Pencil, ShieldCheck, Search } from 'lucide-react';
+import { toast } from 'sonner';
+import { Plus, Pencil, ShieldCheck, Search, Send } from 'lucide-react';
 import { api, get, clean } from '../../lib/api';
 import { useAction } from '../../lib/hooks';
 import { useAuth } from '../../context/AuthContext';
@@ -37,6 +38,7 @@ function UserForm({ open, onClose, user }: UserFormProps) {
   const [f, setF] = useState({
     name: user?.name || '',
     email: user?.email || '',
+    phone: user?.phone || '',
     password: '',
     role: user?.role || 'OFFICER',
     isActive: user?.isActive ?? true
@@ -56,21 +58,33 @@ function UserForm({ open, onClose, user }: UserFormProps) {
             `/admin/users/${user._id}`,
             clean({
               name: f.name,
+              phone: f.phone.trim() === (user.phone || '') ? undefined : f.phone.trim(),
               role: self ? undefined : f.role,
               isActive: self ? undefined : f.isActive,
               password: f.password || undefined
             })
           )
-        : api.post('/admin/users', {
-            name: f.name,
-            email: f.email,
-            password: f.password,
-            role: f.role
-          }),
+        : api
+            .post(
+              '/admin/users',
+              clean({ name: f.name, email: f.email, phone: f.phone.trim(), role: f.role })
+            )
+            .then((r) => r.data),
     {
       invalidate: ['users'],
-      success: user ? 'User updated' : 'User created — share the password securely',
-      onSuccess: onClose
+      success: (d) =>
+        !user && d?.inviteSent === false
+          ? ''
+          : user
+            ? 'User updated'
+            : `Account created. An invitation to set a password was emailed to ${f.email}.`,
+      onSuccess: (d) => {
+        if (!user && d?.inviteSent === false)
+          toast.warning(
+            `Account created, but the invitation email failed (${d.inviteError}). Use "Resend invite" to try again.`
+          );
+        onClose();
+      }
     }
   );
   return (
@@ -93,20 +107,34 @@ function UserForm({ open, onClose, user }: UserFormProps) {
         <Field label='Email' required>
           <Input type='email' required disabled={!!user} value={f.email} onChange={set('email')} />
         </Field>
-        <Field
-          label={user ? 'Reset password (optional)' : 'Password'}
-          required={!user}
-          hint='At least 10 characters. Resetting signs the user out everywhere.'
-        >
+        <Field label='Phone number'>
           <Input
-            type='password'
-            autoComplete='new-password'
-            required={!user}
-            minLength={10}
-            value={f.password}
-            onChange={set('password')}
+            type='tel'
+            autoComplete='tel'
+            maxLength={50}
+            placeholder='e.g. 0801 234 5678'
+            value={f.phone}
+            onChange={set('phone')}
           />
         </Field>
+        {user ? (
+          <Field
+            label='Reset password (optional)'
+            hint='At least 6 characters. Resetting signs the user out everywhere.'
+          >
+            <Input
+              type='password'
+              autoComplete='new-password'
+              minLength={6}
+              value={f.password}
+              onChange={set('password')}
+            />
+          </Field>
+        ) : (
+          <p className='rounded-xl bg-[#F0FAF4] px-4 py-3 text-xs text-[#0B4822]'>
+            We'll email them a link to set their own password. The link expires in 72 hours.
+          </p>
+        )}
         <Field
           label='Role'
           hint={!isSuper ? 'Admins can manage check-in officers only.' : undefined}
@@ -134,7 +162,7 @@ function UserForm({ open, onClose, user }: UserFormProps) {
             Cancel
           </Button>
           <Button type='submit' loading={save.isPending}>
-            {user ? 'Save' : 'Create account'}
+            {user ? 'Save' : 'Create & send invite'}
           </Button>
         </div>
       </form>
@@ -154,6 +182,10 @@ export default function Users() {
     placeholderData: (prev: Json) => prev
   });
   const canEdit = (u: Json) => isSuper || u.role === 'OFFICER';
+  const resend = useAction<Json, Json>((u) => api.post(`/admin/users/${u._id}/resend-invite`), {
+    invalidate: ['users'],
+    success: (_d, u) => `Invitation re-sent to ${u.email}`
+  });
   return (
     <div>
       <PageHeader
@@ -195,6 +227,7 @@ export default function Users() {
                 <>
                   <Th>Name</Th>
                   <Th>Email</Th>
+                  <Th>Phone</Th>
                   <Th>Role</Th>
                   <Th>Status</Th>
                   <Th>Last login</Th>
@@ -209,19 +242,30 @@ export default function Users() {
                     <b>{u.name}</b>
                   </Td>
                   <Td>{u.email}</Td>
+                  <Td className='whitespace-nowrap'>{u.phone || '—'}</Td>
                   <Td>
                     <Badge status={u.role} />
                   </Td>
                   <Td>
-                    {u.isActive ? (
-                      <Badge tone='green'>Active</Badge>
-                    ) : (
+                    {!u.isActive ? (
                       <Badge tone='slate'>Disabled</Badge>
+                    ) : u.pendingSetup ? (
+                      <Badge tone='amber'>Invite pending</Badge>
+                    ) : (
+                      <Badge tone='green'>Active</Badge>
                     )}
                   </Td>
                   <Td className='text-xs'>{fmtDateTime(u.lastLoginAt)}</Td>
                   <Td className='text-xs'>{fmtDateTime(u.createdAt)}</Td>
                   <Td className='text-right'>
+                    {canEdit(u) && u.pendingSetup && u.isActive && (
+                      <IconButton
+                        icon={Send}
+                        label='Resend invite'
+                        disabled={resend.isPending}
+                        onClick={() => resend.mutate(u)}
+                      />
+                    )}
                     {canEdit(u) && (
                       <IconButton icon={Pencil} label='Edit' onClick={() => setEditing(u)} />
                     )}

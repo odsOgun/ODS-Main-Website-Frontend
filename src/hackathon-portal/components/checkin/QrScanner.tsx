@@ -87,12 +87,55 @@ export default function QrScanner({ onScan, paused }: Props) {
             },
             aspectRatio: 1
           };
-          await s.start(
-            id ? { deviceId: { exact: id } } : { facingMode: 'environment' },
-            config,
-            (text) => onScanRef.current?.(text),
-            () => {}
+          const onDecode = (text: string) => onScanRef.current?.(text);
+          // Phones often ignore a soft facingMode hint and stored deviceIds go stale between
+          // sessions, so try progressively looser ways of getting the rear camera.
+          const attempts: (() => Promise<unknown>)[] = [];
+          if (id)
+            attempts.push(() => s.start({ deviceId: { exact: id } }, config, onDecode, () => {}));
+          attempts.push(() =>
+            s.start({ facingMode: { exact: 'environment' } }, config, onDecode, () => {})
           );
+          attempts.push(async () => {
+            const list = await Html5Qrcode.getCameras();
+            const rear =
+              [...list]
+                .reverse()
+                .find((c) => /back|rear|environment|trás|arrière/i.test(c.label)) ||
+              (list.length > 1 ? list[list.length - 1] : undefined);
+            if (!rear) throw new Error('No rear camera label found');
+            return s.start({ deviceId: { exact: rear.id } }, config, onDecode, () => {});
+          });
+          attempts.push(() => s.start({ facingMode: 'environment' }, config, onDecode, () => {}));
+
+          let lastErr: unknown;
+          let started = false;
+          for (const attempt of attempts) {
+            try {
+              await attempt();
+              started = true;
+              break;
+            } catch (e) {
+              lastErr = e;
+              // permission denial won't be fixed by a different constraint
+              if (/NotAllowed|Permission|denied/i.test(String((e as Error)?.message || e))) break;
+              try {
+                if (s.isScanning) await s.stop();
+              } catch {
+                /* ignore */
+              }
+            }
+          }
+          if (!started) {
+            if (id) {
+              try {
+                localStorage.removeItem('portal.cameraId');
+              } catch {
+                /* ignore */
+              }
+            }
+            throw lastErr;
+          }
           setState('running');
           Html5Qrcode.getCameras()
             .then(setCameras)
