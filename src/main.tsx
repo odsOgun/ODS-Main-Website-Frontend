@@ -30,6 +30,7 @@ import { lazy, Suspense } from 'react';
 
 const StudioPage = lazy(() => import('./pages/studio.tsx'));
 const HackathonPortal = lazy(() => import('./hackathon-portal/App.tsx'));
+const SiteAdmin = lazy(() => import('./site-admin/App.tsx'));
 
 // Emailed RSVP / ticket links are built from the backend's HACKATHON_PORTAL_URL. If that is set to the bare
 // site domain, they arrive as /confirm/... (older emails: /rsvp/...) and /ticket/...; forward them into the portal.
@@ -159,7 +160,18 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: '/studio',
+    // General ODS admin dashboard (registrations, tickets, orders, news); uses hackathon portal staff accounts
+    path: '/admin/*',
+    element: (
+      <Suspense fallback={<div style={{ background: '#f9fafb', minHeight: '100vh' }} />}>
+        <SiteAdmin />
+      </Suspense>
+    ),
+    errorElement: <ErrorPage />
+  },
+  {
+    // '/*' so Studio deep links (e.g. /studio/structure/post;<id>) survive a reload
+    path: '/studio/*',
     element: (
       <Suspense fallback={<div style={{ background: '#101611', minHeight: '100vh' }} />}>
         <StudioPage />

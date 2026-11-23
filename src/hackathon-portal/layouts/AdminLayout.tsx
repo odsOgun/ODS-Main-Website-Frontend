@@ -70,12 +70,14 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           </NavLink>
         ))}
       </div>
-      <a
-        href='/'
-        className='relative z-10 border-t border-white/10 px-6 py-4 text-xs text-[#98A2B3] hover:text-white'
-      >
-        ogundigitalsummit.com
-      </a>
+      <div className='relative z-10 flex items-center justify-between border-t border-white/10 px-6 py-4 text-xs text-[#98A2B3]'>
+        <a href='/admin' className='hover:text-white'>
+          ← Site admin
+        </a>
+        <a href='/' className='hover:text-white'>
+          ogundigitalsummit.com
+        </a>
+      </div>
     </nav>
   );
 }

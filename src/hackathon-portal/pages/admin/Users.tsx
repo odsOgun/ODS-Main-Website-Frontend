@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Plus, Pencil, ShieldCheck, Search, Send } from 'lucide-react';
+import { Plus, Pencil, ShieldCheck, Search, Send, Trash2 } from 'lucide-react';
 import { api, get, clean } from '../../lib/api';
 import { useAction } from '../../lib/hooks';
 import { useAuth } from '../../context/AuthContext';
@@ -11,6 +11,7 @@ import {
   Button,
   Card,
   Checkbox,
+  ConfirmDialog,
   EmptyState,
   Field,
   IconButton,
@@ -51,19 +52,25 @@ function UserForm({ open, onClose, user }: UserFormProps) {
         [k]: e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value
       }));
   const self = !!user && user._id === me?._id;
+  // People sign in with their email, so it can only change before they've accepted the invite.
+  const emailEditable = !user || !!user.pendingSetup;
+  const emailChanged = !!user && f.email.trim().toLowerCase() !== user.email;
   const save = useAction<Json, void>(
     () =>
       user
-        ? api.put(
-            `/admin/users/${user._id}`,
-            clean({
-              name: f.name,
-              phone: f.phone.trim() === (user.phone || '') ? undefined : f.phone.trim(),
-              role: self ? undefined : f.role,
-              isActive: self ? undefined : f.isActive,
-              password: f.password || undefined
-            })
-          )
+        ? api
+            .put(
+              `/admin/users/${user._id}`,
+              clean({
+                name: f.name,
+                email: emailChanged ? f.email.trim() : undefined,
+                phone: f.phone.trim() === (user.phone || '') ? undefined : f.phone.trim(),
+                role: self ? undefined : f.role,
+                isActive: self ? undefined : f.isActive,
+                password: f.password || undefined
+              })
+            )
+            .then((r) => r.data)
         : api
             .post(
               '/admin/users',
@@ -73,15 +80,17 @@ function UserForm({ open, onClose, user }: UserFormProps) {
     {
       invalidate: ['users'],
       success: (d) =>
-        !user && d?.inviteSent === false
+        d?.inviteSent === false
           ? ''
-          : user
-            ? 'User updated'
-            : `Account created. An invitation to set a password was emailed to ${f.email}.`,
+          : !user
+            ? `Account created. An invitation to set a password was emailed to ${f.email}.`
+            : d?.inviteSent
+              ? `Email updated. A new invitation was sent to ${d.email}.`
+              : 'User updated',
       onSuccess: (d) => {
-        if (!user && d?.inviteSent === false)
+        if (d?.inviteSent === false)
           toast.warning(
-            `Account created, but the invitation email failed (${d.inviteError}). Use "Resend invite" to try again.`
+            `${user ? 'Saved' : 'Account created'}, but the invitation email failed (${d.inviteError}). Use "Resend invite" to try again.`
           );
         onClose();
       }
@@ -104,8 +113,26 @@ function UserForm({ open, onClose, user }: UserFormProps) {
         <Field label='Name' required>
           <Input required minLength={2} value={f.name} onChange={set('name')} />
         </Field>
-        <Field label='Email' required>
-          <Input type='email' required disabled={!!user} value={f.email} onChange={set('email')} />
+        <Field
+          label='Email'
+          required
+          hint={
+            !user
+              ? undefined
+              : emailEditable
+                ? emailChanged
+                  ? 'A new invitation will go to this address; the old link stops working.'
+                  : "They haven't accepted their invite yet, so you can still correct this."
+                : "Can't be changed after they've set their password."
+          }
+        >
+          <Input
+            type='email'
+            required
+            disabled={!emailEditable}
+            value={f.email}
+            onChange={set('email')}
+          />
         </Field>
         <Field label='Phone number'>
           <Input
@@ -171,7 +198,8 @@ function UserForm({ open, onClose, user }: UserFormProps) {
 }
 
 export default function Users() {
-  const { isSuper } = useAuth();
+  const { isSuper, user: me } = useAuth();
+  const [deleting, setDeleting] = useState<Json>(null);
   const [role, setRole] = useState('');
   const [q, setQ] = useState('');
   const search = useDebounced(q);
@@ -185,6 +213,12 @@ export default function Users() {
   const resend = useAction<Json, Json>((u) => api.post(`/admin/users/${u._id}/resend-invite`), {
     invalidate: ['users'],
     success: (_d, u) => `Invitation re-sent to ${u.email}`
+  });
+  const remove = useAction<Json, Json>((u) => api.delete(`/admin/users/${u._id}`), {
+    invalidate: ['users'],
+    success: (_d, u) => `${u.name} was deleted`,
+    onSuccess: () => setDeleting(null),
+    onError: () => setDeleting(null)
   });
   return (
     <div>
@@ -269,6 +303,14 @@ export default function Users() {
                     {canEdit(u) && (
                       <IconButton icon={Pencil} label='Edit' onClick={() => setEditing(u)} />
                     )}
+                    {canEdit(u) && u._id !== me?._id && (
+                      <IconButton
+                        icon={Trash2}
+                        label='Delete'
+                        className='hover:text-red-600'
+                        onClick={() => setDeleting(u)}
+                      />
+                    )}
                   </Td>
                 </tr>
               ))}
@@ -276,6 +318,20 @@ export default function Users() {
           )}
         </QueryState>
       </Card>
+      <ConfirmDialog
+        open={!!deleting}
+        onClose={() => setDeleting(null)}
+        onConfirm={() => remove.mutate(deleting)}
+        loading={remove.isPending}
+        tone='danger'
+        title={deleting ? `Delete ${deleting.name}?` : 'Delete account?'}
+        message={
+          deleting?.pendingSetup
+            ? `${deleting.email} hasn't accepted their invite yet. Deleting removes the account and their invite link stops working.`
+            : 'This permanently removes the account. Accounts that have already checked people in can’t be deleted; disable them instead so the history keeps their name.'
+        }
+        confirmLabel='Delete'
+      />
       {editing && (
         <UserForm open onClose={() => setEditing(null)} user={editing === 'new' ? null : editing} />
       )}

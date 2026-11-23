@@ -14,6 +14,8 @@ function describeCameraError(err: unknown) {
   const s = String((err as Error)?.message || err || '');
   if (!window.isSecureContext)
     return 'Camera access requires HTTPS. Open this page over https:// (or localhost).';
+  if (/no-media-devices/.test(s))
+    return 'This browser can’t open the camera. If you opened the link inside WhatsApp, Instagram or another app, open it in Safari or Chrome instead.';
   if (/NotAllowed|Permission|denied/i.test(s))
     return 'Camera permission was denied. Allow camera access for this site in your browser settings, then tap "Start camera". You can still use manual lookup.';
   if (/NotFound|no camera|Requested device not found|DevicesNotFound|OverconstrainedError/i.test(s))
@@ -74,56 +76,56 @@ export default function QrScanner({ onScan, paused }: Props) {
         setError('');
         try {
           if (!window.isSecureContext) throw new Error('insecure context');
-          const s = new Html5Qrcode(ELEMENT_ID, {
-            formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-            verbose: false
-          });
-          scannerRef.current = s;
+          if (!navigator.mediaDevices?.getUserMedia) throw new Error('no-media-devices');
+          // No aspectRatio: html5-qrcode applies it with track.applyConstraints() after the camera
+          // opens, which on iPhone Safari can fail, black out the feed or flip to the front camera.
           const config: Html5QrcodeCameraScanConfig = {
             fps: 12,
             qrbox: (w: number, h: number) => {
               const m = Math.floor(Math.min(w, h) * 0.72);
               return { width: m, height: m };
-            },
-            aspectRatio: 1
+            }
           };
           const onDecode = (text: string) => onScanRef.current?.(text);
+          type Constraint = Parameters<Html5Qrcode['start']>[0];
           // Phones often ignore a soft facingMode hint and stored deviceIds go stale between
           // sessions, so try progressively looser ways of getting the rear camera.
-          const attempts: (() => Promise<unknown>)[] = [];
-          if (id)
-            attempts.push(() => s.start({ deviceId: { exact: id } }, config, onDecode, () => {}));
-          attempts.push(() =>
-            s.start({ facingMode: { exact: 'environment' } }, config, onDecode, () => {})
-          );
+          const attempts: (() => Promise<Constraint>)[] = [];
+          if (id) attempts.push(async () => ({ deviceId: { exact: id } }));
+          attempts.push(async () => ({ facingMode: { exact: 'environment' } }));
           attempts.push(async () => {
             const list = await Html5Qrcode.getCameras();
+            const back = list.filter((c) => /back|rear|environment|trás|arrière/i.test(c.label));
+            // iPhones list "Back Ultra Wide Camera" etc. too; those can't focus close enough for QR codes
             const rear =
-              [...list]
-                .reverse()
-                .find((c) => /back|rear|environment|trás|arrière/i.test(c.label)) ||
+              back.find((c) => !/ultra|wide|tele|dual|triple/i.test(c.label)) ||
+              back[back.length - 1] ||
               (list.length > 1 ? list[list.length - 1] : undefined);
             if (!rear) throw new Error('No rear camera label found');
-            return s.start({ deviceId: { exact: rear.id } }, config, onDecode, () => {});
+            return { deviceId: { exact: rear.id } };
           });
-          attempts.push(() => s.start({ facingMode: 'environment' }, config, onDecode, () => {}));
+          attempts.push(async () => ({ facingMode: 'environment' }));
 
           let lastErr: unknown;
           let started = false;
           for (const attempt of attempts) {
+            // a fresh instance per try, so a failed start can't leave the scanner mid-transition
+            const s = new Html5Qrcode(ELEMENT_ID, {
+              formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+              verbose: false
+            });
+            scannerRef.current = s;
             try {
-              await attempt();
+              await s.start(await attempt(), config, onDecode, () => {});
               started = true;
               break;
             } catch (e) {
               lastErr = e;
+              await stop();
+              const el = document.getElementById(ELEMENT_ID);
+              if (el) el.innerHTML = '';
               // permission denial won't be fixed by a different constraint
               if (/NotAllowed|Permission|denied/i.test(String((e as Error)?.message || e))) break;
-              try {
-                if (s.isScanning) await s.stop();
-              } catch {
-                /* ignore */
-              }
             }
           }
           if (!started) {
@@ -171,8 +173,11 @@ export default function QrScanner({ onScan, paused }: Props) {
 
   return (
     <div>
-      <div className='relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-2xl bg-[#101612]'>
-        <div id={ELEMENT_ID} className='size-full' />
+      {/* Square frame; the feed keeps the camera's own aspect ratio and is centred inside it
+          (portrait phone feeds are cropped top and bottom). Stretching it with CSS would misalign
+          html5-qrcode's scan box, which it maps onto the video by its on-screen size. */}
+      <div className='relative mx-auto flex aspect-square w-full max-w-md items-center overflow-hidden rounded-2xl bg-[#101612]'>
+        <div id={ELEMENT_ID} className='w-full' />
         {state !== 'running' && (
           <div className='absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center text-[#EAECF0]'>
             {state === 'error' ? (
