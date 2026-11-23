@@ -26,6 +26,19 @@ function describeCameraError(err: unknown) {
 }
 
 /**
+ * Lists cameras WITHOUT opening one. Html5Qrcode.getCameras() calls getUserMedia() to unlock the
+ * labels; on iPhone Safari that second capture (front camera by default) cuts off the scanner's
+ * running back-camera stream and the preview goes black. Labels are filled in once the page has
+ * camera permission, i.e. after the scanner has started at least once.
+ */
+async function listCameras(): Promise<CameraDevice[]> {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  return devices
+    .filter((d) => d.kind === 'videoinput' && d.deviceId)
+    .map((d, i) => ({ id: d.deviceId, label: d.label || `Camera ${i + 1}` }));
+}
+
+/**
  * Camera QR scanner. Calls onScan(text) for each decode; the parent controls pausing via `paused`.
  */
 interface Props {
@@ -94,7 +107,7 @@ export default function QrScanner({ onScan, paused }: Props) {
           if (id) attempts.push(async () => ({ deviceId: { exact: id } }));
           attempts.push(async () => ({ facingMode: { exact: 'environment' } }));
           attempts.push(async () => {
-            const list = await Html5Qrcode.getCameras();
+            const list = await listCameras();
             const back = list.filter((c) => /back|rear|environment|trás|arrière/i.test(c.label));
             // iPhones list "Back Ultra Wide Camera" etc. too; those can't focus close enough for QR codes
             const rear =
@@ -139,7 +152,7 @@ export default function QrScanner({ onScan, paused }: Props) {
             throw lastErr;
           }
           setState('running');
-          Html5Qrcode.getCameras()
+          listCameras()
             .then(setCameras)
             .catch(() => {});
         } catch (err) {
