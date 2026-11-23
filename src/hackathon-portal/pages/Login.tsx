@@ -30,6 +30,9 @@ export default function Login() {
       // `next` is a portal-relative path (e.g. '/teams'); only accept in-portal paths
       const safeNext =
         next && next.startsWith('/') && !next.startsWith('//') && next !== '/' ? next : null;
+      // the general site admin (/admin) shares these staff accounts; its `next` is a site path
+      if (isAdmin && safeNext && /^\/admin(\/|$)/.test(safeNext))
+        return nav(safeNext, { replace: true });
       nav(
         p(
           safeNext && (isAdmin || safeNext.startsWith('/officer'))
