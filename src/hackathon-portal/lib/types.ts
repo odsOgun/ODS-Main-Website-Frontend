@@ -14,7 +14,9 @@ export interface PortalUser {
   name: string;
   email: string;
   role: Role;
+  phone?: string;
   isActive?: boolean;
+  pendingSetup?: boolean;
 }
 
 export interface PortalEvent {

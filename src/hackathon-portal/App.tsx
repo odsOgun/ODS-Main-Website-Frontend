@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import { p, portalRelative } from './lib/paths';
 import './portal.css';
 
+const SetPassword = lazy(() => import('./pages/SetPassword'));
 const RsvpPage = lazy(() => import('./pages/public/RsvpPage'));
 const TicketPage = lazy(() => import('./pages/public/TicketPage'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
@@ -63,6 +64,7 @@ function PortalRoutes() {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path='login' element={<Login />} />
+        <Route path='set-password/:token' element={<SetPassword />} />
         <Route path='confirm/:token' element={<RsvpPage />} />
         {/* Links in invitation emails sent before the rename */}
         <Route path='rsvp/:token' element={<LegacyConfirmRedirect />} />

@@ -47,11 +47,11 @@ export default function ChangePasswordDialog({ open, onClose }: Props) {
             autoComplete='current-password'
           />
         </Field>
-        <Field label='New password' hint='At least 10 characters.'>
+        <Field label='New password' hint='At least 6 characters.'>
           <Input
             type='password'
             required
-            minLength={10}
+            minLength={6}
             value={f.newPassword}
             onChange={(e) => setF({ ...f, newPassword: e.target.value })}
             autoComplete='new-password'
@@ -70,7 +70,7 @@ export default function ChangePasswordDialog({ open, onClose }: Props) {
           <Button variant='secondary' onClick={onClose}>
             Cancel
           </Button>
-          <Button type='submit' loading={loading} disabled={mismatch || f.newPassword.length < 10}>
+          <Button type='submit' loading={loading} disabled={mismatch || f.newPassword.length < 6}>
             Update password
           </Button>
         </div>
